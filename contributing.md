@@ -17,7 +17,7 @@ We love your input! We want to make contributing to this project as easy and tra
 When contributing to this repository, please first discuss the change you wish to make via issue,
 email, or any other method with the owners of this repository before making a change. 
 
-As for everything else in the project, the contributions to [PROJECT/REPO] are governed by our Code of Conduct[REFERENCE].
+As for everything else in the project, the contributions to the ["SSI repository"](https://github.com/energywebfoundation/ssi) are governed by our Code of Conduct[REFERENCE].
 
 ## Using the issue tracker
 
@@ -25,7 +25,7 @@ First things first: Do **NOT** report security vulnerabilities in public issues!
 
 The issue tracker is the preferred channel for bug reports, features requests and submitting pull requests, but please respect the following restrictions:
 
- - Please do not use the issue tracker for personal support requests. Use our [Slack channel/whatever].
+ - Please do not use the issue tracker for personal support requests. Use our [Slack channel](https://app.slack.com/client/T64PJJWJU/C02LUJ6U2F5).
 
  - Please do not derail or troll issues. Keep the discussion on topic and respect the opinions of others.
 
@@ -47,7 +47,7 @@ If a maintainer asks you to "rebase" your PR, they're saying that a lot of code 
  6. Make sure formatting is according to the repo`s style guidelines. Use a linter if needed.
  7. Push your work back to your fork
  8. Create that pull request
- 9. Pass the review, reiterate if requests are made by the maintainers
+ 9. Pass the review, reiterate if requests are made by the maintainers ["@jrhender"](https://github.com/jrhender)
 
 NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 
@@ -63,7 +63,7 @@ Especially pay attention to the ["Having your code reviewed"](https://gitlab.com
 
 ## Copyright and Licensing
 
-All of your contributions will be made under [LICENSE].
+All of your contributions will be made under ["GNU General Public License v3.0"](https://github.com/energywebfoundation/ssi/blob/master/LICENSE).
 
 [Contributor's License Agreement if there is any]
 
