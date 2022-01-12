@@ -1,7 +1,7 @@
 # Tutorial
 
 ## Business overview
-The business objective of this tutorial is to demonstrate how to issue a proof in the form of a Verifiable Credential (VC) to a known user connected to a portal that we will call "authority portal".
+The business objective of this tutorial is to demonstrate how to issue a Verifiable Credential (VC) to a known user connected to a portal that we will call "authority portal".
 In the example below, we will issue a permanent residency card to a user we will call "citizen". We use the context "https://w3id.org/citizenship/v1" which describes the data of a VC of type "PermanentResidentCard".
 
 Here is an extract of the context:
