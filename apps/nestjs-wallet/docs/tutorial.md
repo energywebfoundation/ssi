@@ -1,5 +1,56 @@
 # Tutorial
 
+## Business overview
+The business objective of this tutorial is to demonstrate how to issue a proof in the form of a Verifiable Credential (VC) to a known user connected to a portal that we will call "authority portal".
+In the example below, we will issue a permanent residency card to a user we will call "citizen". We use the context "https://w3id.org/citizenship/v1" which describes the data of a VC of type "PermanentResidentCard".
+
+Here is an extract of the context:
+
+        ...
+        "id": "@id",
+        "type": "@type",
+
+        "ctzn": "https://w3id.org/citizenship#",
+        "schema": "http://schema.org/",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+        "birthCountry": "ctzn:birthCountry",
+        "birthDate": {"@id": "schema:birthDate", "@type": "xsd:dateTime"},
+        "commuterClassification": "ctzn:commuterClassification",
+        "familyName": "schema:familyName",
+        "gender": "schema:gender",
+        "givenName": "schema:givenName",
+        "lprCategory": "ctzn:lprCategory",
+        "lprNumber": "ctzn:lprNumber",
+        "residentSince": {"@id": "ctzn:residentSince", "@type": "xsd:dateTime"}
+        ...
+
+To get the definition of the field "gender" which points to the definition "schema:gender", use the URI of "schema" which points to "http://schema.org/", so we will have a definition available at "http://schema.org/gender".
+TODO interpretation of id and type.
+
+We therefore assume that the citizen is connected to the autority portal and that the information contained in the context about the citizen is available in the autority portal database.
+
+Business workflow:
+- The citizen requests a "PermanentResidentCard" proof on the autority portal
+- The autority portal displays a QR code for the citizen to scan with his mobile wallet.
+- The citizen's mobile wallet contacts the autority portal to prove that he has a DID
+- The citizen's mobile wallet contacts the autority portal again to receive the "PermanentResidentCard"
+- The autority portal responds by sending the "PermanentResidentCard" proof containing the citizen's information signed by the autority portal.
+
+## Technical overview
+From a technical point of view, in this tutorial, we have access to the server API but no mobile wallet is available. So we will use the server API for the portal and the mobile wallet.
+
+We will follow the following steps in this tutorial:
+- [Authority portal action] Create a DID for the autority portal in the form of a key DID method
+- [Authority portal action] Register the DID as default DID for the authority portal
+- [Authority portal action] List the available proofs that the autority portal can issue, an other tutorial is dedicated to demonstrate how to add new available proof for the authority portal
+- [Authority portal action] Create a VC request url that can be transmitted to the citizen as a QR code or a deep link
+- [Citizen action] Create a DID for the citizen
+- [Citizen action] The citizen authenticates himself on the autority portal with his DID and the autority portal responds with a Verifiable Presentation that proves the successful connection of the user
+- [Citizen action] The citizen, using the unique endpoint received in the QR code (VC request URL), will transmit the proof of connection in the form of the VP received in the previous step. The autority portal will create a VC using the available data of the citizen in its database, sign the VC and transmit it as a response to the request.
+
+TODO: tutorial on how to create new proofs available to the server
+
 ## Overview and Objective
 
 The objective of this tutorial is walk through a simple credential issuance flow. A diagram of this flow is available in the root README.
