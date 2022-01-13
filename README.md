@@ -36,6 +36,46 @@ The [W3C Credentials Community Group](https://w3c-ccg.github.io/) also publishes
 ### DIF Wallet Security Group
 The [DIF Wallet Secruity Group](https://identity.foundation/working-groups/wallet-security.html) is helping defined SSI wallet best practices.
 
+## Comparison with other (open-source) SSI wallets
+
+In order to help situate this project within the wider SSI ecosystem, the following is a list of other open-source SSI wallets:
+
+### Spruce DID Kit Examples
+
+Spruce provides several DID Kit examples. This SSI wallet aims to compliment Spruce's offering by providing a
+- Typescript/NestJs option
+- Provide an opportunity for Elia and other EWF members to extend the wallet for their use cases
+
+#### Java-Springboot
+
+- Link: https://github.com/spruceid/didkit/tree/main/examples/java-springboot
+- Form factor: Server wallet
+- Language: Java
+- Framework: Springboot
+
+### Jolocom Smart Wallet
+
+- Link: https://github.com/jolocom/smartwallet-app
+- Form factor: Mobile wallet
+- Language: Typescript
+- Framework: React Native
+
+### Aviary Wacinstein's Monster
+
+- Link: https://github.com/aviarytech/wacinsteins-monster 
+- Form factor: Server wallet
+- Language: Typescript
+- Framework: NestJs
+- VC Interaction Protocol: DIDComm
+
+### Veramo
+
+- Link: https://veramo.io/ 
+- Form factor: Agent framework
+- Language: Typescript
+- Framework: None (Vanilla JS)
+- VC Interaction Protocol: DIDComm
+
 ## Technology Decisions
 ### Rationale for Spruce DIDKit
 Spruce's DIDKit is used for DID generation and credential issuance+verification.
