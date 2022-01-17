@@ -26,7 +26,7 @@ Here is an extract of the context:
         ...
 
 To get the definition of the field "gender" which points to the definition "schema:gender", use the URI of "schema" which points to "http://schema.org/", so we will have a definition available at "http://schema.org/gender".
-TODO interpretation of id and type.
+Regarding the aliasing of `id` to `@id` and `type` to `@type`, see the [VC specification](https://www.w3.org/TR/vc-data-model/#syntactic-sugar).
 
 We therefore assume that the citizen is connected to the autority portal and that the information contained in the context about the citizen is available in the autority portal database.
 
@@ -38,18 +38,17 @@ Business workflow:
 - The autority portal responds by sending the "PermanentResidentCard" proof containing the citizen's information signed by the autority portal.
 
 ## Technical overview
-From a technical point of view, in this tutorial, we have access to the server API but no mobile wallet is available. So we will use the server API for the portal and the mobile wallet.
+From a technical point of view, in this tutorial, we have access to the server API but no mobile wallet is available. So we will use the server API for both roles of the portal and the mobile wallet.
 
 We will follow the following steps in this tutorial:
 - [Authority portal action] Create a DID for the autority portal in the form of a key DID method
 - [Authority portal action] Register the DID as default DID for the authority portal
-- [Authority portal action] List the available proofs that the autority portal can issue, an other tutorial is dedicated to demonstrate how to add new available proof for the authority portal
-- [Authority portal action] Create a VC request url that can be transmitted to the citizen as a QR code or a deep link
+- [Authority portal action] List the available credentials that the autority portal can issue. The citizen, using the portal, would select a credential that they want to request.
+- [Authority portal action] Create a [VP Request](https://w3c-ccg.github.io/vp-request-spec/) that can be transmitted to the citizen as a QR code or a deep link
 - [Citizen action] Create a DID for the citizen
 - [Citizen action] The citizen authenticates himself on the autority portal with his DID and the autority portal responds with a Verifiable Presentation that proves the successful connection of the user
 - [Citizen action] The citizen, using the unique endpoint received in the QR code (VC request URL), will transmit the proof of connection in the form of the VP received in the previous step. The autority portal will create a VC using the available data of the citizen in its database, sign the VC and transmit it as a response to the request.
 
-TODO: tutorial on how to create new proofs available to the server
 
 ## Overview and Objective
 
