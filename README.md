@@ -108,6 +108,10 @@ TO BE IMPLEMENTED:
 
 - "Interact" property of VP Request is proposed here: https://github.com/w3c-ccg/vp-request-spec/pull/15
 
+- Presentation Definition as an alternative specification https://identity.foundation/presentation-exchange/#presentation-definition
+
+- How could "VC translation" be supported? Could be provided as SaaS?
+
 ## Installation
 This repository is a monorepo that uses [Rush](https://rushjs.io/) with the PNPM package manager.
 
