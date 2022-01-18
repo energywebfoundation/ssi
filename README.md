@@ -108,6 +108,10 @@ TO BE IMPLEMENTED:
 
 - "Interact" property of VP Request is proposed here: https://github.com/w3c-ccg/vp-request-spec/pull/15
 
+- Multi-stage presentation is mentioned here:
+  - https://github.com/w3c-ccg/vc-api/pull/255
+  - https://w3c-ccg.github.io/vc-api-use-cases/#execute-multi-stage-presentation-workflow
+
 - Presentation Definition as an alternative specification https://identity.foundation/presentation-exchange/#presentation-definition
 
 - How could "VC translation" be supported? Could be provided as SaaS?
