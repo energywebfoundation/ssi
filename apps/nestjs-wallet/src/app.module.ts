@@ -7,6 +7,7 @@ import { VcApiModule } from './vc-api/vc-api.module';
 import { DIDContactModule } from './did-contact/did-contact.module';
 import { TypeOrmSQLiteModule } from './in-memory-db';
 import { EliaIssuerModule } from './elia-issuer/elia-issuer.module';
+import { IdentityHubModule } from './identity-hub/identity-hub.module';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { EliaIssuerModule } from './elia-issuer/elia-issuer.module';
     DIDPurposeModule,
     VcApiModule,
     DIDContactModule,
-    EliaIssuerModule
+    EliaIssuerModule,
+    IdentityHubModule
   ]
 })
 export class AppModule {}
