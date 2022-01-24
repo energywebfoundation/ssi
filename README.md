@@ -30,7 +30,7 @@ Though these specifications are not on the W3C standards track, adherance to the
 The [W3C Credentials Community Group](https://w3c-ccg.github.io/) [Universal Wallet Interop Specification](https://w3c-ccg.github.io/universal-wallet-interop-spec/) provides a model for how wallet data could be made interoperable between other wallet implementations.
 
 #### VC API
-The [W3C Credentials Community Group](https://w3c-ccg.github.io/) [VC API Specification](https://w3c-ccg.github.io/universal-wallet-interop-spec/) provides a data model and HTTP protocols to issue, verify, present, and manage verifiable credentials on the Web.
+The [W3C Credentials Community Group](https://w3c-ccg.github.io/) [VC API Specification](https://w3c-ccg.github.io/vc-api/) provides a data model and HTTP protocols to issue, verify, present, and manage verifiable credentials on the Web.
 The [W3C Credentials Community Group](https://w3c-ccg.github.io/) also publishes [use cases for VC API](https://w3c-ccg.github.io/vc-api-use-cases/index.html).
 
 ### DIF Wallet Security Group
@@ -76,8 +76,8 @@ const did = generateDID(key); // Code from ssi-did lib. Returns initial DID Docu
 ### Key Module
 The key module is kept separate from the DID module because it's plausible that key module will be provided by a different service (i.e. a dedicated KMS) at some point.
 
-### Issuer Module
-Implements the [vc-issuer specification](https://w3c-ccg.github.io/vc-api/issuer.html) from the [W3C Credentials Community Group](https://w3c-ccg.github.io/).
+### VC API Module
+Implements the [vc-issuer specification](https://w3c-ccg.github.io/vc-api/) from the [W3C Credentials Community Group](https://w3c-ccg.github.io/).
 
 ## NestJS Wallet Implementation Notes
 - Uses **in-memory DB** for now for app execution and tests.
