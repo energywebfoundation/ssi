@@ -15,19 +15,17 @@ export function IsPresentationDefinitionCredentialQuery(validationOptions?: Vali
       validator: {
         validate(value: IPresentationDefinition, args: ValidationArguments) {
           const pex = new PEX();
-          const validated = pex.validateDefinition(value);
-          if (Array.isArray(validated)) {
-            validated.forEach((checked) => {
-              if (checked.status === Status.ERROR || checked.status === Status.WARN) {
-                return false;
-              }
-            });
-          } else {
-            if (validated.status === Status.ERROR || validated.status === Status.WARN) {
+          try {
+            const validated = pex.validateDefinition(value);
+            const resultArray = Array.isArray(validated) ? validated : [validated];
+            const statuses = resultArray.map((checked) => checked.status);
+            if (statuses.includes(Status.ERROR) || statuses.includes(Status.WARN)) {
               return false;
             }
+            return true;
+          } catch {
+            return false;
           }
-          return true;
         }
       }
     });
