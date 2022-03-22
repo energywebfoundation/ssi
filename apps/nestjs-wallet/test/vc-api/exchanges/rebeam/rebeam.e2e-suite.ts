@@ -38,7 +38,8 @@ export const rebeamExchangeSuite = () => {
         'https://www.w3.org/2018/credentials/examples/v1'
       ],
       type: ['VerifiablePresentation'],
-      verifiableCredential: [issuanceVp.vp.verifiableCredential[0]]
+      verifiableCredential: [issuanceVp.vp.verifiableCredential[0]],
+      holder: holderDID.id
     };
     const issuanceOptions: IssueOptionsDto = {
       proofPurpose: ProofPurpose.authentication,
