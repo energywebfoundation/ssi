@@ -65,9 +65,14 @@ export class RebeamSupplier {
       type: ['VerifiableCredential', 'EWFRole'],
       credentialSubject: {
         id: holderDID,
-        issuerFields: [],
+        issuerFields: [
+          {
+            key: 'accountId',
+            value: 'energycustomerid1'
+          }
+        ],
         role: {
-          namespace: 'test.iam.ewc',
+          namespace: 'customer.roles.rebeam.apps.eliagroup.iam.ewc',
           version: '1'
         }
       },

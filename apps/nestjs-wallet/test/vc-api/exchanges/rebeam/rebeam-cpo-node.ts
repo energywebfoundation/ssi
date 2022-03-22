@@ -34,10 +34,17 @@ export class RebeamCpoNode {
                     constraints: {
                       fields: [
                         {
-                          path: ['$.credentialSubject.role'],
+                          path: ['$.credentialSubject.role.namespace'],
                           filter: {
                             type: 'string',
-                            const: 'customer.roles.rebeam.apps.elia.iam.ewc'
+                            const: 'customer.roles.rebeam.apps.eliagroup.iam.ewc'
+                          }
+                        },
+                        {
+                          path: ['$.credentialSubject.issuerFields[*]'],
+                          filter: {
+                            type: 'object'
+                            // TODO: how can we ask for { "key": "accountId", "value": <any string> }
                           }
                         }
                       ]
