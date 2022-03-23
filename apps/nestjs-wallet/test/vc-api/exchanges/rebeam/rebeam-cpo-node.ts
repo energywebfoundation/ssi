@@ -41,10 +41,10 @@ export class RebeamCpoNode {
                           }
                         },
                         {
-                          path: ['$.credentialSubject.issuerFields[*]'],
+                          path: ['$.credentialSubject.issuerFields[*].key'],
                           filter: {
-                            type: 'object'
-                            // TODO: how can we ask for { "key": "accountId", "value": <any string> }
+                            type: 'string',
+                            const: 'accountId'
                           }
                         }
                       ]
