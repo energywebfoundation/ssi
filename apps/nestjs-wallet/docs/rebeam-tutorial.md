@@ -21,11 +21,15 @@ A generic diagram of credential issuance flow is available in the root [README](
 
 Run the app as per the instructions in the root [README](./../../../README.md).
 
-#### [Optional] Setup the Postman Collection or Navigate to the Swagger page
+#### [Optional] Setup the Postman Collection
 
 First, download and install [Postman](https://www.postman.com/downloads/).
 
 Then, from the Postman app, import [the open-api json](./open-api.json) and [the environment](./ewf-ssi-wallet.postman_environment.json) for the Nest.js wallet. Instructions on how to import into Postman can be found [here](https://learning.postman.com/docs/getting-started/importing-and-exporting-data/#importing-data-into-postman).
+
+#### [Optional] Navigate to the Swagger/OpenAPI page
+
+After running the app, requests can be made using the Swagger/OpenAPI page. See [instructions](./../../../README.md#swaggeropenapi)
 
 ### Customer contract issuance
 
@@ -199,7 +203,7 @@ The response should have a `201` code and have a body similar to the json below.
 
 The CPO needs to configure the parameters of the credential exchange.
 To do this, navigate to the `Vc Api Controller create Exchange` under `vc-api/exchanges` and send with the json below.
-In the json below, exchangeId is an id unique to this charging request, for example "111111".
+In the json below, `exchangeId` is an id unique to this charging request, for example "111111".
 
 ```json
 {
