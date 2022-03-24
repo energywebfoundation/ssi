@@ -61,7 +61,7 @@ export class TransactionEntity {
   presentationReview: PresentationReviewEntity;
 
   /**
-   * Assumes that each transaction is a part of an exchange execution
+   * Each transaction is a part of an exchange execution
    * https://w3c-ccg.github.io/vc-api/#exchange-examples
    */
   @Column('text')

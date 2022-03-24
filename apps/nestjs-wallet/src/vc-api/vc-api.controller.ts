@@ -102,7 +102,7 @@ export class VcApiController {
   }
 
   /**
-   * Get exchange transactions that require reviews
+   * Get exchange transaction by id
    * A NON-STANDARD endpoint currently.
    * Similar to https://identitycache.energyweb.org/api/#/Claims/ClaimController_getByIssuerDid
    *
@@ -111,8 +111,11 @@ export class VcApiController {
    * @param transactionId id of the exchange transaction
    * @returns
    */
-  @Get('/exchanges/reviews')
-  async getExchangeReviews(@Param('transactionId') transactionId: string) {
+  @Get('/exchanges/:exchangeId/transactions/:transactionId')
+  async getTransaction(
+    @Param('exchangeId') exchangeId: string,
+    @Param('transactionId') transactionId: string
+  ) {
     return new NotImplementedException();
   }
 
