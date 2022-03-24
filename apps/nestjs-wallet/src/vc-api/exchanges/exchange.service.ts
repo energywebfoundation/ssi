@@ -12,6 +12,7 @@ import { ExchangeDefinitionDto } from './dtos/exchange-definition.dto';
 import { TransactionEntity } from './entities/transaction.entity';
 import { ConfigService } from '@nestjs/config';
 import { VerifyOptionsDto } from '../credentials/dtos/verify-options.dto';
+import { TransactionDto } from './dtos/transaction.dto';
 
 @Injectable()
 export class ExchangeService {
@@ -95,7 +96,9 @@ export class ExchangeService {
     await this.transactionRepository.save(transaction);
     callback?.forEach((callback) => {
       try {
-        this.httpService.post(callback.url, response).subscribe({
+        // TODO: check if toDto is working. Seems be keeping it as Entity type.
+        const body = TransactionDto.toDto(transaction);
+        this.httpService.post(callback.url, body).subscribe({
           // next: (v) => console.log(v),
           // complete: console.info,
           // error: console.error
