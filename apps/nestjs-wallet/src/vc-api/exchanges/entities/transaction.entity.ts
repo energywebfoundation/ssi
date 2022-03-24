@@ -77,12 +77,6 @@ export class TransactionEntity {
   @JoinColumn()
   presentationSubmission: PresentationSubmissionEntity;
 
-  /**
-   * The Verifiable Presentation submitted in response to the VP Request
-   */
-  @Column('simple-json', { nullable: true })
-  submittedVP?: VerifiablePresentation;
-
   @Column('simple-json')
   callback: CallbackConfiguration[];
 
@@ -169,8 +163,8 @@ export class TransactionEntity {
     if (service.type == VpRequestInteractServiceType.mediatedPresentation) {
       if (this.presentationReview.reviewStatus == PresentationReviewStatus.pending) {
         // In this case, this is the first submission to the exchange
-        if (!this.submittedVP) {
-          this.submittedVP = presentation;
+        if (!this.presentationSubmission) {
+          this.presentationSubmission = new PresentationSubmissionEntity(presentation);
         }
         return {
           response: {
@@ -204,6 +198,7 @@ export class TransactionEntity {
       }
     }
     if (service.type == VpRequestInteractServiceType.unmediatedPresentation) {
+      this.presentationSubmission = new PresentationSubmissionEntity(presentation);
       return {
         response: {
           errors: []
