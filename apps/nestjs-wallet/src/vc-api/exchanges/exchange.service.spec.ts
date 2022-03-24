@@ -13,6 +13,7 @@ import { TransactionEntity } from './entities/transaction.entity';
 import { VpRequestQueryType } from './types/vp-request-query-type';
 import { PresentationReviewEntity } from './entities/presentation-review.entity';
 import { ConfigService } from '@nestjs/config';
+import { PresentationSubmissionEntity } from './entities/presentation-submission.entity';
 
 const baseUrl = 'https://test-exchange.com';
 
@@ -30,7 +31,8 @@ describe('ExchangeService', () => {
           VpRequestEntity,
           ExchangeEntity,
           TransactionEntity,
-          PresentationReviewEntity
+          PresentationReviewEntity,
+          PresentationSubmissionEntity
         ]),
         HttpModule
       ],

@@ -55,10 +55,11 @@ export class TransactionEntity {
   /**
    */
   @OneToOne(() => PresentationReviewEntity, {
-    cascade: true
+    cascade: true,
+    nullable: true
   })
   @JoinColumn()
-  presentationReview: PresentationReviewEntity;
+  presentationReview?: PresentationReviewEntity;
 
   /**
    * Each transaction is a part of an exchange execution
