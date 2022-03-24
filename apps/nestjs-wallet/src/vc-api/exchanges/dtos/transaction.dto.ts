@@ -1,4 +1,6 @@
+import { classToPlain, plainToClass } from 'class-transformer';
 import { IsOptional, IsString, ValidateNested } from 'class-validator';
+import { TransactionEntity } from '../entities/transaction.entity';
 import { PresentationSubmissionDto } from './presentation-submission.dto';
 import { VpRequestDto } from './vp-request.dto';
 
@@ -29,4 +31,10 @@ export class TransactionDto {
   @ValidateNested()
   @IsOptional()
   presentationSubmission?: PresentationSubmissionDto;
+
+  // TODO: make generic so that it can be used in all Dtos
+  static toDto(transaction: TransactionEntity): TransactionDto {
+    const data = classToPlain(transaction);
+    return plainToClass(TransactionEntity, data);
+  }
 }
