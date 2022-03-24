@@ -1,5 +1,5 @@
 import { VerificationResult } from '../../../vc-api/credentials/types/verification-result';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { VerifiablePresentation } from '../types/verifiable-presentation';
 
 /**
@@ -18,6 +18,9 @@ export class PresentationSubmissionEntity {
       errors: []
     };
   }
+
+  @PrimaryGeneratedColumn()
+  id: string;
 
   /**
    * The result of the verification of the submitted VP
