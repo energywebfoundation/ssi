@@ -1,10 +1,12 @@
 import { IsOptional, IsString, ValidateNested } from 'class-validator';
+import { PresentationSubmissionDto } from './presentation-submission.dto';
 import { VpRequestDto } from './vp-request.dto';
 
 export class TransactionDto {
   /**
    * An id for the transaction
    */
+  @IsString()
   transactionId: string;
 
   /**
@@ -21,8 +23,10 @@ export class TransactionDto {
   vpRequest: VpRequestDto;
 
   /**
-   * The Verifiable Presentation submitted in response to the VP Request
+   * The submission to the VP Request
+   * Is optional because submission may not have occured yet
    */
-  @Column('simple-json', { nullable: true })
-  submittedVP?: VerifiablePresentation;
+  @ValidateNested()
+  @IsOptional()
+  presentationSubmission?: PresentationSubmissionDto;
 }
