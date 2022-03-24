@@ -9,6 +9,7 @@ import { VpRequestQueryType } from '../types/vp-request-query-type';
 import { PresentationReviewEntity } from './presentation-review.entity';
 import { VpRequestEntity } from './vp-request.entity';
 import { CallbackConfiguration } from '../types/callback-configuration';
+import { PresentationSubmissionEntity } from './presentation-submission.entity';
 
 /**
  * A TypeOrm entity representing an exchange transaction
@@ -66,6 +67,15 @@ export class TransactionEntity {
    */
   @Column('text')
   exchangeId: string;
+
+  /**
+   */
+  @OneToOne(() => PresentationSubmissionEntity, {
+    cascade: true,
+    nullable: true
+  })
+  @JoinColumn()
+  presentationSubmission: PresentationSubmissionEntity;
 
   /**
    * The Verifiable Presentation submitted in response to the VP Request
