@@ -1,7 +1,9 @@
 version: '3.7'
 services:
   app:
-    image: vc-api-3
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: vc-api
     ports:
       - 3000:3000
