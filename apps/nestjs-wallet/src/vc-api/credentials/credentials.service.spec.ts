@@ -49,7 +49,7 @@ const credential: CredentialDto = {
       }
     ],
     role: {
-      namespace: 'customer.roles.rebeam.apps.eliagroup.iam.ewc',
+      namespace: 'customer.roles.charging.apps.eliagroup.iam.ewc',
       version: '1'
     }
   },

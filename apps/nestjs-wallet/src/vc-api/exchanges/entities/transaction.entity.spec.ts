@@ -175,7 +175,7 @@ describe('TransactionEntity', () => {
                             path: ['$.credentialSubject.role.namespace'],
                             filter: {
                               type: 'string',
-                              const: 'customer.roles.rebeam.apps.eliagroup.iam.ewc'
+                              const: 'customer.roles.charging.apps.eliagroup.iam.ewc'
                             }
                           }
                         ]
@@ -224,7 +224,7 @@ describe('TransactionEntity', () => {
                 id: 'did:example:1234567894ad31s12',
                 issuerFields: [{ key: 'foo', value: 'bar' }],
                 role: {
-                  namespace: 'customer.roles.rebeam.apps.eliagroup.iam.ewc',
+                  namespace: 'customer.roles.charging.apps.eliagroup.iam.ewc',
                   version: '1'
                 }
               },
@@ -305,7 +305,7 @@ describe('TransactionEntity', () => {
                   { key: 'bar', value: 'foo' }
                 ],
                 role: {
-                  namespace: 'customer.roles.rebeam.apps.eliagroup.iam.ewc',
+                  namespace: 'customer.roles.charging.apps.eliagroup.iam.ewc',
                   version: '1'
                 }
               },
@@ -334,7 +334,7 @@ describe('TransactionEntity', () => {
                             path: ['$.credentialSubject.role.namespace'],
                             filter: {
                               type: 'string',
-                              const: 'customer.roles.rebeam.apps.eliagroup.iam.ewc'
+                              const: 'customer.roles.charging.apps.eliagroup.iam.ewc'
                             }
                           }
                         ]

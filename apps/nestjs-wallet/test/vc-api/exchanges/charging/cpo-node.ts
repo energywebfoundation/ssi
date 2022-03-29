@@ -3,7 +3,7 @@ import { ExchangeDefinitionDto } from '../../../../src/vc-api/exchanges/dtos/exc
 import { VpRequestInteractServiceType } from '../../../../src/vc-api/exchanges/types/vp-request-interact-service-type';
 import { VpRequestQueryType } from '../../../../src/vc-api/exchanges/types/vp-request-query-type';
 
-export class RebeamCpoNode {
+export class CpoNode {
   #exchangeId = `b229a18f-db45-4b33-8d36-25d442467bab`;
   #callbackUrl: string;
   queryType = VpRequestQueryType.presentationDefinition;
@@ -30,14 +30,14 @@ export class RebeamCpoNode {
                   {
                     id: 'energy_supplier_customer_contract',
                     name: 'Energy Supplier Customer Contract',
-                    purpose: 'An energy supplier contract is needed for Rebeam authorization',
+                    purpose: 'An energy supplier contract is needed for Charging authorization',
                     constraints: {
                       fields: [
                         {
                           path: ['$.credentialSubject.role.namespace'],
                           filter: {
                             type: 'string',
-                            const: 'customer.roles.rebeam.apps.eliagroup.iam.ewc'
+                            const: 'customer.roles.charging.apps.eliagroup.iam.ewc'
                           }
                         },
                         {

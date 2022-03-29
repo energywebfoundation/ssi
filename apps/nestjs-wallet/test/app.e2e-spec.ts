@@ -5,7 +5,7 @@ import { WalletClient } from './wallet-client';
 import { didSuite } from './did/did.e2e-suite';
 import { residentCardExchangeSuite } from './vc-api/exchanges/resident-card/resident-card.e2e-suite';
 import { VpRequestDto } from '../src/vc-api/exchanges/dtos/vp-request.dto';
-import { rebeamExchangeSuite } from './vc-api/exchanges/rebeam/rebeam.e2e-suite';
+import { chargingExchangeSuite } from './vc-api/exchanges/charging/charging.e2e-suite';
 import { vcApiSuite } from './vc-api/credentials/vc-api.e2e-suite';
 
 // Increasing timeout for debugging
@@ -31,7 +31,7 @@ describe('App (e2e)', () => {
   describe('DID (e2e)', didSuite);
   describe('VC-API (e2e)', vcApiSuite);
   describe('Resident Card (e2e)', residentCardExchangeSuite);
-  describe('Rebeam (e2e)', rebeamExchangeSuite);
+  describe('Charging (e2e)', chargingExchangeSuite);
 });
 
 /**

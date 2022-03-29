@@ -1,14 +1,14 @@
 import { validate } from 'class-validator';
 import 'reflect-metadata';
-import { RebeamCpoNode } from '../../../../test/vc-api/exchanges/rebeam/rebeam-cpo-node';
+import { CpoNode } from '../../../../test/vc-api/exchanges/charging/cpo-node';
 import { ResidentCardIssuance } from '../../../../test/vc-api/exchanges/resident-card/resident-card-issuance.exchange';
 import { ResidentCardPresentation } from '../../../../test/vc-api/exchanges/resident-card/resident-card-presentation.exchange';
 
 describe('ExchangeDefinition', () => {
-  describe('Rebeam Presentation', () => {
+  describe('Charging Presentation', () => {
     it('should be a valid exchange definition', async () => {
       const callback = 'https://example.com/endpoint';
-      const exchange = new RebeamCpoNode(callback);
+      const exchange = new CpoNode(callback);
       const definition = exchange.getExchangeDefinition();
       const result = await validate(definition);
       expect(result).toHaveLength(0);

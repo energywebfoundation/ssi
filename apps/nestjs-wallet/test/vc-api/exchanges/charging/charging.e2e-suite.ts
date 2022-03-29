@@ -2,24 +2,23 @@ import * as request from 'supertest';
 import * as nock from 'nock';
 import { IssueOptionsDto } from '../../../../src/vc-api/credentials/dtos/issue-options.dto';
 import { ProofPurpose } from '@sphereon/pex';
-import { RebeamCpoNode } from './rebeam-cpo-node';
+import { CpoNode } from './cpo-node';
 import { app, getContinuationEndpoint, vcApiBaseUrl, walletClient } from '../../../app.e2e-spec';
-import { RebeamSupplier } from './rebeam-supplier';
-import { inspect } from 'util';
+import { Supplier } from './supplier';
 
-export const rebeamExchangeSuite = () => {
-  it('Rebeam presentation using ed25119 signatures', async () => {
+export const chargingExchangeSuite = () => {
+  it('Charging presentation using ed25119 signatures', async () => {
     const holderDID = await walletClient.createDID('key');
     const holderVerificationMethod = holderDID.verificationMethod[0].id;
 
-    // SUPPLIER: Issue "rebeam-customer" credential
-    const supplier = new RebeamSupplier();
+    // SUPPLIER: Issue "charging-customer" credential
+    const supplier = new Supplier();
     const issuanceVp = await supplier.issueCredential(holderDID, walletClient);
 
     // CPO-NODE: Configure presentation exchange
     const callbackUrlBase = 'http://example.com';
     const callbackUrlPath = '/endpoint';
-    const presentationExchange = new RebeamCpoNode(`${callbackUrlBase}${callbackUrlPath}`);
+    const presentationExchange = new CpoNode(`${callbackUrlBase}${callbackUrlPath}`);
     const scope = nock(callbackUrlBase).post(callbackUrlPath).reply(201);
     const exchangeDef = presentationExchange.getExchangeDefinition();
     await request(app.getHttpServer()).post(`${vcApiBaseUrl}/exchanges`).send(exchangeDef).expect(201);
@@ -55,7 +54,7 @@ export const rebeamExchangeSuite = () => {
   });
 
   it('should throw an error when presentation definition contain more then one `credentialQuery` item', async () => {
-    const presentationExchange = new RebeamCpoNode(``);
+    const presentationExchange = new CpoNode(``);
     const exchangeDef = presentationExchange.getInvalidExchangeDefinition();
     await request(app.getHttpServer()).post(`${vcApiBaseUrl}/exchanges`).send(exchangeDef).expect(400);
   });

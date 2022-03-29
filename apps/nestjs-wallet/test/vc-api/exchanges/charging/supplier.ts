@@ -3,7 +3,7 @@ import { CredentialDto } from '../../../../src/vc-api/credentials/dtos/credentia
 import { Presentation } from '../../../../src/vc-api/exchanges/types/presentation';
 import { DIDDocument } from 'did-resolver';
 
-export class RebeamSupplier {
+export class Supplier {
   /**
    *
    * TODO: get and approve presentation review
@@ -74,7 +74,7 @@ export class RebeamSupplier {
           }
         ],
         role: {
-          namespace: 'customer.roles.rebeam.apps.eliagroup.iam.ewc',
+          namespace: 'customer.roles.charging.apps.eliagroup.iam.ewc',
           version: '1'
         }
       },

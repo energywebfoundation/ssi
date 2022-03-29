@@ -1,7 +1,7 @@
 # Tutorial
 
 ## Overview and Objective
-The objective of this tutorial is to demonstrate how to go through the SSI flows of the "Rebeam" use case.
+The objective of this tutorial is to demonstrate how to go through the SSI flows of the "Charging" use case.
 There are three parties in this tutorial:
 - The Energy Supplier, which is acting as a credential issue
 - The Customer, which is acting as a credential holder
@@ -136,7 +136,7 @@ Fill in, in the JSON below, the Customer DID as the `subject` id, the Supplier D
                 
             ],
             "role":{
-                "namespace":"customer.roles.rebeam.apps.eliagroup.iam.ewc",
+                "namespace":"customer.roles.charging.apps.eliagroup.iam.ewc",
                 "version":"1"
             }
         },
@@ -180,7 +180,7 @@ The response should have a `201` code and have a body similar to the json below.
     "credentialSubject": {
         "id": "did:key:z6MkrMzkYMnPvQptgPk3E9BmkNzYGFh1Hs5U3WZHTDJgufvn",
         "role": {
-            "namespace": "customer.roles.rebeam.apps.eliagroup.iam.ewc",
+            "namespace": "customer.roles.charging.apps.eliagroup.iam.ewc",
             "version": "1"
         },
         "issuerFields": []
@@ -219,7 +219,7 @@ In the json below, `exchangeId` is an id unique to this charging request, for ex
                      {
                         "id":"energy_supplier_customer_contract",
                         "name":"Energy Supplier Customer Contract",
-                        "purpose":"An energy supplier contract is needed for Rebeam authorization",
+                        "purpose":"An energy supplier contract is needed for Charging authorization",
                         "constraints":{
                            "fields":[
                               {
@@ -228,7 +228,7 @@ In the json below, `exchangeId` is an id unique to this charging request, for ex
                                  ],
                                  "filter":{
                                     "type":"string",
-                                    "const":"customer.roles.rebeam.apps.eliagroup.iam.ewc"
+                                    "const":"customer.roles.charging.apps.eliagroup.iam.ewc"
                                  }
                               }
                            ]
@@ -259,7 +259,7 @@ The response should have a `201` code and have an empty errors array.
 #### [CPO] Provide an exchange invitation to the customer
 
 Having configured the exchange, the CPO must then ask the customer to present the required credentials in order to authorize the charging session.
-This is not performed in this demo, but in an actual Rebeam charging flow a CPO delivers a presentation invitation similar to one shown below to the customer via the eMSP.
+This is not performed in this demo, but in an actual Charging charging flow a CPO delivers a presentation invitation similar to one shown below to the customer via the eMSP.
 
 ```json
 {
@@ -295,7 +295,7 @@ Send the request. A similar json should be returned in the response body:
                                 {
                                     "id": "energy_supplier_customer_contract",
                                     "name": "Energy Supplier Customer Contract",
-                                    "purpose": "An energy supplier contract is needed for Rebeam authorization",
+                                    "purpose": "An energy supplier contract is needed for Charging authorization",
                                     "constraints": {
                                         "fields": [
                                             {
@@ -304,7 +304,7 @@ Send the request. A similar json should be returned in the response body:
                                                 ],
                                                 "filter": {
                                                     "type": "string",
-                                                    "const": "customer.roles.rebeam.apps.eliagroup.iam.ewc"
+                                                    "const": "customer.roles.charging.apps.eliagroup.iam.ewc"
                                                 }
                                             }
                                         ]
@@ -404,7 +404,7 @@ For example, your filled json would look like:
                 "credentialSubject": {
                     "id": "did:key:z6MkrMzkYMnPvQptgPk3E9BmkNzYGFh1Hs5U3WZHTDJgufvn",
                     "role": {
-                        "namespace": "customer.roles.rebeam.apps.eliagroup.iam.ewc",
+                        "namespace": "customer.roles.charging.apps.eliagroup.iam.ewc",
                         "version": "1"
                     },
                     "issuerFields": []
@@ -467,7 +467,7 @@ Send the request. The response should be a verifiable presentation, similar to t
             "credentialSubject": {
                 "id": "did:key:z6MkrMzkYMnPvQptgPk3E9BmkNzYGFh1Hs5U3WZHTDJgufvn",
                 "role": {
-                    "namespace": "customer.roles.rebeam.apps.eliagroup.iam.ewc",
+                    "namespace": "customer.roles.charging.apps.eliagroup.iam.ewc",
                     "version": "1"
                 },
                 "issuerFields": []
