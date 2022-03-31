@@ -7,3 +7,8 @@ services:
     container_name: vc-api
     ports:
       - 3000:3000
+    deploy:
+      restart_policy:
+        delay: 3s
+        max_attempts: 5
+        window: 20s
