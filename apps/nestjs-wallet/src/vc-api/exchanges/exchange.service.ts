@@ -99,7 +99,10 @@ export class ExchangeService {
       const body = TransactionDto.toDto(transaction);
       this.httpService.post(callback.url, body).subscribe({
         next: (v) => Logger.log(v),
-        error: Logger.error
+        error: (err) => {
+          console.error(err);
+          Logger.error(err);
+        }
       });
     });
     return response;
