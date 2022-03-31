@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProofPurpose } from '@sphereon/pex';
@@ -95,17 +95,12 @@ export class ExchangeService {
     const { response, callback } = transaction.processPresentation(verifiablePresentation);
     await this.transactionRepository.save(transaction);
     callback?.forEach((callback) => {
-      try {
-        // TODO: check if toDto is working. Seems be keeping it as Entity type.
-        const body = TransactionDto.toDto(transaction);
-        this.httpService.post(callback.url, body).subscribe({
-          // next: (v) => console.log(v),
-          // complete: console.info,
-          // error: console.error
-        });
-      } catch {
-        // TODO: log exception
-      }
+      // TODO: check if toDto is working. Seems be keeping it as Entity type.
+      const body = TransactionDto.toDto(transaction);
+      this.httpService.post(callback.url, body).subscribe({
+        next: (v) => Logger.log(v),
+        error: Logger.error
+      });
     });
     return response;
   }
