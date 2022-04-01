@@ -3,13 +3,15 @@ import { v4 as uuidv4 } from 'uuid';
 import { IPresentation, IPresentationDefinition, PEX } from '@sphereon/pex';
 import { ExchangeResponseDto } from '../dtos/exchange-response.dto';
 import { PresentationReviewStatus } from '../types/presentation-review-status';
-import { VerifiablePresentation } from '../types/verifiable-presentation';
+import { VerifiablePresentation } from '../../credentials/types/verifiable-presentation';
 import { VpRequestInteractServiceType } from '../types/vp-request-interact-service-type';
 import { VpRequestQueryType } from '../types/vp-request-query-type';
 import { PresentationReviewEntity } from './presentation-review.entity';
 import { VpRequestEntity } from './vp-request.entity';
 import { CallbackConfiguration } from '../types/callback-configuration';
 import { PresentationSubmissionEntity } from './presentation-submission.entity';
+import { CredentialVerifier } from '../../credentials/types/credential-verifier';
+import { PresentationVerifier } from '../../credentials/types/presentation-verifier';
 
 /**
  * A TypeOrm entity representing an exchange transaction
@@ -145,7 +147,11 @@ export class TransactionEntity {
    * Does NOT check signatures.
    * @param presentation
    */
-  public processPresentation(presentation: VerifiablePresentation): {
+  public processPresentation(
+    presentation: VerifiablePresentation,
+    credentialVerifier: CredentialVerifier,
+    presentationVerifier: PresentationVerifier
+  ): {
     response: ExchangeResponseDto;
     callback: CallbackConfiguration[];
   } {

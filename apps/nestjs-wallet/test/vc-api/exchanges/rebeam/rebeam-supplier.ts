@@ -1,6 +1,6 @@
 import { WalletClient } from '../../../wallet-client';
 import { CredentialDto } from '../../../../src/vc-api/credentials/dtos/credential.dto';
-import { Presentation } from '../../../../src/vc-api/exchanges/types/presentation';
+import { Presentation } from '../../../../src/vc-api/credentials/types/presentation';
 import { DIDDocument } from 'did-resolver';
 
 export class RebeamSupplier {

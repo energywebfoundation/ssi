@@ -1,4 +1,4 @@
-import { VerifiableCredential } from '../../credentials/types/verifiable-credential';
+import { VerifiableCredential } from './verifiable-credential';
 
 /**
  * A JSON-LD Verifiable Presentation without a proof.

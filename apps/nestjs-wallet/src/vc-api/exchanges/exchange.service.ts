@@ -91,7 +91,11 @@ export class ExchangeService {
         errors: [`${transactionId}: verification of presentation proof not successful`, ...result.errors]
       };
     }
-    const { response, callback } = transaction.processPresentation(verifiablePresentation);
+    const { response, callback } = transaction.processPresentation(
+      verifiablePresentation,
+      this.vcApiService.verifyCredential.bind(this),
+      this.vcApiService.verifyPresentation.bind(this)
+    );
     await this.transactionRepository.save(transaction);
     callback?.forEach((callback) => {
       // TODO: check if toDto is working. Seems be keeping it as Entity type.

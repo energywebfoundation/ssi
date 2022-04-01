@@ -5,7 +5,7 @@ import { IssueOptionsDto } from './dtos/issue-options.dto';
 import { VerifyOptionsDto } from './dtos/verify-options.dto';
 import { DIDService } from '../../did/did.service';
 import { KeyService } from '../../key/key.service';
-import { Presentation } from '../exchanges/types/presentation';
+import { Presentation } from './types/presentation';
 import { ProofPurpose } from '@sphereon/pex';
 import { VerifiableCredential } from './types/verifiable-credential';
 import { CredentialDto } from './dtos/credential.dto';
