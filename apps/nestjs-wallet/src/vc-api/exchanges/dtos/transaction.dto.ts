@@ -1,4 +1,4 @@
-import { classToPlain, plainToClass } from 'class-transformer';
+import { classToPlain, plainToClass, Type } from 'class-transformer';
 import { IsOptional, IsString, ValidateNested } from 'class-validator';
 import { TransactionEntity } from '../entities/transaction.entity';
 import { PresentationSubmissionDto } from './presentation-submission.dto';
@@ -22,6 +22,7 @@ export class TransactionDto {
    * https://w3c-ccg.github.io/vp-request-spec/
    */
   @ValidateNested()
+  @Type(() => VpRequestDto)
   vpRequest: VpRequestDto;
 
   /**
@@ -29,6 +30,7 @@ export class TransactionDto {
    * Is optional because submission may not have occured yet
    */
   @ValidateNested()
+  @Type(() => PresentationSubmissionDto)
   @IsOptional()
   presentationSubmission?: PresentationSubmissionDto;
 
