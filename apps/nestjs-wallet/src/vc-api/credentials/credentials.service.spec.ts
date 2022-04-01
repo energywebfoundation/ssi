@@ -7,7 +7,7 @@ import { DIDService } from '../../did/did.service';
 import { KeyService } from '../../key/key.service';
 import { Presentation } from '../exchanges/types/presentation';
 import { ProofPurpose } from '@sphereon/pex';
-import { VerifiableCredential } from '../exchanges/types/verifiable-credential';
+import { VerifiableCredential } from './types/verifiable-credential';
 import { CredentialDto } from './dtos/credential.dto';
 
 const key = {

@@ -30,14 +30,6 @@ interface ISpruceIssueOptions {
 }
 
 /**
- * Credential verification options that Spruce accepts
- * Full options are here: https://github.com/spruceid/didkit/blob/main/cli/README.md#didkit-vc-verify-credential
- */
-interface ISpruceVerifyOptions {
-  challenge?: string;
-}
-
-/**
  * This service provide the VC-API operations
  * This encapsulates the use of Spruce DIDKit
  */
@@ -57,12 +49,17 @@ export class CredentialsService {
     );
   }
 
+  /**
+   * Verify a VC https://w3c-ccg.github.io/vc-api/verifier.html#operation/verifyCredential
+   * @param vc VC to verify
+   * @param options Should be credential verification options that Spruce accepts. Full options are here: https://github.com/spruceid/didkit/blob/main/cli/README.md#didkit-vc-verify-credential
+   * @returns
+   */
   async verifyCredential(
     vc: VerifiableCredentialDto,
     options: VerifyOptionsDto
   ): Promise<VerificationResultDto> {
-    const verifyOptions: ISpruceVerifyOptions = options;
-    return JSON.parse(await verifyCredential(JSON.stringify(vc), JSON.stringify(verifyOptions)));
+    return JSON.parse(await verifyCredential(JSON.stringify(vc), JSON.stringify(options)));
   }
 
   async provePresentation(provePresentationDto: ProvePresentationDto): Promise<VerifiablePresentationDto> {
@@ -94,8 +91,7 @@ export class CredentialsService {
     vp: VerifiablePresentationDto,
     options: VerifyOptionsDto
   ): Promise<VerificationResultDto> {
-    const verifyOptions: ISpruceVerifyOptions = options;
-    return JSON.parse(await verifyPresentation(JSON.stringify(vp), JSON.stringify(verifyOptions)));
+    return JSON.parse(await verifyPresentation(JSON.stringify(vp), JSON.stringify(options)));
   }
 
   /**
