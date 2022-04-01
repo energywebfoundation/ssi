@@ -70,8 +70,7 @@ export class ExchangeService {
    */
   public async continueExchange(
     verifiablePresentation: VerifiablePresentationDto,
-    transactionId: string,
-    exchangeId: string
+    transactionId: string
   ): Promise<ExchangeResponseDto> {
     const transactionQuery = await this.getExchangeTransaction(transactionId);
     if (transactionQuery.errors.length > 0 || !transactionQuery.transaction) {
