@@ -1,7 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ProofPurpose } from '@sphereon/pex';
 import { Repository } from 'typeorm';
 import { CredentialsService } from '../credentials/credentials.service';
 import { VerifiablePresentationDto } from '../credentials/dtos/verifiable-presentation.dto';
@@ -11,8 +10,8 @@ import { VpRequestDto } from './dtos/vp-request.dto';
 import { ExchangeDefinitionDto } from './dtos/exchange-definition.dto';
 import { TransactionEntity } from './entities/transaction.entity';
 import { ConfigService } from '@nestjs/config';
-import { VerifyOptionsDto } from '../credentials/dtos/verify-options.dto';
 import { TransactionDto } from './dtos/transaction.dto';
+import { VpRequestSubmissionVerifier } from '../vp-request-submission-verifier';
 
 @Injectable()
 export class ExchangeService {
@@ -79,11 +78,11 @@ export class ExchangeService {
       };
     }
     const transaction = transactionQuery.transaction;
-    const { response, callback } = await transaction.processPresentation(
-      verifiablePresentation,
+    const verifier = new VpRequestSubmissionVerifier(
       this.vcApiService.verifyCredential.bind(this),
       this.vcApiService.verifyPresentation.bind(this)
     );
+    const { response, callback } = await transaction.processPresentation(verifiablePresentation, verifier);
     await this.transactionRepository.save(transaction);
     callback?.forEach((callback) => {
       // TODO: check if toDto is working. Seems be keeping it as Entity type.
