@@ -1,6 +1,6 @@
 import { VerificationResult } from '../../../vc-api/credentials/types/verification-result';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { VerifiablePresentation } from '../types/verifiable-presentation';
+import { VerifiablePresentation } from '../../credentials/types/verifiable-presentation';
 
 /**
  * A TypeOrm entity representing a Presentation Submission.

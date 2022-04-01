@@ -1,6 +1,6 @@
 import { Column, Entity } from 'typeorm';
 import { PresentationReviewStatus } from '../types/presentation-review-status';
-import { VerifiablePresentation } from '../types/verifiable-presentation';
+import { VerifiablePresentation } from '../../credentials/types/verifiable-presentation';
 
 /**
  * A TypeOrm entity representing a Presentation Review

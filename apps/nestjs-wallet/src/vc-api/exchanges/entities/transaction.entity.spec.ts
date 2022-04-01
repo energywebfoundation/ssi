@@ -1,13 +1,21 @@
 import { ExchangeResponseDto } from '../dtos/exchange-response.dto';
-import { VerifiablePresentation } from '../types/verifiable-presentation';
+import { VerifiablePresentation } from '../../credentials/types/verifiable-presentation';
 import { VpRequestInteractServiceType } from '../types/vp-request-interact-service-type';
 import { VpRequestQuery } from '../types/vp-request-query';
 import { VpRequestQueryType } from '../types/vp-request-query-type';
 import { TransactionEntity } from './transaction.entity';
 import { VpRequestEntity } from './vp-request.entity';
+import { CredentialVerifier } from '../../credentials/types/credential-verifier';
+import { PresentationVerifier } from '../../credentials/types/presentation-verifier';
 
 describe('TransactionEntity', () => {
   const challenge = 'a9511bdb-5577-4d2f-95e3-e819fe5d3c33';
+  const mockCredentialVerfier: CredentialVerifier = {
+    verifyCredential: jest.fn()
+  };
+  const mockPresentationVerifier: PresentationVerifier = {
+    verifyPresentation: jest.fn()
+  };
   beforeEach(async () => {});
 
   afterEach(async () => {
@@ -41,7 +49,11 @@ describe('TransactionEntity', () => {
       const exchangeId = 'my-exchange';
       const transactionId = '9ec5686e-6381-41c4-9286-3c93cdefac53';
       const transaction = new TransactionEntity(transactionId, exchangeId, vpRequest, configuredCallback);
-      const { callback, response } = transaction.processPresentation(vp);
+      const { callback, response } = await transaction.processPresentation(
+        vp,
+        mockCredentialVerfier,
+        mockPresentationVerifier
+      );
       expect(callback).toHaveLength(1);
       expect(callback[0].url).toEqual(callback_1);
       expect(response.errors).toHaveLength(0);
@@ -52,7 +64,10 @@ describe('TransactionEntity', () => {
   });
 
   describe('validate presentation', () => {
-    function getResponse(query: VpRequestQuery[], vp: VerifiablePresentation): ExchangeResponseDto {
+    async function getResponse(
+      query: VpRequestQuery[],
+      vp: VerifiablePresentation
+    ): Promise<ExchangeResponseDto> {
       const vpRequest: VpRequestEntity = {
         challenge,
         query,
@@ -69,7 +84,11 @@ describe('TransactionEntity', () => {
       const exchangeId = 'my-exchange';
       const transactionId = '9ec5686e-6381-41c4-9286-3c93cdefac53';
       const transaction = new TransactionEntity(transactionId, exchangeId, vpRequest, configuredCallback);
-      const { response } = transaction.processPresentation(vp);
+      const { response } = await transaction.processPresentation(
+        vp,
+        mockCredentialVerfier,
+        mockPresentationVerifier
+      );
       return response;
     }
 
@@ -89,7 +108,7 @@ describe('TransactionEntity', () => {
         }
       ];
 
-      const response = getResponse(query, vp);
+      const response = await getResponse(query, vp);
       expect(response.errors.length).toBeGreaterThan(0);
       expect(response.errors).toContain('Challenge does not match');
     });
@@ -111,7 +130,7 @@ describe('TransactionEntity', () => {
           }
         ];
 
-        const response = getResponse(query, vp);
+        const response = await getResponse(query, vp);
         expect(response.errors.length).toBeGreaterThan(0);
         expect(response.errors).toContain('Presentation holder is required for didAuth query');
       });
@@ -189,7 +208,7 @@ describe('TransactionEntity', () => {
           }
         ];
 
-        const response = getResponse(query, vp as any);
+        const response = await getResponse(query, vp as any);
         expect(response.errors.length).toBeGreaterThan(0);
         expect(response.errors).toContainEqual(
           expect.stringContaining('Presentation definition (1) validation failed')
@@ -267,7 +286,7 @@ describe('TransactionEntity', () => {
           }
         ];
 
-        const response = getResponse(query, vp as any);
+        const response = await getResponse(query, vp as any);
         expect(response.errors.length).toBeGreaterThan(0);
         expect(response.errors).toContainEqual(
           expect.stringContaining('Presentation definition (1) validation failed')
@@ -392,7 +411,7 @@ describe('TransactionEntity', () => {
           }
         ];
 
-        const response = getResponse(query, vp as any);
+        const response = await getResponse(query, vp as any);
         expect(response.errors).toHaveLength(0);
       });
     });

@@ -79,19 +79,7 @@ export class ExchangeService {
       };
     }
     const transaction = transactionQuery.transaction;
-    const vpRequest = transaction.vpRequest;
-    const verifyOptions: VerifyOptionsDto = {
-      challenge: vpRequest.challenge,
-      proofPurpose: ProofPurpose.authentication,
-      verificationMethod: verifiablePresentation.proof.verificationMethod as string //TODO: fix types here
-    };
-    const result = await this.vcApiService.verifyPresentation(verifiablePresentation, verifyOptions);
-    if (!result.checks.includes('proof') || result.errors.length > 0) {
-      return {
-        errors: [`${transactionId}: verification of presentation proof not successful`, ...result.errors]
-      };
-    }
-    const { response, callback } = transaction.processPresentation(
+    const { response, callback } = await transaction.processPresentation(
       verifiablePresentation,
       this.vcApiService.verifyCredential.bind(this),
       this.vcApiService.verifyPresentation.bind(this)

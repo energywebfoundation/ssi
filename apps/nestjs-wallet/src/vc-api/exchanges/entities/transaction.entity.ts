@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
-import { IPresentation, IPresentationDefinition, PEX } from '@sphereon/pex';
+import { IPresentation, IPresentationDefinition, PEX, ProofPurpose } from '@sphereon/pex';
 import { ExchangeResponseDto } from '../dtos/exchange-response.dto';
 import { PresentationReviewStatus } from '../types/presentation-review-status';
 import { VerifiablePresentation } from '../../credentials/types/verifiable-presentation';
@@ -145,17 +145,35 @@ export class TransactionEntity {
    * Process a presentation submission.
    * Check the correctness of the presentation against the VP Request Credential Queries.
    * Does NOT check signatures.
-   * @param presentation
+   * @param vp
    */
-  public processPresentation(
-    presentation: VerifiablePresentation,
+  public async processPresentation(
+    vp: VerifiablePresentation,
     credentialVerifier: CredentialVerifier,
     presentationVerifier: PresentationVerifier
-  ): {
+  ): Promise<{
     response: ExchangeResponseDto;
     callback: CallbackConfiguration[];
-  } {
-    const errors = this.validatePresentation(presentation);
+  }> {
+    const verifyOptions = {
+      challenge: this.vpRequest.challenge,
+      proofPurpose: ProofPurpose.authentication,
+      verificationMethod: vp.proof.verificationMethod as string //TODO: fix types here
+    };
+    const result = await presentationVerifier.verifyPresentation(vp, verifyOptions);
+    if (!result.checks.includes('proof') || result.errors.length > 0) {
+      return {
+        response: {
+          errors: [
+            `${this.transactionId}: verification of presentation proof not successful`,
+            ...result.errors
+          ]
+        },
+        callback: []
+      };
+    }
+
+    const errors = this.validatePresentation(vp);
 
     if (errors.length > 0) {
       return {
@@ -171,7 +189,7 @@ export class TransactionEntity {
       if (this.presentationReview.reviewStatus == PresentationReviewStatus.pending) {
         // In this case, this is the first submission to the exchange
         if (!this.presentationSubmission) {
-          this.presentationSubmission = new PresentationSubmissionEntity(presentation);
+          this.presentationSubmission = new PresentationSubmissionEntity(vp);
         }
         return {
           response: {
@@ -205,7 +223,7 @@ export class TransactionEntity {
       }
     }
     if (service.type == VpRequestInteractServiceType.unmediatedPresentation) {
-      this.presentationSubmission = new PresentationSubmissionEntity(presentation);
+      this.presentationSubmission = new PresentationSubmissionEntity(vp);
       return {
         response: {
           errors: []
