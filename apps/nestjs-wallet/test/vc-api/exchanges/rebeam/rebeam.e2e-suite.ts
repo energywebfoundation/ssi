@@ -20,11 +20,6 @@ export const rebeamExchangeSuite = () => {
     const callbackUrlBase = 'http://example.com';
     const callbackUrlPath = '/endpoint';
     const presentationExchange = new RebeamCpoNode(`${callbackUrlBase}${callbackUrlPath}`);
-    // const expectedResponseBody = {
-    //   exchangeId: presentationExchange.getExchangeId(),
-    //   submittedVps: [],
-    //   result:
-    // }
     const scope = nock(callbackUrlBase).post(callbackUrlPath).reply(201);
     const exchangeDef = presentationExchange.getExchangeDefinition();
     await request(app.getHttpServer()).post(`${vcApiBaseUrl}/exchanges`).send(exchangeDef).expect(201);
