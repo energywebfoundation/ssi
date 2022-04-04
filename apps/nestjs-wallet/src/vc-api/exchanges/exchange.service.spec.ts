@@ -123,7 +123,8 @@ describe('ExchangeService', () => {
   });
 
   describe('continueExchange', () => {
-    it('should send transaction dto if callback is configured', async () => {
+    // TODO: Write after https://github.com/energywebfoundation/ssi/pull/46 as this will make it easier to test
+    it.skip('should send transaction dto if callback is configured', async () => {
       const transactionId = 'test-tx';
       // const exchangeDef: ExchangeDefinitionDto = {
       //   exchangeId: exchangeId,
