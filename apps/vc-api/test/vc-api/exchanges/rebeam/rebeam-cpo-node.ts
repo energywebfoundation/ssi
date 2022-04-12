@@ -51,51 +51,43 @@ export class RebeamCpoNode {
                     }
                   },
                   {
-                    "id":"charging_data",
-                    "name":"Data needs to be signed by the user",
-                    "purpose":"Data needs to be signed by the user to end the charging",
-                    "constraints":{
-                       "is_holder":true,
-                       "fields":[
-                          {
-                             "path":[
-                                "$.credentialSubject.chargingData.contractDID"
-                             ],
-                             "filter":{
-                                "type":"string",
-                                "const":"did:ethr:blxm-local:0x429eCb49aAC34E076f19D5C91d7e8B956AEf9c08"
-                             }
-                          },
-                          {
-                             "path":[
-                                "$.credentialSubject.chargingData.evseId"
-                             ],
-                             "filter":{
-                                "type":"string",
-                                "const":"123"
-                             }
-                          },
-                          {
-                             "path":[
-                                "$.credentialSubject.chargingData.timeStamp"
-                             ],
-                             "filter":{
-                                "type":"string",
-                                "const":"2022-04-05T15:45:35.346Z"
-                             }
-                          },
-                          {
-                             "path":[
-                                "$.credentialSubject.chargingData.kwh"
-                             ],
-                             "filter":{
-                                "type":"string",
-                                "const":"5"
-                             }
+                    id: 'charging_data',
+                    name: 'Data needs to be signed by the user',
+                    purpose: 'Data needs to be signed by the user to end the charging',
+                    constraints: {
+                      subject_is_issuer: 'required',
+                      fields: [
+                        {
+                          path: ['$.credentialSubject.chargingData.contractDID'],
+                          filter: {
+                            type: 'string',
+                            const: 'did:ethr:blxm-local:0x429eCb49aAC34E076f19D5C91d7e8B956AEf9c08'
                           }
-                       ]
+                        },
+                        {
+                          path: ['$.credentialSubject.chargingData.evseId'],
+                          filter: {
+                            type: 'string',
+                            const: '123'
+                          }
+                        },
+                        {
+                          path: ['$.credentialSubject.chargingData.timeStamp'],
+                          filter: {
+                            type: 'string',
+                            const: '2022-04-05T15:45:35.346Z'
+                          }
+                        },
+                        {
+                          path: ['$.credentialSubject.chargingData.kwh'],
+                          filter: {
+                            type: 'string',
+                            const: '5'
+                          }
+                        }
+                      ]
                     }
-                 }
+                  }
                 ]
               }
             }
