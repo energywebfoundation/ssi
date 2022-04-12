@@ -30,6 +30,12 @@ export const rebeamExchangeSuite = () => {
       exchangeEndpoint,
       presentationExchange.queryType
     );
+    // https://energyweb.atlassian.net/browse/IVA-9
+    /*
+     const presDef = presentationVpRequest.credentialQuery.presentationDefinition
+     const chargingDataCredential = createCredential(presDef);
+     const chargingDataVC = wallet.issueCredential(chargingDataCredential);
+    */
     const presentationExchangeContinuationEndpoint = getContinuationEndpoint(presentationVpRequest);
     expect(presentationExchangeContinuationEndpoint).toContain(exchangeEndpoint);
 
@@ -39,7 +45,7 @@ export const rebeamExchangeSuite = () => {
         'https://www.w3.org/2018/credentials/examples/v1'
       ],
       type: ['VerifiablePresentation'],
-      verifiableCredential: [issuanceVp.vp.verifiableCredential[0]],
+      verifiableCredential: [issuanceVp.vp.verifiableCredential[0]], //TODO: Add self-signed VC with "charging_data" -> chargingDataVC
       holder: holderDID.id
     };
     const issuanceOptions: IssueOptionsDto = {
