@@ -9,60 +9,23 @@
 [![CI](https://github.com/energywebfoundation/ssi/actions/workflows/main.yml/badge.svg?event=push)](https://github.com/energywebfoundation/ssi/actions/workflows/main.yml)
 
 ## Introduction
-This repository provides *sample* Self-Sovereign-Identity (SSI) wallet applications and libraries to enable these apps.
-These are currently provided for demonstration purposes.
-Currently, only a NestJs wallet is provided but more may be added in the future.
+This repository provides *sample* Self-Sovereign-Identity (SSI) wallet components and libraries.
+These are currently provided for demonstration and proof-of-concept purposes.
 The functionality is mostly generic functionality based on cryptography and SSI standards,
 however the intention is that it can be used to enable more specific energy industry use cases.
 
-These SSI wallet apps are a component of the [Energy Web Decentralized Operating System](#ew-dos).
+These SSI wallet components are a part of the [Energy Web Decentralized Operating System](#ew-dos).
 For more information about SSI at EWF, see the [EWF Gitbook page on SSI](https://energy-web-foundation.gitbook.io/energy-web/foundational-concepts/self-sovereign-identity).
 
-## Technology Decisions
-### Rationale for Spruce DIDKit
-Spruce's DIDKit is used for DID generation and credential issuance+verification.
-The rational for Spruce's use is that it:
-- Is written in Rust and so suitable for use in any mobile app development framework
-- Supports JSON-LD and JWT credential issuance and verification
-- Supports did:key, did:ethr, did:web
-- DIDKit (and its libraries) are open-source
+## Components
 
-### Rationale for NestJS
-- Main JS server framework used at EWF
+### Apps
+#### VC-API
+The [vc-api app](./apps/vc-api) is a NestJs implementation of the [W3C Credentials Community Group](https://w3c-ccg.github.io/) [VC API Specification](https://w3c-ccg.github.io/vc-api).
 
-## Component Diagram
-
-![architecture](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/energywebfoundation/ssi/master/vc-api.component.puml)
-
-## NestJS Wallet 
-
-The NestJS Wallet can be considered a [Cloud Wallet](https://w3c-ccg.github.io/universal-wallet-interop-spec/#cloud-wallets).
-
-### VC-API Module
-(Partial) implementation of the [W3C Credentials Community Group](https://w3c-ccg.github.io/) [VC API Specification](https://w3c-ccg.github.io/universal-wallet-interop-spec/).
-This spec provides a data model and HTTP protocols to issue, verify, present, and exchange verifiable credentials on the Web.
-The [W3C Credentials Community Group](https://w3c-ccg.github.io/) also publishes [use cases for VC API](https://w3c-ccg.github.io/vc-api-use-cases/index.html).
-
-#### Standard vs Custom Endpoints
-
-Not all of the endpoints available from the VC-API module are standard.
-
-| Purpose | Standard | Spec Link
-| --- | --- | --- |
-| Issue Credential | Yes | https://w3c-ccg.github.io/vc-api/#issue-credential
-| Prove Presentation | Yes | https://w3c-ccg.github.io/vc-api/#prove-presentation
-| Initiate Exchange | Yes | https://w3c-ccg.github.io/vc-api/#initiate-exchange
-| Continue Exchange | Yes | https://w3c-ccg.github.io/vc-api/#continue-exchange
-| Configure Exchange | No | 
-| Query Submissions | No |  
-| Submit Processing Result | No |
-
-### DID Module
-
-The DID Module in the [vc-api](./apps/vc-api) offers the generation of DIDs and tracking the data resolvable in their DID documents.
-
-#### DID Generation
-The DID generation logic is encapsulated in a [did](./libraries/did) library.
+### Libraries
+#### DID Library
+The DID generation logic is encapsulated in the [did](./libraries/did) library.
 This potentially allows the logic to be shared between wallets of various form-factors (e.g. nodejs wallet, a web wallet, another nodejs framework, etc in the future).
 
 Often DID generation requires the generation of a new public-private keypair.
@@ -74,13 +37,21 @@ const key = generateKey(); // Generate a key pair and return the public key nece
 const did = generateDID(key); // Code from ssi-did lib. Returns initial DID Document of DID, including Verification Methods
 ```
 
-### Key Module
-The key module is kept separate from the DID module because it's plausible that key module will be provided by a different service (i.e. a dedicated KMS) at some point.
+#### KMS Interface
 
-## NestJS Wallet Implementation Notes
-- Uses **in-memory DB** for now for app execution and tests.
-The rationale for this for executions that, as the app is only being used in a demo context, it is not necessary to persist data between executions.
-The rationale for this for tests (rather than mocking the db) is that it speeds test writing time, elimates mocking boilerplate and possibly buggy DB mocks.
+## Technology Decisions
+### Rationale for Spruce DIDKit
+Spruce's DIDKit is used for DID generation and credential issuance & verification.
+The rational for DIDKit's use is that it:
+- Is written in Rust and so suitable for use in any mobile app development framework
+- Supports JSON-LD and JWT credential issuance and verification
+- Supports did:key, did:ethr, did:web
+- DIDKit (and its libraries) are open-source
+
+## Component Diagram
+
+![architecture](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/energywebfoundation/ssi/master/vc-api.component.puml)
+
 
 ## Credential Exchange Flow
 
@@ -194,6 +165,8 @@ PNPM is required. See installation instructions here: https://pnpm.js.org/instal
 
 Rush is required. See installation instructions here: https://rushjs.io/pages/intro/get_started/
 
+### Install
+
 Use rush to install dependencies (not the package manager directly).
 In other words, do not run `npm install` or `pnpm install`.
 This is because [Rush optimizes](https://rushjs.io/pages/developer/new_developer/) by installing all of the dependency packages in a central folder, and then uses symlinks to create the “node_modules” folder for each of the projects.
@@ -202,68 +175,27 @@ This is because [Rush optimizes](https://rushjs.io/pages/developer/new_developer
 $ rush install
 ```
 
-### Compile & Build
+### Build
+
 Use rush to build.
 
 ```sh
 $ rush build
 ```
 
-## Run
-To run the `vc-api` app
-``` sh
-$ cd apps/vc-api
-$ pnpm run start
-```
-
-### Swagger/OpenAPI
-
-After starting the `vc-api` app, 
-the Swagger/OpenAPI test page can be see at `{appURL}/api` (`http://localhost:3000/api` if running locally)
-
 ## Testing
-To run all tests in one command, a rush script has been added to `./common/config/rush/command-line.json` 
+To run tests across all apps and libraries in one command, a rush script has been added to `./common/config/rush/command-line.json` 
 ``` sh
 $ rush test
 ```
 
-### NestJS Wallet Tests
-The NestJS wallet app has separate unit and e2e tests.
-See NestJS [testing documentation](https://docs.nestjs.com/fundamentals/testing#testing) for more information.
-These can be run with separate commands if desired.
-
-First navigate to the app
-``` sh
-$ cd apps/vc-api
-```
-
-Then, to run **unit** tests
-``` sh
-$ pnpm test:unit
-```
-
-Or, to run **e2e** tests
-``` sh
-$ pnpm test:e2e
-```
-
-## Documentation
-
-## Who is Using This Repo?
-
 ## Contributing Guidelines 
 See [contributing.md](./contributing.md)
 
-
 ## Questions and Support
-For questions and support please use Energy Web's [Discord channel](https://discord.com/channels/706103009205288990/843970822254362664) 
+For questions and support please use the Github issues.
 
-Or reach out to our contributing team members
-
-- TeamMember: email address@energyweb.org
-
-
-# EW-DOS
+## EW-DOS
 The Energy Web Decentralized Operating System is a blockchain-based, multi-layer digital infrastructure. 
 
 The purpose of EW-DOS is to develop and deploy an open and decentralized digital operating system for the energy sector in support of a low-carbon, customer-centric energy future. 
