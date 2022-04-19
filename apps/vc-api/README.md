@@ -1,7 +1,13 @@
+# NestJs VC-API
+
 ## Description
 
-This app [vc-api app](./apps/vc-api) is a NestJs implementation of the [W3C Credentials Community Group](https://w3c-ccg.github.io/) [VC API Specification](https://w3c-ccg.github.io/vc-api).
+This [vc-api app](./apps/vc-api) is a NestJs implementation of the [W3C Credentials Community Group](https://w3c-ccg.github.io/) [VC API Specification](https://w3c-ccg.github.io/vc-api).
 [Nest](https://github.com/nestjs/nest) is a Typescript framework for server-side applications.
+
+## Tutorials
+
+See [tutorials](./docs/tutorials/).
 
 ## Installation
 
