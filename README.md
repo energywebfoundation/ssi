@@ -39,6 +39,24 @@ const did = generateDID(key); // Code from ssi-did lib. Returns initial DID Docu
 
 #### KMS Interface
 
+## Relationship to other EWF components
+
+### iam-client-lib
+[iam-client-lib](https://github.com/energywebfoundation/iam-client-lib/) provides SSI related functions such as interaction with EWF's Switchboard role credential definitions, credential request and issuance and connection to the ssi-hub.
+It can be used as a client library to this vc-api (for example, to start an exchange).
+
+### ssi-hub
+[ssi-hub](https://github.com/energywebfoundation/ssi-hub)'s persistence of issued credentials, requested credentials and DID relationships could be integrated with the code in this repository.
+
+### ew-did-registry
+[ew-did-registry](https://github.com/energywebfoundation/ew-did-registry) provides ssi related libraries written by Energy Web.
+As such, there is currently some overlap between ew-did-registry libraries and the code in this repository.
+For example:
+- The DID creation code in the DID library could provided by ew-did-registry
+- [ew-did-registry credential-interface](https://github.com/energywebfoundation/ew-did-registry/tree/development/packages/credentials-interface) provides interfaces with could be used within this repository
+
+The overlap was created due to the prototyping nature of this repository and will be reduced in the future.
+
 ## Technology Decisions
 ### Rationale for Spruce DIDKit
 Spruce's DIDKit is used for DID generation and credential issuance & verification.
@@ -211,18 +229,6 @@ For a deep-dive into the motivation and methodology behind our technical solutio
 - [Energy Web White Paper on Vision and Purpose](https://www.energyweb.org/reports/EWDOS-Vision-Purpose/)
 - [Energy Web  White Paper on Technology Detail](https://www.energyweb.org/wp-content/uploads/2020/06/EnergyWeb-EWDOS-PART2-TechnologyDetail-202006-vFinal.pdf)
 
-## Relationship to other EWF components
-
-### iam-client-lib
-[iam-client-lib](https://github.com/energywebfoundation/iam-client-lib/) provides SSI related functions such as interaction with EWF's Switchboard role credential definitions, credential request and issuance and connection to the ssi-hub.
-It could be used as a client library to this wallet.
-
-### ssi-hub
-[ssi-hub](https://github.com/energywebfoundation/ssi-hub)'s persistence of issued credentials, requested credentials and DID relationships could be integrated with the code in this repository.
-
-### ew-did-registry
-[ew-did-registry](https://github.com/energywebfoundation/ew-did-registry) Though some code should be integrated between ew-did-registry and this repository,
-it is currently useful to have the sample wallets in a separate application to avoid a circular dependency where `iam-client-lib` depends on `ssi/ew-did-registry` which depends on `iam-client-lib`.
 
 ## Connect with Energy Web
 - [Twitter](https://twitter.com/energywebx)
