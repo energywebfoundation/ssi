@@ -224,20 +224,6 @@ It could be used as a client library to this wallet.
 [ew-did-registry](https://github.com/energywebfoundation/ew-did-registry) Though some code should be integrated between ew-did-registry and this repository,
 it is currently useful to have the sample wallets in a separate application to avoid a circular dependency where `iam-client-lib` depends on `ssi/ew-did-registry` which depends on `iam-client-lib`.
 
-## Relevant SSI Ecosystem Entities
-### W3C Credentials Community Group
-The [W3C Credentials Community Group](https://w3c-ccg.github.io/) provides drafting and incubating Internet specifications for further standardization and prototyping and testing reference implementations.
-Several of these specifications are used to guide the development of the wallets in this repository.
-Though these specifications are not on the W3C standards track, adherance to them is valuable because:
-- It leverages the design and experience of a collaboration of experts in the SSI credentials ecosystem
-- It increases interoperability and the likelihood that apps/components could be swapped for other implementations
-
-#### Universal Wallet Interop Spec
-The [W3C Credentials Community Group](https://w3c-ccg.github.io/) [Universal Wallet Interop Specification](https://w3c-ccg.github.io/universal-wallet-interop-spec/) provides a model for how wallet data could be made interoperable between other wallet implementations.
-
-### DIF Wallet Security Group
-The [DIF Wallet Secruity Group](https://identity.foundation/working-groups/wallet-security.html) is helping defined SSI wallet best practices.
-
 ## Connect with Energy Web
 - [Twitter](https://twitter.com/energywebx)
 - [Discord](https://discord.com/channels/706103009205288990/843970822254362664)
