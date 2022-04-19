@@ -117,7 +117,7 @@ Note down the `id` property. This is the suppliers's DID.
 ```
 
 After having created a new DID, the supplier can then issue a credential to the customer DID that was previously created.
-Typically, a supplier would confirm that the customer in question controls the DID first, however this step is currently omitted.
+The supplier may want to confirm that the customer in question controls the DID first, however this step is currently omitted.
 
 Navigate to the `Vc Api Controller issue Credential` request under the `vc-api` folder.
 Fill in, in the JSON below, the Customer DID as the `subject` id, the Supplier DID as the `issuer` id and the `verificationMethod.id` from the DID document of the Supplier as the `options.verificationMethod` from the DIDs that were generated in previous steps.
