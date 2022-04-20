@@ -53,7 +53,7 @@ We therefore assume that the resident is connected to the autority portal and th
 1. The authority portal authenticates the current user as a known resident.
 1. The resident requests a "PermanentResidentCard" credential on the autority portal and provides a DID of their choosing.
 1. The authority portal issues a "PermanentResidentCard" containing the resident's information to that DID and displays a QR code allowing the resident's wallet to receive the credential.
-1. The resident's scans the QR code with their mobile wallet. The wallet then contacts the autority portal again to receive the "PermanentResidentCard" credential.
+1. The resident scans the QR code with their mobile wallet. The wallet then contacts the autority portal again to receive the "PermanentResidentCard" credential.
 
 #### Presentation Business workflow
 1. The authority portal displays a QR code requesting a presentation containing the "PermanentResidentCard" credential
@@ -157,7 +157,7 @@ After having created a new DID, the authority portal can then issue a credential
 The authority portal may want to confirm that the resident in question controls the DID first, however this step is currently omitted.
 
 Navigate to the `Vc Api Controller issue Credential` request under the `vc-api` folder.
-Fill in, in the JSON below, the customer DID as the `subject` id, the authority portal DID as the `issuer` id and the `verificationMethod.id` from the DID document of the authority portal as the `options.verificationMethod` from the DIDs that were generated in previous steps.
+Fill in, in the JSON below, the resident DID as the `subject` id, the authority portal DID as the `issuer` id and the `verificationMethod.id` from the DID document of the authority portal as the `options.verificationMethod` from the DIDs that were generated in previous steps.
 
 ```json
 {
@@ -240,5 +240,281 @@ The response should have a `201` code and have a body similar to the json below.
         "jws": "eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..wLkX00RFWH_bC-1Xgf_6aWFlbTSsbiQZcn94gPV2cDejocflLqybitUzM7HenxqoW6S6nhrC0AN5CYplBXEhCw"
     },
     "expirationDate": "2029-12-03T12:19:52Z"
+}
+```
+### Permanent Resident Card verification
+
+#### [Verifier] Configure Credential Exchange
+
+The Verifier needs to configure the parameters of the credential exchange.
+To do this, navigate to the `Vc Api Controller create Exchange` under `vc-api/exchanges` and send with the json below.
+In the json below, `exchangeId` is an id unique to this exchange, for example a UUID.
+
+```json
+{
+   "exchangeId":"<SOME UNIQUE ID>",
+   "query":[
+      {
+         "type":"PresentationDefinition",
+         "credentialQuery":[
+            {
+               "presentationDefinition":{
+                    "id":"286bc1e0-f1bd-488a-a873-8d71be3c690e",
+                    "input_descriptors":[
+                        {
+                          "id":"permanent_resident_card",
+                          "name":"Permanent Resident Card",
+                          "purpose":"We can only allow permanent residents into the application"
+                        }
+                    ]
+                }
+            }
+         ]
+      }
+   ],
+   "interactServices":[
+      {
+         "type":"UnmediatedHttpPresentationService2021"
+      }
+   ],
+   "isOneTime":true,
+   "callback":[]
+}
+```
+
+The response should have a `201` code and have an empty errors array.
+
+#### [Verifier] Provide an exchange invitation to the resident
+
+Having configured the exchange, the Verifier must then ask the resident to present the required credentials.
+
+```json
+{
+  "outOfBandInvitation": {
+    "type": "https://example.com/out-of-band/vc-api-exchange",
+    "body": {
+      "url": "http://localhost:3000/vc-api/exchanges/<FILL WITH YOUR EXCHANGE ID>"
+    }
+  }
+}
+```
+
+#### [Resident] Present required credentials
+
+Initiate the credential exchange by POSTing to the `url` directly in Postman or by navigating to the `Vc Api Controller initiate Exchange` request in the collection.
+If using the collection request, fill in the `exchangeId` param to be the value used for the exchange Id by the Verifier.
+
+Send the request. A similar json should be returned in the response body:
+```json
+{
+    "errors": [],
+    "vpRequest": {
+        "challenge": "4e5aad7c-db24-4fd1-9eeb-26edb36917f1",
+        "query": [
+            {
+                "type": "PresentationDefinition",
+                "credentialQuery": [
+                    {
+                        "presentationDefinition": {
+                            "id": "286bc1e0-f1bd-488a-a873-8d71be3c690e",
+                            "input_descriptors": [
+                                {
+                                    "id": "permanent_resident_card",
+                                    "name": "Permanent Resident Card",
+                                    "purpose": "We can only allow permanent residents into the application"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        ],
+        "interact": {
+            "service": [
+                {
+                    "type": "UnmediatedHttpPresentationService2021",
+                    "serviceEndpoint": "http://localhost:3000/vc-api/exchanges/1/0760682b-40c4-43ad-aea7-c8c8ee1c9035"
+                }
+            ]
+        }
+    }
+}
+```
+The `challenge` value and the final fragment of the `serviceEndpoint`, which is the `transaction id`, should be different.
+
+The response contains a VP Request, which is a specification defined here: https://w3c-ccg.github.io/vp-request-spec/.
+You can see that the VP Request's `query` section contains a `PresentationDefinition` query.
+This means that the holder must provide credentials which satisfy the `presentationDefinition`.
+
+Also note the `service` in the `interact` section of the VP Request.
+This is providing the location at which we can continue the credential request flow once we have met the `query` requirements.
+      
+### [Resident] Create the required presentation
+
+Then, open the `Vc Api Controller prove Presentation` request under the `vc-api/presentations/prove` folder.
+In the request body, use the following json, filled with your own values.
+The `challenge` should be value received from the VP Request in the previous step.
+
+```json
+{
+    "presentation": {
+        "@context":[
+            "https://www.w3.org/2018/credentials/v1",
+            "https://www.w3.org/2018/credentials/examples/v1"
+        ],
+        "type":[
+            "VerifiablePresentation"
+        ],
+        "verifiableCredential":[
+            "<FILL WITH VC RECEIVED FROM AUTHORITY>"
+        ],
+        "holder": "<FILL WITH RESIDENT DID>"
+    },
+    "options": {
+        "verificationMethod": "<FILL WITH RESIDENT DID VERIFICATION METHOD",
+        "proofPurpose": "authentication",
+        "challenge": "<FILL WITH CHALLENGE FROM VP REQUEST>"
+    }
+}
+```
+
+For example, your filled json would look like:
+
+```json
+{
+   "presentation":{
+      "@context":[
+         "https://www.w3.org/2018/credentials/v1",
+         "https://www.w3.org/2018/credentials/examples/v1"
+      ],
+      "type":[
+         "VerifiablePresentation"
+      ],
+      "verifiableCredential":[
+         {
+            "@context":[
+               "https://www.w3.org/2018/credentials/v1",
+               "https://w3id.org/citizenship/v1"
+            ],
+            "id":"https://issuer.oidp.uscis.gov/credentials/83627465",
+            "type":[
+               "VerifiableCredential",
+               "PermanentResidentCard"
+            ],
+            "credentialSubject":{
+               "id":"did:key:z6Mkpie6MAfQgBkR7jbna6Co1pnFy2JzEuUcZCxgr5PaLm36",
+               "givenName":"JOHN",
+               "image":"data:image/png;base64,iVBORw0KGgo...kJggg==",
+               "birthDate":"1958-07-17",
+               "birthCountry":"Bahamas",
+               "familyName":"SMITH",
+               "lprNumber":"999-999-999",
+               "gender":"Male",
+               "residentSince":"2015-01-01",
+               "type":[
+                  "PermanentResident",
+                  "Person"
+               ],
+               "lprCategory":"C09",
+               "commuterClassification":"C1"
+            },
+            "issuer":"did:key:z6MktaijU1pi636ixvbYyZSrHN8rJpTXif4EFifD2oGMhT5d",
+            "issuanceDate":"2019-12-03T12:19:52Z",
+            "proof":{
+               "type":"Ed25519Signature2018",
+               "proofPurpose":"assertionMethod",
+               "verificationMethod":"did:key:z6MktaijU1pi636ixvbYyZSrHN8rJpTXif4EFifD2oGMhT5d#z6MktaijU1pi636ixvbYyZSrHN8rJpTXif4EFifD2oGMhT5d",
+               "created":"2022-04-19T20:59:22.020Z",
+               "jws":"eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..wLkX00RFWH_bC-1Xgf_6aWFlbTSsbiQZcn94gPV2cDejocflLqybitUzM7HenxqoW6S6nhrC0AN5CYplBXEhCw"
+            },
+            "expirationDate":"2029-12-03T12:19:52Z"
+         }
+      ],
+      "holder":"did:key:z6Mkpie6MAfQgBkR7jbna6Co1pnFy2JzEuUcZCxgr5PaLm36"
+   },
+   "options":{
+      "verificationMethod":"did:key:z6Mkpie6MAfQgBkR7jbna6Co1pnFy2JzEuUcZCxgr5PaLm36#z6Mkpie6MAfQgBkR7jbna6Co1pnFy2JzEuUcZCxgr5PaLm36",
+      "proofPurpose":"authentication",
+      "challenge":"4e5aad7c-db24-4fd1-9eeb-26edb36917f1"
+   }
+}
+```
+
+Send the request. The response should be a verifiable presentation, similar to the one below.
+```json
+{
+    "@context": [
+        "https://www.w3.org/2018/credentials/v1",
+        "https://www.w3.org/2018/credentials/examples/v1"
+    ],
+    "type": [
+        "VerifiablePresentation"
+    ],
+    "verifiableCredential": [
+        {
+            "@context": [
+                "https://www.w3.org/2018/credentials/v1",
+                "https://w3id.org/citizenship/v1"
+            ],
+            "id": "https://issuer.oidp.uscis.gov/credentials/83627465",
+            "type": [
+                "VerifiableCredential",
+                "PermanentResidentCard"
+            ],
+            "credentialSubject": {
+                "id": "did:key:z6Mkpie6MAfQgBkR7jbna6Co1pnFy2JzEuUcZCxgr5PaLm36",
+                "residentSince": "2015-01-01",
+                "type": [
+                    "PermanentResident",
+                    "Person"
+                ],
+                "lprNumber": "999-999-999",
+                "familyName": "SMITH",
+                "birthDate": "1958-07-17",
+                "commuterClassification": "C1",
+                "lprCategory": "C09",
+                "givenName": "JOHN",
+                "gender": "Male",
+                "birthCountry": "Bahamas",
+                "image": "data:image/png;base64,iVBORw0KGgo...kJggg=="
+            },
+            "issuer": "did:key:z6MktaijU1pi636ixvbYyZSrHN8rJpTXif4EFifD2oGMhT5d",
+            "issuanceDate": "2019-12-03T12:19:52Z",
+            "proof": {
+                "type": "Ed25519Signature2018",
+                "proofPurpose": "assertionMethod",
+                "verificationMethod": "did:key:z6MktaijU1pi636ixvbYyZSrHN8rJpTXif4EFifD2oGMhT5d#z6MktaijU1pi636ixvbYyZSrHN8rJpTXif4EFifD2oGMhT5d",
+                "created": "2022-04-19T20:59:22.020Z",
+                "jws": "eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..wLkX00RFWH_bC-1Xgf_6aWFlbTSsbiQZcn94gPV2cDejocflLqybitUzM7HenxqoW6S6nhrC0AN5CYplBXEhCw"
+            },
+            "expirationDate": "2029-12-03T12:19:52Z"
+        }
+    ],
+    "proof": {
+        "type": "Ed25519Signature2018",
+        "proofPurpose": "authentication",
+        "challenge": "4e5aad7c-db24-4fd1-9eeb-26edb36917f1",
+        "verificationMethod": "did:key:z6Mkpie6MAfQgBkR7jbna6Co1pnFy2JzEuUcZCxgr5PaLm36#z6Mkpie6MAfQgBkR7jbna6Co1pnFy2JzEuUcZCxgr5PaLm36",
+        "created": "2022-04-20T08:22:05.397Z",
+        "jws": "eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..Wlkje3vmWkv3xkgWpr6fppiM9CW7UdrHJq4CFzMY5yKIkZ_llbYR57_ntBiXz0xjw2vU3XpvKgp4XKUmQ8EjDA"
+    },
+    "holder": "did:key:z6Mkpie6MAfQgBkR7jbna6Co1pnFy2JzEuUcZCxgr5PaLm36"
+}
+```
+
+### [Resident] Continue the exchange
+
+Continue the exchange by sending the VP in response to the VP Request that was previously received.
+
+To do this, open the `Vc Api Controller continue Exchange` request in the `vc-api/exchanges/{exchange Id}` folder.
+In the request params, use the `transactionId` and `exchangeId` from the `serviceEndpoint` in the VP Request.
+
+In the request body, copy the VP that was obtained from the previous step.
+
+
+Send the request. The response should have a `200` status code and have an empty `errors` array, as shown below.
+```json
+{
+    "errors": []
 }
 ```
