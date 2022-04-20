@@ -72,11 +72,11 @@ const chargingCredential = {
   '@context': [
     'https://www.w3.org/2018/credentials/v1',
     {
-      chargingData: {
-        contractDID: 'did:ethr:blxm-dev:0x05e1F4151fA4b65f07c103904e3DF4c1741AdcA3',
-        evseId: '892',
-        timestamp: '2022-04-13T08:14:04.803Z'
-      }
+      rb: 'https://energyweb.org/rebeam-context-2022#',
+      chargingData: 'rb:chargingData',
+      contractDID: 'rb:contractDID',
+      evseId: 'rb:evseId',
+      timestamp: 'rb:timestamp'
     }
   ],
   id: 'urn:uuid:7f94d397-3e70-4a43-945e-1a13069e636f',
@@ -100,7 +100,7 @@ const verifiableChargingCredential = {
     verificationMethod:
       'did:key:z6MkoB84PJkXzFpbqtfYV5WqBKHCSDf7A1SeepwzvE36QvCF#z6MkoB84PJkXzFpbqtfYV5WqBKHCSDf7A1SeepwzvE36QvCF',
     created: '2021-11-16T14:52:19.514Z',
-    jws: 'eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..zgBHxtdwo17BK6EZCQik9Bxa_rLn-B2DgK3bkCVFZWQqlWb-W7goxPWBqidUrr2iufYoFdsdQwmoYBeu973YBA'
+    jws: 'eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NC…njvHeAh4RAww0WRZ0MrSY89ZQrcws3_r-fmJTGvjzB65Dg'
   }
 };
 const presentation: Presentation = {
