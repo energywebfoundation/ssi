@@ -67,6 +67,42 @@ const vc: VerifiableCredential = {
     jws: 'eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..zgBHxtdwo17BK6EZCQik9Bxa_rLn-B2DgK3bkCVFZWQqlWb-W7goxPWBqidUrr2iufYoFdsdQwmoYBeu973YBA'
   }
 };
+
+const chargingCredential = {
+  '@context': [
+    'https://www.w3.org/2018/credentials/v1',
+    {
+      chargingData: {
+        contractDID: 'did:ethr:blxm-dev:0x05e1F4151fA4b65f07c103904e3DF4c1741AdcA3',
+        evseId: '892',
+        timestamp: '2022-04-13T08:14:04.803Z'
+      }
+    }
+  ],
+  id: 'urn:uuid:7f94d397-3e70-4a43-945e-1a13069e636f',
+  type: ['VerifiableCredential'],
+  credentialSubject: {
+    id: 'did:example:d23dd687a7dc6787646f2eb98d0',
+    chargingData: {
+      contractDID: 'did:ethr:blxm-dev:0x05e1F4151fA4b65f07c103904e3DF4c1741AdcA3',
+      evseId: '892',
+      timestamp: '2022-04-13T08:14:04.803Z'
+    }
+  },
+  issuer: did,
+  issuanceDate: '2022-03-18T08:57:32.477Z'
+};
+const verifiableChargingCredential = {
+  ...chargingCredential,
+  proof: {
+    type: 'Ed25519Signature2018',
+    proofPurpose: 'assertionMethod',
+    verificationMethod:
+      'did:key:z6MkoB84PJkXzFpbqtfYV5WqBKHCSDf7A1SeepwzvE36QvCF#z6MkoB84PJkXzFpbqtfYV5WqBKHCSDf7A1SeepwzvE36QvCF',
+    created: '2021-11-16T14:52:19.514Z',
+    jws: 'eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..zgBHxtdwo17BK6EZCQik9Bxa_rLn-B2DgK3bkCVFZWQqlWb-W7goxPWBqidUrr2iufYoFdsdQwmoYBeu973YBA'
+  }
+};
 const presentation: Presentation = {
   '@context': ['https://www.w3.org/2018/credentials/v1', 'https://www.w3.org/2018/credentials/examples/v1'],
   type: ['VerifiablePresentation'],
@@ -121,7 +157,7 @@ describe('CredentialsService', () => {
     expect(service).toBeDefined();
   });
 
-  it.each([[credential, vc]])(
+  it.each([[chargingCredential, verifiableChargingCredential]])(
     'credential %p can be issued to be a vc %p',
     async (credential: CredentialDto, expectedVc: VerifiableCredential) => {
       const verificationMethod = await keyToVerificationMethod('key', JSON.stringify(key));
@@ -141,6 +177,7 @@ describe('CredentialsService', () => {
       });
       jest.spyOn(keyService, 'getPrivateKeyFromKeyId').mockResolvedValueOnce(key);
       const vc = await service.issueCredential({ credential, options: issuanceOptions });
+      console.log('issued credentials:', vc);
       expect(vc['proof']['jws']).toBeDefined();
       /**
        * Delete jws from proof as it is not deterministic
