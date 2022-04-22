@@ -61,7 +61,7 @@ export const residentCardExchangeSuite = () => {
 
     // As the issuer, get the transaction
     const urlComponents = issuanceExchangeContinuationEndpoint.split('/');
-    const transactionId = urlComponents[urlComponents.length - 1];
+    const transactionId = urlComponents.pop();
     const transaction = await walletClient.getExchangeTransaction(exchange.getExchangeId(), transactionId);
 
     // TODO: have the issuer get the review and approve. For now, just issue directly
