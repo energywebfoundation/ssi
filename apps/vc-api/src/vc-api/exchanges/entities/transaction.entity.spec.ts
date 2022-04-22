@@ -38,12 +38,14 @@ describe('TransactionEntity', () => {
     }
   };
 
+  const submissionVerificationResult = {
+    checks: ['proof'],
+    warnings: [],
+    errors: []
+  };
+
   const mockSubmissionVerifier: SubmissionVerifier = {
-    verifyVpRequestSubmission: jest.fn().mockResolvedValue({
-      checks: ['proof'],
-      warnings: [],
-      errors: []
-    })
+    verifyVpRequestSubmission: jest.fn().mockResolvedValue(submissionVerificationResult)
   };
 
   describe('mediatedPresentation interact service type', () => {
@@ -69,7 +71,8 @@ describe('TransactionEntity', () => {
       it('should process a presentation submission', async () => {
         const transaction = new TransactionEntity(transactionId, exchangeId, vpRequest, configuredCallback);
         const { callback, response } = await transaction.processPresentation(vp, mockSubmissionVerifier);
-        expect(transaction.presentationSubmission.vp).toEqual(vp); // Save the submitted vp
+        expect(transaction.presentationSubmission.vp).toEqual(vp);
+        expect(transaction.presentationSubmission.verificationResult).toEqual(submissionVerificationResult);
         expect(transaction.presentationReview.reviewStatus).toEqual(PresentationReviewStatus.pendingReview);
         expect(transaction.presentationReview.VP).toEqual(undefined); // Issuer hasn't submitted a VP yet
       });
@@ -97,6 +100,7 @@ describe('TransactionEntity', () => {
       expect(response.errors).toHaveLength(0);
       expect(response.vpRequest).toBeUndefined();
       expect(response.vp).toBeUndefined(); // No issued credentials in the VP
+      expect(transaction.presentationSubmission.verificationResult).toEqual(submissionVerificationResult);
       expect(transaction.presentationSubmission.vp).toEqual(vp);
     });
   });

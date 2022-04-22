@@ -123,7 +123,7 @@ export class TransactionEntity {
       if (this.presentationReview.reviewStatus == PresentationReviewStatus.pendingSubmission) {
         // Don't overwrite a previous submitted submission
         if (!this.presentationSubmission) {
-          this.presentationSubmission = new PresentationSubmissionEntity(presentation);
+          this.presentationSubmission = new PresentationSubmissionEntity(presentation, verificationResult);
         }
         this.presentationReview.reviewStatus = PresentationReviewStatus.pendingReview;
         return {
@@ -158,7 +158,7 @@ export class TransactionEntity {
       }
     }
     if (service.type == VpRequestInteractServiceType.unmediatedPresentation) {
-      this.presentationSubmission = new PresentationSubmissionEntity(presentation);
+      this.presentationSubmission = new PresentationSubmissionEntity(presentation, verificationResult);
       return {
         response: {
           errors: []
