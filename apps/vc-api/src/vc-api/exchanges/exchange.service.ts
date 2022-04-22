@@ -30,6 +30,7 @@ import { TransactionEntity } from './entities/transaction.entity';
 import { ConfigService } from '@nestjs/config';
 import { VerifyOptionsDto } from '../credentials/dtos/verify-options.dto';
 import { TransactionDto } from './dtos/transaction.dto';
+import { VpRequestSubmissionVerifier } from './vp-request-submission-verifier';
 
 @Injectable()
 export class ExchangeService {
@@ -102,13 +103,11 @@ export class ExchangeService {
       proofPurpose: ProofPurpose.authentication,
       verificationMethod: verifiablePresentation.proof.verificationMethod as string //TODO: fix types here
     };
-    const result = await this.vcApiService.verifyPresentation(verifiablePresentation, verifyOptions);
-    if (!result.checks.includes('proof') || result.errors.length > 0) {
-      return {
-        errors: [`${transactionId}: verification of presentation proof not successful`, ...result.errors]
-      };
-    }
-    const { response, callback } = transaction.processPresentation(verifiablePresentation);
+    const verifier = new VpRequestSubmissionVerifier(
+      this.vcApiService.verifyCredential.bind(this),
+      this.vcApiService.verifyPresentation.bind(this)
+    );
+    const { response, callback } = await transaction.processPresentation(verifiablePresentation, verifier);
     await this.transactionRepository.save(transaction);
     callback?.forEach((callback) => {
       // TODO: check if toDto is working. Seems be keeping it as Entity type.
