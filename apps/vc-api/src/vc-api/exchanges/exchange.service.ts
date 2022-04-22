@@ -97,12 +97,6 @@ export class ExchangeService {
       };
     }
     const transaction = transactionQuery.transaction;
-    const vpRequest = transaction.vpRequest;
-    const verifyOptions: VerifyOptionsDto = {
-      challenge: vpRequest.challenge,
-      proofPurpose: ProofPurpose.authentication,
-      verificationMethod: verifiablePresentation.proof.verificationMethod as string //TODO: fix types here
-    };
     const verifier = new VpRequestSubmissionVerifier(this.vcApiService, this.vcApiService);
     const { response, callback } = await transaction.processPresentation(verifiablePresentation, verifier);
     await this.transactionRepository.save(transaction);
