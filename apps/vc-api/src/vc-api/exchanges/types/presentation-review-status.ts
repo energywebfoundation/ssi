@@ -24,7 +24,8 @@
  * Maybe similar to Aries Issue-Credential protocol {@link https://github.com/hyperledger/aries-rfcs/blob/main/features/0453-issue-credential-v2/README.md}
  */
 export enum PresentationReviewStatus {
-  pending = 'pending',
+  pendingSubmission = 'pending_submission',
+  pendingReview = 'pending_review',
   approved = 'approved',
   rejected = 'rejected'
 }

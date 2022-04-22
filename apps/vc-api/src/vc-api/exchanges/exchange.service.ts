@@ -149,4 +149,6 @@ export class ExchangeService {
     }
     return { errors: [], transaction: transaction };
   }
+
+  public async addReview() {}
 }

@@ -16,6 +16,7 @@
  */
 
 import { ExchangeResponseDto } from '../dtos/exchange-response.dto';
+import { PresentationReviewStatus } from '../types/presentation-review-status';
 import { VerifiablePresentation } from '../types/verifiable-presentation';
 import { VpRequestInteractServiceType } from '../types/vp-request-interact-service-type';
 import { VpRequestQuery } from '../types/vp-request-query';
@@ -25,22 +26,58 @@ import { VpRequestEntity } from './vp-request.entity';
 
 describe('TransactionEntity', () => {
   const challenge = 'a9511bdb-5577-4d2f-95e3-e819fe5d3c33';
+  const callback_1 = 'https://my-callback.com';
+  const configuredCallback = [{ url: callback_1 }];
+  const exchangeId = 'my-exchange';
+  const transactionId = '9ec5686e-6381-41c4-9286-3c93cdefac53';
+
+  const vp = {
+    '@context': [],
+    type: [],
+    verifiableCredential: [],
+    proof: {
+      challenge
+    }
+  };
+
   beforeEach(async () => {});
 
   afterEach(async () => {
     jest.resetAllMocks();
   });
 
-  describe('processPresentation', () => {
-    it('should return result upon successful verification of UnMediatedPresentation', async () => {
-      const vp = {
-        '@context': [],
-        type: [],
-        verifiableCredential: [],
-        proof: {
-          challenge
+  describe('mediatedPresentation interact service type', () => {
+    describe('constructor', () => {
+      const vpRequest: VpRequestEntity = {
+        challenge,
+        query: [],
+        interact: {
+          service: [
+            {
+              type: VpRequestInteractServiceType.mediatedPresentation,
+              serviceEndpoint: 'https://endpoint.com'
+            }
+          ]
         }
       };
+      it('should create a transaction with pending review', async () => {
+        const transaction = new TransactionEntity(transactionId, exchangeId, vpRequest, configuredCallback);
+        expect(transaction.presentationReview.reviewStatus).toEqual(
+          PresentationReviewStatus.pendingSubmission
+        );
+      });
+      it('should process a presentation submission', async () => {
+        const transaction = new TransactionEntity(transactionId, exchangeId, vpRequest, configuredCallback);
+        const { callback, response } = transaction.processPresentation(vp);
+        expect(transaction.presentationSubmission.vp).toEqual(vp); // Save the submitted vp
+        expect(transaction.presentationReview.reviewStatus).toEqual(PresentationReviewStatus.pendingReview);
+        expect(transaction.presentationReview.VP).toEqual(undefined); // Issuer hasn't submitted a VP yet
+      });
+    });
+  });
+
+  describe('processPresentation', () => {
+    it('should return result upon successful verification of UnMediatedPresentation', async () => {
       const vpRequest: VpRequestEntity = {
         challenge,
         query: [],
@@ -53,10 +90,6 @@ describe('TransactionEntity', () => {
           ]
         }
       };
-      const callback_1 = 'https://my-callback.com';
-      const configuredCallback = [{ url: callback_1 }];
-      const exchangeId = 'my-exchange';
-      const transactionId = '9ec5686e-6381-41c4-9286-3c93cdefac53';
       const transaction = new TransactionEntity(transactionId, exchangeId, vpRequest, configuredCallback);
       const { callback, response } = transaction.processPresentation(vp);
       expect(callback).toHaveLength(1);

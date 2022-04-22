@@ -49,7 +49,7 @@ export class TransactionEntity {
     if (vpRequest?.interact?.service[0]?.type === VpRequestInteractServiceType.mediatedPresentation) {
       this.presentationReview = {
         presentationReviewId: uuidv4(),
-        reviewStatus: PresentationReviewStatus.pending
+        reviewStatus: PresentationReviewStatus.pendingSubmission
       };
     }
     this.callback = callback;
@@ -93,7 +93,7 @@ export class TransactionEntity {
     nullable: true
   })
   @JoinColumn()
-  presentationSubmission: PresentationSubmissionEntity;
+  presentationSubmission?: PresentationSubmissionEntity;
 
   @Column('simple-json')
   callback: CallbackConfiguration[];
@@ -179,18 +179,19 @@ export class TransactionEntity {
 
     const service = this.vpRequest.interact.service[0]; // TODO: Not sure how to handle multiple interaction services
     if (service.type == VpRequestInteractServiceType.mediatedPresentation) {
-      if (this.presentationReview.reviewStatus == PresentationReviewStatus.pending) {
-        // In this case, this is the first submission to the exchange
+      if (this.presentationReview.reviewStatus == PresentationReviewStatus.pendingSubmission) {
+        // Don't overwrite a previous submitted submission
         if (!this.presentationSubmission) {
           this.presentationSubmission = new PresentationSubmissionEntity(presentation);
         }
+        this.presentationReview.reviewStatus = PresentationReviewStatus.pendingReview;
         return {
           response: {
             errors: [],
             vpRequest: {
               challenge: uuidv4(),
-              query: [{ type: VpRequestQueryType.didAuth, credentialQuery: [] }],
-              interact: this.vpRequest.interact // Just ask the same endpoint again
+              query: [],
+              interact: this.vpRequest.interact // Holder should query the same endpoint again to check if it has been reviewed
             }
           },
           callback: []
