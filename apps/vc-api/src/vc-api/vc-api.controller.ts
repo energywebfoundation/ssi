@@ -136,9 +136,12 @@ export class VcApiController {
     @Param('transactionId') transactionId: string
   ) {
     const queryResult = await this.exchangeService.getExchangeTransaction(transactionId);
+    const transactionDto = queryResult.transaction
+      ? TransactionDto.toDto(queryResult.transaction)
+      : undefined;
     const response: GetTransactionDto = {
       errors: queryResult.errors,
-      transaction: queryResult.transaction ? TransactionDto.toDto(queryResult.transaction) : undefined
+      transaction: transactionDto
     };
     return response;
   }
