@@ -103,10 +103,7 @@ export class ExchangeService {
       proofPurpose: ProofPurpose.authentication,
       verificationMethod: verifiablePresentation.proof.verificationMethod as string //TODO: fix types here
     };
-    const verifier = new VpRequestSubmissionVerifier(
-      this.vcApiService.verifyCredential.bind(this),
-      this.vcApiService.verifyPresentation.bind(this)
-    );
+    const verifier = new VpRequestSubmissionVerifier(this.vcApiService, this.vcApiService);
     const { response, callback } = await transaction.processPresentation(verifiablePresentation, verifier);
     await this.transactionRepository.save(transaction);
     callback?.forEach((callback) => {
