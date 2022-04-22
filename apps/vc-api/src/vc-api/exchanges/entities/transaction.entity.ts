@@ -17,17 +17,15 @@
 
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
-import { IPresentation, IPresentationDefinition, PEX } from '@sphereon/pex';
 import { ExchangeResponseDto } from '../dtos/exchange-response.dto';
 import { PresentationReviewStatus } from '../types/presentation-review-status';
 import { VerifiablePresentation } from '../types/verifiable-presentation';
 import { VpRequestInteractServiceType } from '../types/vp-request-interact-service-type';
-import { VpRequestQueryType } from '../types/vp-request-query-type';
 import { PresentationReviewEntity } from './presentation-review.entity';
 import { VpRequestEntity } from './vp-request.entity';
 import { CallbackConfiguration } from '../types/callback-configuration';
 import { PresentationSubmissionEntity } from './presentation-submission.entity';
-import { VpRequestSubmissionVerifier } from '../vp-request-submission-verifier';
+import { SubmissionVerifier } from '../types/submission-verifier';
 
 /**
  * A TypeOrm entity representing an exchange transaction
@@ -106,7 +104,7 @@ export class TransactionEntity {
    */
   public async processPresentation(
     presentation: VerifiablePresentation,
-    verifier: VpRequestSubmissionVerifier
+    verifier: SubmissionVerifier
   ): Promise<{ response: ExchangeResponseDto; callback: CallbackConfiguration[] }> {
     const verificationResult = await verifier.verifyVpRequestSubmission(presentation, this.vpRequest);
     const errors = verificationResult.errors;

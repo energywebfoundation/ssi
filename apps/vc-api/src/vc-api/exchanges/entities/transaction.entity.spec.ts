@@ -16,6 +16,7 @@
  */
 
 import { PresentationReviewStatus } from '../types/presentation-review-status';
+import { SubmissionVerifier } from '../types/submission-verifier';
 import { VpRequestInteractServiceType } from '../types/vp-request-interact-service-type';
 import { VpRequestSubmissionVerifier } from '../vp-request-submission-verifier';
 import { TransactionEntity } from './transaction.entity';
@@ -37,16 +38,13 @@ describe('TransactionEntity', () => {
     }
   };
 
-  beforeAll(() => {
-    // @ts-ignore
-    VpRequestSubmissionVerifier.mockImplementation(() => {
-      return {
-        veri: () => {
-          throw new Error('Test error');
-        }
-      };
-    });
-  });
+  const mockSubmissionVerifier: SubmissionVerifier = {
+    verifyVpRequestSubmission: jest.fn().mockResolvedValue({
+      checks: ['proof'],
+      warnings: [],
+      errors: []
+    })
+  };
 
   describe('mediatedPresentation interact service type', () => {
     describe('constructor', () => {
@@ -70,7 +68,7 @@ describe('TransactionEntity', () => {
       });
       it('should process a presentation submission', async () => {
         const transaction = new TransactionEntity(transactionId, exchangeId, vpRequest, configuredCallback);
-        const { callback, response } = await transaction.processPresentation(vp);
+        const { callback, response } = await transaction.processPresentation(vp, mockSubmissionVerifier);
         expect(transaction.presentationSubmission.vp).toEqual(vp); // Save the submitted vp
         expect(transaction.presentationReview.reviewStatus).toEqual(PresentationReviewStatus.pendingReview);
         expect(transaction.presentationReview.VP).toEqual(undefined); // Issuer hasn't submitted a VP yet
@@ -93,7 +91,7 @@ describe('TransactionEntity', () => {
         }
       };
       const transaction = new TransactionEntity(transactionId, exchangeId, vpRequest, configuredCallback);
-      const { callback, response } = await transaction.processPresentation(vp);
+      const { callback, response } = await transaction.processPresentation(vp, mockSubmissionVerifier);
       expect(callback).toHaveLength(1);
       expect(callback[0].url).toEqual(callback_1);
       expect(response.errors).toHaveLength(0);
