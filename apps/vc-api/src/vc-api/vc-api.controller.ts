@@ -28,6 +28,7 @@ import { ExchangeDefinitionDto } from './exchanges/dtos/exchange-definition.dto'
 import { ProvePresentationDto } from './credentials/dtos/prove-presentation.dto';
 import { GetTransactionDto } from './exchanges/dtos/get-transaction.dto';
 import { TransactionDto } from './exchanges/dtos/transaction.dto';
+import { SubmissionReviewDto } from './exchanges/dtos/submission-review.dto';
 
 /**
  * VcApi API conforms to W3C vc-api
@@ -158,7 +159,10 @@ export class VcApiController {
    * @returns
    */
   @Post('/exchanges/:exchangeId/:transactionId/review')
-  async getExchangeTransaction(@Param('transactionId') transactionId: string) {
-    return new NotImplementedException();
+  async addSubmissionReview(
+    @Param('transactionId') transactionId: string,
+    @Body() submissionReview: SubmissionReviewDto
+  ) {
+    return await this.exchangeService.addReview(transactionId, submissionReview);
   }
 }

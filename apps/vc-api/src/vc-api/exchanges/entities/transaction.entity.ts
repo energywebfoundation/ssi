@@ -79,7 +79,7 @@ export class TransactionEntity {
   presentationReview?: PresentationReviewEntity;
 
   /**
-   * Each transaction is a part of an exchange execution
+   * Each transaction is a part of an exchange
    * https://w3c-ccg.github.io/vc-api/#exchange-examples
    */
   @Column('text')
@@ -96,6 +96,15 @@ export class TransactionEntity {
 
   @Column('simple-json')
   callback: CallbackConfiguration[];
+
+  public approvePresentationSubmission(issuanceVp: VerifiablePresentation): void {
+    this.presentationReview.reviewStatus = PresentationReviewStatus.approved;
+    this.presentationReview.VP = issuanceVp;
+  }
+
+  public rejectPresentationSubmission(): void {
+    this.presentationReview.reviewStatus = PresentationReviewStatus.rejected;
+  }
 
   /**
    * Process a presentation submission.
@@ -121,7 +130,7 @@ export class TransactionEntity {
     const service = this.vpRequest.interact.service[0]; // TODO: Not sure how to handle multiple interaction services
     if (service.type == VpRequestInteractServiceType.mediatedPresentation) {
       if (this.presentationReview.reviewStatus == PresentationReviewStatus.pendingSubmission) {
-        // Don't overwrite a previous submitted submission
+        // TODO: should we allow overwrite of a previous submitted submission?
         if (!this.presentationSubmission) {
           this.presentationSubmission = new PresentationSubmissionEntity(presentation, verificationResult);
         }
@@ -138,23 +147,17 @@ export class TransactionEntity {
           callback: []
         };
       }
-      if (this.presentationReview.reviewStatus == PresentationReviewStatus.approved) {
-        if (this.presentationReview.VP) {
-          return {
-            response: {
-              errors: [],
-              vp: this.presentationReview.VP
-            },
-            callback: []
-          };
-        } else {
-          return {
-            response: {
-              errors: []
-            },
-            callback: []
-          };
-        }
+      if (
+        this.presentationReview.reviewStatus == PresentationReviewStatus.approved ||
+        this.presentationReview.reviewStatus == PresentationReviewStatus.rejected
+      ) {
+        return {
+          response: {
+            errors: [],
+            vp: this.presentationReview?.VP
+          },
+          callback: []
+        };
       }
     }
     if (service.type == VpRequestInteractServiceType.unmediatedPresentation) {

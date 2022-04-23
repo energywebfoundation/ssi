@@ -169,4 +169,8 @@ describe('ExchangeService', () => {
       expect(exchangeResponse.vpRequest.interact.service[0].serviceEndpoint).toContain(baseUrl);
     });
   });
+
+  describe('addReview', () => {
+    it('should allow addition of review', async () => {});
+  });
 });

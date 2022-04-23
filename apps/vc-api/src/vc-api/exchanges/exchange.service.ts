@@ -31,6 +31,7 @@ import { ConfigService } from '@nestjs/config';
 import { VerifyOptionsDto } from '../credentials/dtos/verify-options.dto';
 import { TransactionDto } from './dtos/transaction.dto';
 import { VpRequestSubmissionVerifier } from './vp-request-submission-verifier';
+import { ReviewResult, SubmissionReviewDto } from './dtos/submission-review.dto';
 
 @Injectable()
 export class ExchangeService {
@@ -123,7 +124,7 @@ export class ExchangeService {
     transactionId: string
   ): Promise<{ errors: string[]; transaction?: TransactionEntity }> {
     const transaction = await this.transactionRepository.findOne(transactionId, {
-      relations: ['vpRequest', 'presentationReview']
+      relations: ['vpRequest', 'presentationReview', 'presentationSubmission']
     });
     if (!transaction) {
       return { errors: [`${transactionId}: no transaction found for this transaction id`] };
@@ -140,5 +141,22 @@ export class ExchangeService {
     return { errors: [], transaction: transaction };
   }
 
-  public async addReview() {}
+  public async addReview(transactionId: string, reviewDto: SubmissionReviewDto) {
+    const transactionQuery = await this.getExchangeTransaction(transactionId);
+    if (transactionQuery.errors.length > 0 || !transactionQuery.transaction) {
+      return {
+        errors: transactionQuery.errors
+      };
+    }
+    const transaction = transactionQuery.transaction;
+    switch (reviewDto.result) {
+      case ReviewResult.approved:
+        transaction.approvePresentationSubmission(reviewDto.vp);
+        break;
+      case ReviewResult.approved:
+        transaction.approvePresentationSubmission(reviewDto.vp);
+        break;
+    }
+    await this.transactionRepository.save(transaction);
+  }
 }
