@@ -37,5 +37,5 @@ export class SubmissionReviewDto {
   @ValidateNested()
   @IsOptional()
   @Type(() => VerifiablePresentationDto)
-  vp: VerifiablePresentationDto;
+  vp?: VerifiablePresentationDto;
 }

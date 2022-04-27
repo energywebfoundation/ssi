@@ -17,8 +17,7 @@
 
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpModule } from '@nestjs/axios';
-import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
-import { TypeOrmSQLiteModule } from '../../in-memory-db';
+import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CredentialsService } from '../credentials/credentials.service';
 import { ExchangeEntity } from './entities/exchange.entity';
@@ -28,31 +27,36 @@ import { ExchangeDefinitionDto } from './dtos/exchange-definition.dto';
 import { VpRequestInteractServiceType } from './types/vp-request-interact-service-type';
 import { TransactionEntity } from './entities/transaction.entity';
 import { VpRequestQueryType } from './types/vp-request-query-type';
-import { PresentationReviewEntity } from './entities/presentation-review.entity';
 import { ConfigService } from '@nestjs/config';
-import { PresentationSubmissionEntity } from './entities/presentation-submission.entity';
+import { ReviewResult, SubmissionReviewDto } from './dtos/submission-review.dto';
 
 const baseUrl = 'https://test-exchange.com';
+const transactionId = 'ac68c3f0-061f-43e6-b689-3e9d1675584f';
+const exchangeId = 'test-exchange';
+
+type MockType<T> = {
+  [P in keyof T]?: jest.Mock<{}>;
+};
 
 describe('ExchangeService', () => {
   let service: ExchangeService;
-  let credentialsService: CredentialsService;
-  let exchangeRepository: Repository<ExchangeEntity>;
-  let vpRequestRepository: Repository<VpRequestEntity>;
+  let exchangeRepository: MockType<Repository<ExchangeEntity>>;
+  let transactionRepository: MockType<Repository<TransactionEntity>>;
+
+  let transaction = TransactionEntity;
+  // https://stackoverflow.com/a/55366343
+  const transactionRepositoryMockFactory = jest.fn(() => ({
+    findOne: jest.fn(() => transaction),
+    save: jest.fn((entity) => (transaction = entity))
+  }));
+  const repositoryMockFactory = jest.fn(() => ({
+    findOne: jest.fn(),
+    save: jest.fn((entity) => entity)
+  }));
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        TypeOrmSQLiteModule(),
-        TypeOrmModule.forFeature([
-          VpRequestEntity,
-          ExchangeEntity,
-          TransactionEntity,
-          PresentationReviewEntity,
-          PresentationSubmissionEntity
-        ]),
-        HttpModule
-      ],
+      imports: [HttpModule],
       providers: [
         ExchangeService,
         {
@@ -66,18 +70,15 @@ describe('ExchangeService', () => {
               return baseUrl;
             })
           }
-        }
+        },
+        { provide: getRepositoryToken(TransactionEntity), useFactory: transactionRepositoryMockFactory },
+        { provide: getRepositoryToken(ExchangeEntity), useFactory: repositoryMockFactory }
       ]
     }).compile();
 
-    credentialsService = module.get<CredentialsService>(CredentialsService);
     service = module.get<ExchangeService>(ExchangeService);
-    exchangeRepository = module.get<Repository<ExchangeEntity>>(getRepositoryToken(ExchangeEntity));
-    vpRequestRepository = module.get<Repository<VpRequestEntity>>(getRepositoryToken(VpRequestEntity));
-  });
-
-  afterEach(async () => {
-    jest.resetAllMocks();
+    exchangeRepository = module.get(getRepositoryToken(ExchangeEntity));
+    transactionRepository = module.get(getRepositoryToken(TransactionEntity));
   });
 
   it('should be defined', () => {
@@ -142,7 +143,6 @@ describe('ExchangeService', () => {
   describe('continueExchange', () => {
     // TODO: Write after https://github.com/energywebfoundation/ssi/pull/46 as this will make it easier to test
     it.skip('should send transaction dto if callback is configured', async () => {
-      const transactionId = 'test-tx';
       // const exchangeDef: ExchangeDefinitionDto = {
       //   exchangeId: exchangeId,
       //   interactServices: [
@@ -171,6 +171,41 @@ describe('ExchangeService', () => {
   });
 
   describe('addReview', () => {
-    it('should allow addition of review', async () => {});
+    it('should allow addition of review', async () => {
+      const vpRequest: VpRequestEntity = {
+        challenge: '0e289f50-7e98-4a32-97e8-2ade36c3c5c9',
+        query: [],
+        interact: {
+          service: [
+            {
+              type: VpRequestInteractServiceType.mediatedPresentation,
+              serviceEndpoint: ''
+            }
+          ]
+        }
+      };
+      const transaction = new TransactionEntity(transactionId, exchangeId, vpRequest, []);
+      transactionRepository.findOne.mockReturnValue(transaction);
+      const exchangeDef: ExchangeDefinitionDto = {
+        exchangeId: exchangeId,
+        interactServices: [
+          {
+            type: VpRequestInteractServiceType.mediatedPresentation
+          }
+        ],
+        query: [],
+        isOneTime: true,
+        callback: []
+      };
+      await service.createExchange(exchangeDef);
+      await service.continueExchange();
+
+      const reviewDto: SubmissionReviewDto = {
+        result: ReviewResult.approved
+      };
+      await service.addReview(transactionId, reviewDto);
+      expect(transaction.presentationReview.reviewStatus).toEqual(ReviewResult.approved);
+      expect(transaction.presentationReview.VP).toBeUndefined();
+    });
   });
 });
