@@ -18,9 +18,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ProofPurpose } from '@sphereon/pex';
 import { Repository } from 'typeorm';
-import { CredentialsService } from '../credentials/credentials.service';
 import { VerifiablePresentationDto } from '../credentials/dtos/verifiable-presentation.dto';
 import { ExchangeEntity } from './entities/exchange.entity';
 import { ExchangeResponseDto } from './dtos/exchange-response.dto';
@@ -28,15 +26,14 @@ import { VpRequestDto } from './dtos/vp-request.dto';
 import { ExchangeDefinitionDto } from './dtos/exchange-definition.dto';
 import { TransactionEntity } from './entities/transaction.entity';
 import { ConfigService } from '@nestjs/config';
-import { VerifyOptionsDto } from '../credentials/dtos/verify-options.dto';
 import { TransactionDto } from './dtos/transaction.dto';
-import { VpRequestSubmissionVerifier } from './vp-request-submission-verifier';
 import { ReviewResult, SubmissionReviewDto } from './dtos/submission-review.dto';
+import { VpSubmissionVerifierService } from './vp-submission-verifier.service';
 
 @Injectable()
 export class ExchangeService {
   constructor(
-    private vcApiService: CredentialsService,
+    private vpSubmissionVerifierService: VpSubmissionVerifierService,
     @InjectRepository(TransactionEntity)
     private transactionRepository: Repository<TransactionEntity>,
     @InjectRepository(ExchangeEntity)
@@ -98,8 +95,10 @@ export class ExchangeService {
       };
     }
     const transaction = transactionQuery.transaction;
-    const verifier = new VpRequestSubmissionVerifier(this.vcApiService, this.vcApiService);
-    const { response, callback } = await transaction.processPresentation(verifiablePresentation, verifier);
+    const { response, callback } = await transaction.processPresentation(
+      verifiablePresentation,
+      this.vpSubmissionVerifierService
+    );
     await this.transactionRepository.save(transaction);
     callback?.forEach((callback) => {
       // TODO: check if toDto is working. Seems be keeping it as Entity type.

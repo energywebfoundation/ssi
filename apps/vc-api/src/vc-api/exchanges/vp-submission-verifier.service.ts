@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { IPresentation, IPresentationDefinition, PEX, ProofPurpose } from '@sphereon/pex';
-import { CredentialVerifier } from '../credentials/types/credential-verifier';
-import { PresentationVerifier } from '../credentials/types/presentation-verifier';
-import { VerifiablePresentation } from './types/verifiable-presentation';
-import { VpRequestEntity } from './entities/vp-request.entity'; // Todo: have an interface instead of an entity
-import { VpRequestQueryType } from './types/vp-request-query-type';
+import { Injectable } from '@nestjs/common';
+import { ProofPurpose, IPresentationDefinition, PEX, IPresentation } from '@sphereon/pex';
+import { CredentialsService } from '../credentials/credentials.service';
 import { VerificationResult } from '../credentials/types/verification-result';
+import { VpRequestEntity } from './entities/vp-request.entity';
 import { SubmissionVerifier } from './types/submission-verifier';
+import { VerifiablePresentation } from './types/verifiable-presentation';
+import { VpRequestQueryType } from './types/vp-request-query-type';
 
 /**
  * Inspired by https://github.com/gataca-io/vui-core/blob/6c599bdf7086f9a702e6657089fa343ae62a417a/service/validatorServiceDIFPE.go
@@ -31,11 +31,9 @@ import { SubmissionVerifier } from './types/submission-verifier';
  *  - Conformance with VpRequest (e.g. credential queries)
  *  - Authority of Issuer: TODO use this package https://www.npmjs.com/package/@energyweb/vc-verification
  */
-export class VpRequestSubmissionVerifier implements SubmissionVerifier {
-  constructor(
-    private readonly credentialVerifier: CredentialVerifier,
-    private readonly presentationVerifier: PresentationVerifier
-  ) {}
+@Injectable()
+export class VpSubmissionVerifierService implements SubmissionVerifier {
+  constructor(private credentialsService: CredentialsService) {}
 
   public async verifyVpRequestSubmission(
     vp: VerifiablePresentation,
@@ -59,7 +57,7 @@ export class VpRequestSubmissionVerifier implements SubmissionVerifier {
       proofPurpose: ProofPurpose.authentication,
       verificationMethod: vp.proof.verificationMethod as string //TODO: fix types here
     };
-    const result = await this.presentationVerifier.verifyPresentation(vp, verifyOptions);
+    const result = await this.credentialsService.verifyPresentation(vp, verifyOptions);
     if (!result.checks.includes('proof') || result.errors.length > 0) {
       return {
         errors: [`verification of presentation proof not successful`, ...result.errors],

@@ -15,40 +15,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { CredentialVerifier } from '../credentials/types/credential-verifier';
-import { PresentationVerifier } from '../credentials/types/presentation-verifier';
+import { Test, TestingModule } from '@nestjs/testing';
 import { VerificationResult } from '../credentials/types/verification-result';
 import { VpRequestEntity } from './entities/vp-request.entity';
 import { VerifiablePresentation } from './types/verifiable-presentation';
 import { VpRequestQuery } from './types/vp-request-query';
 import { VpRequestQueryType } from './types/vp-request-query-type';
 import { VpRequestSubmissionVerifier } from './vp-request-submission-verifier';
+import { VpSubmissionVerifierService } from './vp-submission-verifier.service';
 
-describe('VPRequestSubmissionVerifier', () => {
+describe('VpSubmissionVerifierService', () => {
   const challenge = 'a9511bdb-5577-4d2f-95e3-e819fe5d3c33';
-
-  let mockCredentialVerfier: CredentialVerifier;
-  let mockPresentationVerifier: PresentationVerifier;
+  let service: VpSubmissionVerifierService;
 
   beforeEach(async () => {
-    mockCredentialVerfier = {
-      verifyCredential: jest.fn().mockResolvedValue({
-        checks: ['proof'],
-        warnings: [],
-        errors: []
-      })
-    };
-    mockPresentationVerifier = {
-      verifyPresentation: jest.fn().mockResolvedValue({
-        checks: ['proof'],
-        warnings: [],
-        errors: []
-      })
-    };
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [VpSubmissionVerifierService]
+    }).compile();
+
+    service = module.get<VpSubmissionVerifierService>(VpSubmissionVerifierService);
   });
 
-  afterEach(async () => {
-    jest.resetAllMocks();
+  it('should be defined', () => {
+    expect(service).toBeDefined();
   });
 
   describe('verifyVpRequestSubmission', () => {
@@ -63,8 +52,7 @@ describe('VPRequestSubmissionVerifier', () => {
           service: []
         }
       };
-      const verifier = new VpRequestSubmissionVerifier(mockCredentialVerfier, mockPresentationVerifier);
-      return await verifier.verifyVpRequestSubmission(vp, vpRequest);
+      return await service.verifyVpRequestSubmission(vp, vpRequest);
     }
 
     it('should throw an error when the challenge does not match', async () => {
