@@ -157,5 +157,8 @@ export class ExchangeService {
         break;
     }
     await this.transactionRepository.save(transaction);
+    return {
+      errors: []
+    };
   }
 }

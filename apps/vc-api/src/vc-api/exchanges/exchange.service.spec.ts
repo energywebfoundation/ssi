@@ -211,9 +211,10 @@ describe('ExchangeService', () => {
         const reviewDto: SubmissionReviewDto = {
           result: reviewResult
         };
-        await service.addReview(transactionId, reviewDto);
+        const result = await service.addReview(transactionId, reviewDto);
         expect(transaction.presentationReview.reviewStatus).toEqual(reviewResult);
         expect(transaction.presentationReview.VP).toBeUndefined();
+        expect(result.errors).toHaveLength(0);
       }
     );
   });
