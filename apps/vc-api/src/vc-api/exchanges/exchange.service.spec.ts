@@ -16,11 +16,9 @@
  */
 
 import { Test, TestingModule } from '@nestjs/testing';
-import { HttpModule } from '@nestjs/axios';
+import { HttpService } from '@nestjs/axios';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Entity, Repository } from 'typeorm';
 import { ExchangeEntity } from './entities/exchange.entity';
-import { VpRequestEntity } from './entities/vp-request.entity';
 import { ExchangeService } from './exchange.service';
 import { ExchangeDefinitionDto } from './dtos/exchange-definition.dto';
 import { VpRequestInteractServiceType } from './types/vp-request-interact-service-type';
@@ -54,8 +52,8 @@ const mockSubmissionVerifier: SubmissionVerifier = {
 describe('ExchangeService', () => {
   let service: ExchangeService;
 
-  let transaction: TransactionEntity;
   // https://stackoverflow.com/a/55366343
+  let transaction: TransactionEntity;
   const transactionRepositoryMockFactory = jest.fn(() => ({
     findOne: jest.fn(() => transaction),
     save: jest.fn((entity) => {
@@ -70,14 +68,25 @@ describe('ExchangeService', () => {
     })
   }));
 
+  const mockHttpService = {
+    post: jest.fn(() => {
+      return {
+        subscribe: jest.fn()
+      };
+    })
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [HttpModule],
       providers: [
         ExchangeService,
         {
           provide: VpSubmissionVerifierService,
           useValue: mockSubmissionVerifier
+        },
+        {
+          provide: HttpService,
+          useValue: mockHttpService
         },
         {
           provide: ConfigService,
@@ -155,22 +164,27 @@ describe('ExchangeService', () => {
   });
 
   describe('continueExchange', () => {
-    // TODO: Write after https://github.com/energywebfoundation/ssi/pull/46 as this will make it easier to test
-    it.skip('should send transaction dto if callback is configured', async () => {
-      // const exchangeDef: ExchangeDefinitionDto = {
-      //   exchangeId: exchangeId,
-      //   interactServices: [
-      //     {
-      //       type: VpRequestInteractServiceType.unmediatedPresentation
-      //     }
-      //   ],
-      //   query: [],
-      //   isOneTime: false,
-      //   callback: []
-      // };
-      // const exchangeResponse = await service.continueExchange(vp, transactionId);
-      // expect(exchangeResponse.vpRequest.interact.service).toHaveLength(1);
-      // expect(exchangeResponse.vpRequest.interact.service[0].serviceEndpoint).toContain(baseUrl);
+    it('should send transaction dto if callback is configured', async () => {
+      const exchangeDef: ExchangeDefinitionDto = {
+        exchangeId: exchangeId,
+        interactServices: [
+          {
+            type: VpRequestInteractServiceType.unmediatedPresentation
+          }
+        ],
+        query: [],
+        isOneTime: false,
+        callback: [
+          {
+            url: 'http://example.com'
+          }
+        ]
+      };
+      await service.createExchange(exchangeDef);
+      const exchangeResponse = await service.startExchange(exchangeId);
+      const transactionId = exchangeResponse.vpRequest.interact.service[0].serviceEndpoint.split('/').pop();
+      await service.continueExchange(vp, transactionId);
+      expect(mockHttpService.post.mock.calls).toHaveLength(1);
     });
   });
 
