@@ -16,13 +16,23 @@
  */
 
 import { Test, TestingModule } from '@nestjs/testing';
+import { CredentialsService } from '../credentials/credentials.service';
 import { VerificationResult } from '../credentials/types/verification-result';
 import { VpRequestEntity } from './entities/vp-request.entity';
 import { VerifiablePresentation } from './types/verifiable-presentation';
 import { VpRequestQuery } from './types/vp-request-query';
 import { VpRequestQueryType } from './types/vp-request-query-type';
-import { VpRequestSubmissionVerifier } from './vp-request-submission-verifier';
 import { VpSubmissionVerifierService } from './vp-submission-verifier.service';
+
+const presentationVerificationResult = {
+  checks: ['proof'],
+  warnings: [],
+  errors: []
+};
+
+const mockCredentialService = {
+  verifyPresentation: jest.fn().mockResolvedValue(presentationVerificationResult)
+};
 
 describe('VpSubmissionVerifierService', () => {
   const challenge = 'a9511bdb-5577-4d2f-95e3-e819fe5d3c33';
@@ -30,7 +40,13 @@ describe('VpSubmissionVerifierService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [VpSubmissionVerifierService]
+      providers: [
+        VpSubmissionVerifierService,
+        {
+          provide: CredentialsService,
+          useValue: mockCredentialService
+        }
+      ]
     }).compile();
 
     service = module.get<VpSubmissionVerifierService>(VpSubmissionVerifierService);

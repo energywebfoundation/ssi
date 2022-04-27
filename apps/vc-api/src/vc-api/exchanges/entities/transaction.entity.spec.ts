@@ -18,7 +18,6 @@
 import { PresentationReviewStatus } from '../types/presentation-review-status';
 import { SubmissionVerifier } from '../types/submission-verifier';
 import { VpRequestInteractServiceType } from '../types/vp-request-interact-service-type';
-import { VpRequestSubmissionVerifier } from '../vp-request-submission-verifier';
 import { TransactionEntity } from './transaction.entity';
 import { VpRequestEntity } from './vp-request.entity';
 
