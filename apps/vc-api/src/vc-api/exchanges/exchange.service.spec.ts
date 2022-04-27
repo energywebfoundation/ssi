@@ -189,29 +189,32 @@ describe('ExchangeService', () => {
   });
 
   describe('addReview', () => {
-    it('should allow addition of review', async () => {
-      const exchangeDef: ExchangeDefinitionDto = {
-        exchangeId: exchangeId,
-        interactServices: [
-          {
-            type: VpRequestInteractServiceType.mediatedPresentation
-          }
-        ],
-        query: [],
-        isOneTime: true,
-        callback: []
-      };
-      await service.createExchange(exchangeDef);
-      const exchangeResponse = await service.startExchange(exchangeId);
-      const transactionId = exchangeResponse.vpRequest.interact.service[0].serviceEndpoint.split('/').pop();
-      await service.continueExchange(vp, transactionId);
+    it.each([[ReviewResult.approved], [ReviewResult.rejected]])(
+      'should set %s result',
+      async (reviewResult: ReviewResult) => {
+        const exchangeDef: ExchangeDefinitionDto = {
+          exchangeId: exchangeId,
+          interactServices: [
+            {
+              type: VpRequestInteractServiceType.mediatedPresentation
+            }
+          ],
+          query: [],
+          isOneTime: true,
+          callback: []
+        };
+        await service.createExchange(exchangeDef);
+        const exchangeResponse = await service.startExchange(exchangeId);
+        const transactionId = exchangeResponse.vpRequest.interact.service[0].serviceEndpoint.split('/').pop();
+        await service.continueExchange(vp, transactionId);
 
-      const reviewDto: SubmissionReviewDto = {
-        result: ReviewResult.approved
-      };
-      await service.addReview(transactionId, reviewDto);
-      expect(transaction.presentationReview.reviewStatus).toEqual(ReviewResult.approved);
-      expect(transaction.presentationReview.VP).toBeUndefined();
-    });
+        const reviewDto: SubmissionReviewDto = {
+          result: reviewResult
+        };
+        await service.addReview(transactionId, reviewDto);
+        expect(transaction.presentationReview.reviewStatus).toEqual(reviewResult);
+        expect(transaction.presentationReview.VP).toBeUndefined();
+      }
+    );
   });
 });

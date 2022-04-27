@@ -152,8 +152,8 @@ export class ExchangeService {
       case ReviewResult.approved:
         transaction.approvePresentationSubmission(reviewDto.vp);
         break;
-      case ReviewResult.approved:
-        transaction.approvePresentationSubmission(reviewDto.vp);
+      case ReviewResult.rejected:
+        transaction.rejectPresentationSubmission();
         break;
     }
     await this.transactionRepository.save(transaction);
