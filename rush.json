@@ -454,6 +454,10 @@
     {
       "packageName": "@energyweb/ssi-vc-api",
       "projectFolder": "apps/vc-api"
+    },
+    {
+      "packageName": "@energyweb/ssi-dwn",
+      "projectFolder": "apps/decentralized-web-node"
     }
   ]
 }

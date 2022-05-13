@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  postgres:
+    container_name: ssi-dwn-db
+    image: postgres:12-alpine
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USERNAME: ${DB_USERNAME}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_PORT: ${DB_PORT}
+    networks:
+      - main
+    ports:
+      - 5432:5432
+networks:
+  main:

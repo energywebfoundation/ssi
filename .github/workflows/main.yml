@@ -1,10 +1,20 @@
-name: CI
+name: Test
 
 on:
   push:
 
 jobs:
   build-and-test:
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_USER: user-test
+          POSTGRES_DB: dev-test
+          POSTGRES_PASSWORD: password-test
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -12,7 +22,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '16.10.0'
 
       - name: Rush install
         run: node common/scripts/install-run-rush.js install
@@ -21,4 +31,12 @@ jobs:
         run: node common/scripts/install-run-rush.js build --verbose
 
       - name: Run test
+        env:
+          CI: true
+          NESTJS_PORT: 3000
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DB_USERNAME: user-test
+          DB_PASSWORD: password-test
+          DB_NAME: dev-test
         run: node common/scripts/install-run-rush.js test --verbose
