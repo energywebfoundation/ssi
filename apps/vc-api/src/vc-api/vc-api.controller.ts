@@ -17,6 +17,7 @@
 
 import { Body, Controller, Get, NotImplementedException, Param, Post, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { IPresentationDefinition } from '@sphereon/pex';
 import { CredentialsService } from './credentials/credentials.service';
 import { IssueCredentialDto } from './credentials/dtos/issue-credential.dto';
 import { VerifiableCredentialDto } from './credentials/dtos/verifiable-credential.dto';
@@ -29,6 +30,7 @@ import { ProvePresentationDto } from './credentials/dtos/prove-presentation.dto'
 import { GetTransactionDto } from './exchanges/dtos/get-transaction.dto';
 import { TransactionDto } from './exchanges/dtos/transaction.dto';
 import { SubmissionReviewDto } from './exchanges/dtos/submission-review.dto';
+import { PresentationDto } from './credentials/dtos/presentation.dto';
 
 /**
  * VcApi API conforms to W3C vc-api
@@ -67,6 +69,20 @@ export class VcApiController {
     @Body() authenticateDto: AuthenticateDto
   ): Promise<VerifiablePresentationDto> {
     return await this.vcApiService.didAuthenticate(authenticateDto);
+  }
+
+  @Post('presentations/from')
+  async presentationFrom(
+    @Body()
+    {
+      presentationDefinition,
+      credentials
+    }: {
+      presentationDefinition: IPresentationDefinition;
+      credentials: VerifiableCredentialDto[];
+    }
+  ): Promise<PresentationDto> {
+    return this.vcApiService.presentationFrom(presentationDefinition, credentials);
   }
 
   @Post('presentations/prove')
