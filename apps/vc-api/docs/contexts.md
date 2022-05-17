@@ -25,7 +25,7 @@ See the [Contexts section](w3.org/TR/vc-data-model/#contexts) of the specificati
 
 Though contexts are indentified by URLs, for security and privacy it is best to load contexts from local copies.
 DIDKit, the SSI library which this implementation of VC-API uses, only supports contexts which are built into library.
-For more information on this, see the (DIDKit documentation on document loading[https://spruceid.dev/docs/didkit/document-loading/].
+For more information on this, see the [DIDKit documentation on document loading](https://spruceid.dev/docs/didkit/document-loading/).
 
 Given the need to re-build DIDKit in order to add a new context, it is not possible with this current implementation of VC-API
 to issue or verify a credential which refers a context which has is not in the DIDKit [default contexts](https://github.com/spruceid/ssi/tree/main/contexts).
