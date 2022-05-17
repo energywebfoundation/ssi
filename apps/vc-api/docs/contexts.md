@@ -19,7 +19,7 @@
 
 ## Contexts in the VC Specification
 
-See the [Contexts section](w3.org/TR/vc-data-model/#contexts) of the specification for more generation information about context in VCs.
+See the [Contexts section](https://www.w3.org/TR/vc-data-model/#contexts) of the specification for more generation information about context in VCs.
 
 ## Loading Contexts in Credentials
 
