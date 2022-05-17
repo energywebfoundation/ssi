@@ -16,7 +16,7 @@ For more information on these processes, see the [exchanges documentation](./doc
 
 ## Credential JSON-LD Contexts
 
-The Verifiable Credentials specification used context to ensure that the meanings of terms in a credential are shared by all parties.
+The Verifiable Credentials specification uses contexts to ensure that the meanings of terms in a credential are shared by all parties.
 For more information about this, see the [context documentation](./docs/contexts.md).
 
 ## Installation
