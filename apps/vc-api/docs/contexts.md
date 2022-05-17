@@ -35,7 +35,7 @@ However, it is possible to use a new context by including the context inline int
 
 Rather than referencing a context via a URI in a JSON-LD `@context` array, it is possible to include the context directly in-line.
 
-For example, a veriable credential may contain a `@context` array as follows:
+For example, a verifiable credential may contain a `@context` array as follows:
 ```json
 {
    "@context": [
