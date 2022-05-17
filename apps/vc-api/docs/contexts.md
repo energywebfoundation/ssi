@@ -38,28 +38,28 @@ Rather than referencing a context via a URI in a JSON-LD `@context` array, it is
 For example, a veriable credential may contain a `@context` array as follows:
 ```json
 {
-   "@context":[
+   "@context": [
       "https://www.w3.org/2018/credentials/v1",
       {
-         "custom":"https://example.com/custom-context-2022#",
-         "customObject":{
-            "@id":"custom:customObject",
-            "@type":"custom:ExampleObject"
+         "custom": "https://example.com/custom-context-2022#",
+         "customObject": {
+            "@id": "custom:customObject",
+            "@type": "custom:ExampleObject"
          },
-         "customField":"custom:customField"
+         "customField": "custom:customField"
       }
    ],
-   "id":"urn:uuid:7f94d397-3e70-4a43-945e-1a13069e636f",
-   "type":[
+   "id": "urn:uuid:7f94d397-3e70-4a43-945e-1a13069e636f",
+   "type": [
       "VerifiableCredential"
    ],
    "credentialSubject":{
-      "id":"did:example:123",
+      "id": "did:example:123",
       "customObject": {
         "customField": "customValue"
       }
    },
-   "issuer":"did:example:456",
-   "issuanceDate":"2022-03-18T08:57:32.477Z"
+   "issuer": "did:example:456",
+   "issuanceDate": "2022-03-18T08:57:32.477Z"
 }
 ```
