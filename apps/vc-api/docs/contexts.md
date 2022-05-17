@@ -28,7 +28,7 @@ DIDKit, the SSI library which this implementation of VC-API uses, only supports 
 For more information on this, see the [DIDKit documentation on document loading](https://spruceid.dev/docs/didkit/document-loading/).
 
 Given the need to re-build DIDKit in order to add a new context, it is not possible with this current implementation of VC-API
-to issue or verify a credential which refers a context which has is not in the DIDKit [default contexts](https://github.com/spruceid/ssi/tree/main/contexts).
+to issue or verify a credential which refers a context which is not in the DIDKit [default contexts](https://github.com/spruceid/ssi/tree/main/contexts).
 However, it is possible to use a new context by including the context inline into the credential.
 
 ### In-line contexts
