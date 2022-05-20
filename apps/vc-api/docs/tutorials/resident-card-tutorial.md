@@ -67,26 +67,22 @@ From a technical point of view, in this tutorial, we have access to the server A
 
 ### Technical workflows
 
-#### Issuance workflow
+#### 1. Issuance workflow
 The technical issuance workflow is as follows:
-- [Authority portal action] Configure a DID authentication exchange for the customer
-- [Authority portal action] Transmit an exchange invitation to the citizen as a QR code or a deep link
-- [Resident action] Request a credential using the request URL and obtain a [VP Request](https://w3c-ccg.github.io/vp-request-spec/) in return
-- [Resident action] Create a DID for the resident using the "did:key" DID method
-- [Resident action] Create an authentication proof (as a verfiable presentation) for the new DID
-- [Resident action] Send the authentication proof to the authority portal exchange endpoint
-- [Authority portal action] Create a DID for the authority portal using the "did:key" DID method
-- [Authority portal action] Issue a "PermanentResidentCard" credential to the resident's DID
-- [Authority portal action] Prove a presentation which contains the new "PermanentResidentCard" credential
-- [Authority portal action] Add a review of the authentication proof which contains the "PermanentResidentCard" presentation
-- [Resident action] Contact the exchange endpoint again to receive the presentation containing the "PermanentResidentCard" credential
+- [1.1 [Authority portal] Configure the credential issuance exchange](#11-authority-portal-configure-the-credential-issuance-exchange)
+- [1.2 [Authority portal] Provide an exchange invitation to the citizen](#12-authority-portal-provide-an-exchange-invitation-to-the-citizen)
+- [1.3 [Resident] Initiate issuance exchange using the request URL](#13-resident-initiate-issuance-exchange-using-the-request-url)
+- [1.4 [Resident] Create a DID authentication proof](#14-resident-create-a-did-authentication-proof)
+- [1.5 [Resident] Continue exchange by submitting the DID Auth proof](#15-resident-continue-exchange-by-submitting-the-did-auth-proof)
+- [1.6 [Authority portal] Issue "resident card" credential and add a review](#16-authority-portal-issue-resident-card-credential-and-add-a-review)
+- [1.7 [Resident] Continue the exchange and obtain the credentials](#17-resident-continue-the-exchange-and-obtain-the-credentials)
 
-#### Presentation workflow
-- [Authority portal action] Configure a credential exchange which requests the "PermanentResidentCard" credential 
-- [Authority portal action] Transmit an exchange invitation to the resident as a QR code or a deep link
-- [Resident action] Initiate the exchange and obtain a [Verifiable Presentation Request](https://w3c-ccg.github.io/vp-request-spec/) in return
-- [Resident action] Create a Verifiable Presentation which contains the "PermanentResidentCard" credential 
-- [Resident action] Send the Verifiable Presentation to the authority portal
+#### 2. Presentation workflow
+- [2.1 [Verifier] Configure Credential Exchange](#21-verifier-configure-credential-exchange)
+- [2.2 [Verifier] Provide an exchange invitation to the resident](22-verifier-provide-an-exchange-invitation-to-the-resident)
+- [2.3 [Resident] Present required credentials](23-resident-present-required-credentials)
+- [2.4 [Resident] Create the required presentation](24-resident-create-the-required-presentation)
+- [2.5 [Resident] Continue the exchange](25-resident-continue-the-exchange)
 
 ## Overview and Objective
 
@@ -836,7 +832,7 @@ This means that the holder must provide credentials which satisfy the `presentat
 Also note the `service` in the `interact` section of the VP Request.
 This is providing the location at which we can continue the credential request flow once we have met the `query` requirements.
       
-### 2.4 [Resident] Create the required presentation
+#### 2.4 [Resident] Create the required presentation
 
 Then, open the `Vc Api Controller prove Presentation` request under the `vc-api/presentations/prove` folder.
 In the request body, use the following json, filled with your own values.
@@ -989,7 +985,7 @@ Send the request. The response should be a verifiable presentation, similar to t
 }
 ```
 
-### 2.5 [Resident] Continue the exchange
+#### 2.5 [Resident] Continue the exchange
 
 Continue the exchange by sending the VP in response to the VP Request that was previously received.
 
