@@ -120,6 +120,7 @@ export class VpSubmissionVerifierService implements SubmissionVerifier {
 
       const inputDescriptors = presentationDefinition.input_descriptors.map(({ id }) => id);
       const mappedDescriptors = descriptor_map.map(({ id }) => id);
+      // Ignore errors if all input descriptors are satisfied https://github.com/Sphereon-Opensource/pex/issues/91
       if (!inputDescriptors.every((id) => mappedDescriptors.includes(id))) {
         errors.push(
           ...partialErrors.map(

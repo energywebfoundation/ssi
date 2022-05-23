@@ -155,7 +155,7 @@ describe('CredentialsService', () => {
     const issuanceOptions: IssueOptionsDto = {
       proofPurpose: ProofPurpose.authentication,
       verificationMethod: verificationMethod,
-      created: '2021-11-16T14:52:19.514Z'
+      created: rebeamVerifiablePresentation.proof.created
     };
     jest.spyOn(didService, 'getVerificationMethod').mockResolvedValueOnce({
       id: verificationMethod,
@@ -177,7 +177,7 @@ describe('CredentialsService', () => {
      * TODO: confirm this from the Ed25519Signature2018 spec
      */
     delete vp.proof.jws;
-    const expectedVpCopy = JSON.parse(JSON.stringify(vp));
+    const expectedVpCopy = JSON.parse(JSON.stringify(rebeamVerifiablePresentation));
     delete expectedVpCopy.proof.jws;
     expect(vp).toEqual(expectedVpCopy);
   });
