@@ -61,7 +61,6 @@ export const rebeamExchangeSuite = () => {
 
     const issuanceOptions: IssueOptionsDto = {
       proofPurpose: ProofPurpose.authentication,
-      verificationMethod: holderVerificationMethod,
       challenge: presentationVpRequest.challenge
     };
     const vp = await walletClient.provePresentation({ presentation, options: issuanceOptions });

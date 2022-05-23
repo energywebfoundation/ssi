@@ -37,6 +37,7 @@ import { ProvePresentationDto } from './dtos/prove-presentation.dto';
 import { CredentialVerifier } from './types/credential-verifier';
 import { PresentationDto } from './dtos/presentation.dto';
 import { IPresentationDefinition, IVerifiableCredential, PEX, Status } from '@sphereon/pex';
+import { VerificationMethod } from 'did-resolver';
 
 /**
  * Credential issuance options that Spruce accepts
@@ -66,8 +67,12 @@ export class CredentialsService implements CredentialVerifier {
   constructor(private didService: DIDService, private keyService: KeyService) {}
 
   async issueCredential(issueDto: IssueCredentialDto): Promise<VerifiableCredentialDto> {
-    const key = await this.getKeyForVerificationMethod(issueDto.options.verificationMethod);
-    const proofOptions = this.mapVcApiIssueOptionsToSpruceIssueOptions(issueDto.options);
+    const verificationMethod = await this.getVerificationMethodForDid(issueDto.credential.issuer);
+    const key = await this.getKeyForVerificationMethod(verificationMethod.id);
+    const proofOptions = this.mapVcApiIssueOptionsToSpruceIssueOptions(
+      issueDto.options,
+      verificationMethod.id
+    );
     return JSON.parse(
       await issueCredential(
         JSON.stringify(issueDto.credential),
@@ -123,8 +128,14 @@ export class CredentialsService implements CredentialVerifier {
   }
 
   async provePresentation(provePresentationDto: ProvePresentationDto): Promise<VerifiablePresentationDto> {
-    const key = await this.getKeyForVerificationMethod(provePresentationDto.options.verificationMethod);
-    const proofOptions = this.mapVcApiIssueOptionsToSpruceIssueOptions(provePresentationDto.options);
+    const verificationMethod = await this.getVerificationMethodForDid(
+      provePresentationDto.presentation.holder
+    );
+    const key = await this.getKeyForVerificationMethod(verificationMethod.id);
+    const proofOptions = this.mapVcApiIssueOptionsToSpruceIssueOptions(
+      provePresentationDto.options,
+      verificationMethod.id
+    );
     return JSON.parse(
       await issuePresentation(
         JSON.stringify(provePresentationDto.presentation),
@@ -142,8 +153,12 @@ export class CredentialsService implements CredentialVerifier {
     if (authenticateDto.options.proofPurpose !== 'authentication') {
       throw new Error('proof purpose must be authentication for DIDAuth');
     }
-    const key = await this.getKeyForVerificationMethod(authenticateDto.options.verificationMethod);
-    const proofOptions = this.mapVcApiIssueOptionsToSpruceIssueOptions(authenticateDto.options);
+    const verificationMethod = await this.getVerificationMethodForDid(authenticateDto.did);
+    const key = await this.getKeyForVerificationMethod(verificationMethod.id);
+    const proofOptions = this.mapVcApiIssueOptionsToSpruceIssueOptions(
+      authenticateDto.options,
+      verificationMethod.id
+    );
     return JSON.parse(await DIDAuth(authenticateDto.did, JSON.stringify(proofOptions), JSON.stringify(key)));
   }
 
@@ -155,13 +170,18 @@ export class CredentialsService implements CredentialVerifier {
     return JSON.parse(await verifyPresentation(JSON.stringify(vp), JSON.stringify(verifyOptions)));
   }
 
+  private async getVerificationMethodForDid(did: string): Promise<VerificationMethod> {
+    const didDoc = await this.didService.getDID(did);
+    return didDoc.verificationMethod[0];
+  }
+
   /**
    * TODO: Maybe we should check if the issuer of the credential controls the associated verification method
    * @param desiredVerificationMethod
    * @returns the privateKey that can issue proofs as the verification method
    */
-  private async getKeyForVerificationMethod(desiredVerificationMethod: string): Promise<JWK> {
-    const verificationMethod = await this.didService.getVerificationMethod(desiredVerificationMethod);
+  private async getKeyForVerificationMethod(desiredVerificationMethodId: string): Promise<JWK> {
+    const verificationMethod = await this.didService.getVerificationMethod(desiredVerificationMethodId);
     if (!verificationMethod) {
       throw new Error('This verification method is not known to this wallet');
     }
@@ -184,10 +204,13 @@ export class CredentialsService implements CredentialVerifier {
    * @param options
    * @returns
    */
-  private mapVcApiIssueOptionsToSpruceIssueOptions(options: IssueOptionsDto): ISpruceIssueOptions {
+  private mapVcApiIssueOptionsToSpruceIssueOptions(
+    options: IssueOptionsDto,
+    verificationMethodId: string
+  ): ISpruceIssueOptions {
     return {
       proofPurpose: options.proofPurpose,
-      verificationMethod: options.verificationMethod,
+      verificationMethod: verificationMethodId,
       created: options.created,
       challenge: options.challenge
     };

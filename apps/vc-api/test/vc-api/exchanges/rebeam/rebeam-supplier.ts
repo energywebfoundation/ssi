@@ -31,13 +31,7 @@ export class RebeamSupplier {
   async issueCredential(holderDidDoc: DIDDocument, walletClient: WalletClient) {
     const issuingDID = await walletClient.createDID('key');
     const credential = this.fillCredential(issuingDID.id, holderDidDoc.id);
-    const verificationMethodURI = issuingDID?.verificationMethod[0]?.id;
-    if (!verificationMethodURI) {
-      return { errors: ['verification method for issuance not available'] };
-    }
-    const options = {
-      verificationMethod: verificationMethodURI
-    };
+    const options = {};
     const issueCredentialDto = {
       options,
       credential

@@ -31,12 +31,6 @@ export class IssueOptionsDto {
   type?: string;
 
   /**
-   * The URI of the verificationMethod used for the proof. Default assertionMethod URI.
-   */
-  @IsString()
-  verificationMethod: string;
-
-  /**
    * The purpose of the proof. Default 'assertionMethod'.
    */
   @IsString()

@@ -50,6 +50,7 @@ describe('CredentialsService', () => {
         {
           provide: DIDService,
           useValue: {
+            getDID: jest.fn(),
             getVerificationMethod: jest.fn()
           }
         },
@@ -84,18 +85,10 @@ describe('CredentialsService', () => {
     async (credential: CredentialDto, expectedVc: VerifiableCredential) => {
       const issuanceOptions: IssueOptionsDto = {
         proofPurpose: ProofPurpose.assertionMethod,
-        verificationMethod: verificationMethod,
         created: '2021-11-16T14:52:19.514Z'
       };
-      jest.spyOn(didService, 'getVerificationMethod').mockResolvedValueOnce({
-        id: verificationMethod,
-        type: 'some-verification-method-type',
-        controller: did,
-        publicKeyJwk: {
-          kid: 'some-key-id',
-          kty: 'OKP'
-        }
-      });
+      jest.spyOn(didService, 'getDID').mockResolvedValueOnce(didDoc);
+      jest.spyOn(didService, 'getVerificationMethod').mockResolvedValueOnce(didDoc.verificationMethod[0]);
       jest.spyOn(keyService, 'getPrivateKeyFromKeyId').mockResolvedValueOnce(key);
       const vc = await service.issueCredential({ credential, options: issuanceOptions });
       expect(vc['proof']['jws']).toBeDefined();
@@ -103,6 +96,7 @@ describe('CredentialsService', () => {
        * Delete jws from proof as it is not deterministic
        * TODO: confirm this from the Ed25519Signature2018 spec
        */
+      console.log(vc.proof);
       delete vc.proof.jws;
       const expectedVcCopy = JSON.parse(JSON.stringify(expectedVc));
       delete expectedVcCopy.proof.jws;
@@ -154,18 +148,10 @@ describe('CredentialsService', () => {
   it('should prove a vp', async () => {
     const issuanceOptions: IssueOptionsDto = {
       proofPurpose: ProofPurpose.authentication,
-      verificationMethod: verificationMethod,
       created: rebeamVerifiablePresentation.proof.created
     };
-    jest.spyOn(didService, 'getVerificationMethod').mockResolvedValueOnce({
-      id: verificationMethod,
-      type: 'some-verification-method-type',
-      controller: did,
-      publicKeyJwk: {
-        kid: 'some-key-id',
-        kty: 'OKP'
-      }
-    });
+    jest.spyOn(didService, 'getDID').mockResolvedValueOnce(didDoc);
+    jest.spyOn(didService, 'getVerificationMethod').mockResolvedValueOnce(didDoc.verificationMethod[0]);
     jest.spyOn(keyService, 'getPrivateKeyFromKeyId').mockResolvedValueOnce(key);
     const vp = await service.provePresentation({
       presentation: rebeamPresentation,
@@ -202,19 +188,11 @@ describe('CredentialsService', () => {
   it('should be able to generate DIDAuth', async () => {
     const issuanceOptions: IssueOptionsDto = {
       proofPurpose: ProofPurpose.authentication,
-      verificationMethod: verificationMethod,
       created: '2021-11-16T14:52:19.514Z',
       challenge
     };
-    jest.spyOn(didService, 'getVerificationMethod').mockResolvedValueOnce({
-      id: verificationMethod,
-      type: 'some-verification-method-type',
-      controller: did,
-      publicKeyJwk: {
-        kid: 'some-key-id',
-        kty: 'OKP'
-      }
-    });
+    jest.spyOn(didService, 'getDID').mockResolvedValueOnce(didDoc);
+    jest.spyOn(didService, 'getVerificationMethod').mockResolvedValueOnce(didDoc.verificationMethod[0]);
     jest.spyOn(keyService, 'getPrivateKeyFromKeyId').mockResolvedValueOnce(key);
     const vp = await service.didAuthenticate({ did, options: issuanceOptions });
     expect(vp.holder).toEqual(did);

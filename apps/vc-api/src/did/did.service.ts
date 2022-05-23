@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { DIDEthrFactory, DIDKeyFactory } from '@energyweb/ssi-did';
+import { DIDEthrFactory, DIDKeyFactory, DifJsonWebKey } from '@energyweb/ssi-did';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DIDDocument, VerificationMethod } from 'did-resolver';

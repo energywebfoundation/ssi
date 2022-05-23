@@ -65,13 +65,7 @@ export class ResidentCardIssuance {
     }
     const issuingDID = await walletClient.createDID('key');
     const credential = this.fillCredential(issuingDID.id, vp.holder);
-    const verificationMethodURI = issuingDID?.verificationMethod[0]?.id;
-    if (!verificationMethodURI) {
-      return { errors: ['verification method for issuance not available'] };
-    }
-    const options = {
-      verificationMethod: verificationMethodURI
-    };
+    const options = {};
     const issueCredentialDto = {
       options,
       credential
