@@ -71,6 +71,10 @@ export class VcApiController {
     return await this.vcApiService.didAuthenticate(authenticateDto);
   }
 
+  /**
+   * Creates a Presentation without Proof by passing in the Presentation Definition, selected Verifiable Credentials (TODO: and an optional holder (DID)).
+   * The presentation contains the [presentation submission](https://identity.foundation/presentation-exchange/#presentation-submission) data that the verifier can use.
+   */
   @Post('presentations/from')
   async presentationFrom(
     @Body()
