@@ -30,12 +30,12 @@ import {
   chargingDataVerifiableCredential,
   energyContractVerifiableCredential,
   chargingDataCredential,
-  rebeamPresentation,
   presentationDefinition,
-  rebeamVerifiablePresentation
+  rebeamVerifiablePresentation,
+  rebeamPresentation
 } from '../../../test/vc-api/credential.service.spec.data';
-import { challenge, did, key } from '../../../test/vc-api/credential.service.spec.key';
-import { PresentationDto } from './dtos/presentation.dto';
+import { challenge, did, key, didDoc } from '../../../test/vc-api/credential.service.spec.key';
+import { ProvePresentationOptionsDto } from './dtos/prove-presentation-options.dto';
 
 describe('CredentialsService', () => {
   let service: CredentialsService;
@@ -104,9 +104,7 @@ describe('CredentialsService', () => {
   );
 
   it('should be able to verify presentation of two credentials', async () => {
-    const issuanceOptions: IssueOptionsDto = {
-      proofPurpose: ProofPurpose.assertionMethod,
-      verificationMethod,
+    const issueOptions: IssueOptionsDto = {
       created: '2021-11-16T14:52:19.514Z'
     };
     jest.spyOn(didService, 'getVerificationMethod').mockResolvedValue({
@@ -122,11 +120,11 @@ describe('CredentialsService', () => {
     jest.spyOn(keyService, 'getPrivateKeyFromKeyId').mockResolvedValue(key);
     const vc1 = await service.issueCredential({
       credential: energyContractCredential,
-      options: issuanceOptions
+      options: issueOptions
     });
     const vc2 = await service.issueCredential({
       credential: chargingDataCredential,
-      options: issuanceOptions
+      options: issueOptions
     });
     const presentation = service.presentationFrom(presentationDefinition as IPresentationDefinition, [
       vc1,
@@ -153,8 +151,11 @@ describe('CredentialsService', () => {
     jest.spyOn(didService, 'getDID').mockResolvedValueOnce(didDoc);
     jest.spyOn(didService, 'getVerificationMethod').mockResolvedValueOnce(didDoc.verificationMethod[0]);
     jest.spyOn(keyService, 'getPrivateKeyFromKeyId').mockResolvedValueOnce(key);
-    const vp = await service.provePresentation({ presentation, options: presentationOptions });
-    expect(vc['proof']['jws']).toBeDefined();
+    const vp = await service.provePresentation({
+      presentation: rebeamPresentation,
+      options: presentationOptions
+    });
+    expect(energyContractVerifiableCredential['proof']['jws']).toBeDefined();
     /**
      * Delete jws from proof as it is not deterministic
      * TODO: confirm this from the Ed25519Signature2018 spec
@@ -183,7 +184,6 @@ describe('CredentialsService', () => {
   });
 
   it('should be able to generate DIDAuth', async () => {
-    const challenge = '2679f7f3-d9ff-4a7e-945c-0f30fb0765bd';
     const issuanceOptions: ProvePresentationOptionsDto = {
       verificationMethod: didDoc.verificationMethod[0].id,
       proofPurpose: ProofPurpose.authentication,
