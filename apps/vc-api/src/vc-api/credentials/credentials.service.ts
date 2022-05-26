@@ -131,10 +131,10 @@ export class CredentialsService implements CredentialVerifier {
   }
 
   async provePresentation(provePresentationDto: ProvePresentationDto): Promise<VerifiablePresentationDto> {
-    const verificationMethod = await this.getVerificationMethodForDid(
-      provePresentationDto.presentation.holder
-    );
-    const key = await this.getKeyForVerificationMethod(verificationMethod.id);
+    const verificationMethodId =
+      provePresentationDto.options.verificationMethod ??
+      (await this.getVerificationMethodForDid(provePresentationDto.presentation.holder)).id;
+    const key = await this.getKeyForVerificationMethod(verificationMethodId);
     const proofOptions = this.mapVcApiPresentationOptionsToSpruceIssueOptions(provePresentationDto.options);
     return JSON.parse(
       await issuePresentation(
@@ -153,8 +153,10 @@ export class CredentialsService implements CredentialVerifier {
     if (authenticateDto.options.proofPurpose !== ProofPurpose.authentication) {
       throw new Error('proof purpose must be authentication for DIDAuth');
     }
-    const verificationMethod = await this.getVerificationMethodForDid(authenticateDto.did);
-    const key = await this.getKeyForVerificationMethod(verificationMethod.id);
+    const verificationMethodId =
+      authenticateDto.options.verificationMethod ??
+      (await this.getVerificationMethodForDid(authenticateDto.did)).id;
+    const key = await this.getKeyForVerificationMethod(verificationMethodId);
     const proofOptions = this.mapVcApiPresentationOptionsToSpruceIssueOptions(authenticateDto.options);
     return JSON.parse(await DIDAuth(authenticateDto.did, JSON.stringify(proofOptions), JSON.stringify(key)));
   }

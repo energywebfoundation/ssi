@@ -23,11 +23,7 @@ import { ProvePresentationOptionsDto } from '../../../../src/vc-api/credentials/
 
 export class RebeamSupplier {
   /**
-   *
-   * TODO: get and approve presentation review
-   * @param vp
-   * @param walletClient
-   * @returns
+   * Issue credential to holder
    */
   async issueCredential(holderDidDoc: DIDDocument, walletClient: WalletClient) {
     const issuingDID = await walletClient.createDID('key');

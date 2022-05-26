@@ -29,7 +29,7 @@ import {
   energyContractCredential,
   chargingDataVerifiableCredential,
   energyContractVerifiableCredential,
-  chargingDataCredential,
+  getChargingDataCredential,
   presentationDefinition,
   rebeamVerifiablePresentation,
   rebeamPresentation
@@ -79,7 +79,7 @@ describe('CredentialsService', () => {
 
   it.each([
     [energyContractCredential, energyContractVerifiableCredential],
-    [chargingDataCredential, chargingDataVerifiableCredential]
+    [getChargingDataCredential(did), chargingDataVerifiableCredential]
   ])(
     'credential %p can be issued to be a vc %p',
     async (credential: CredentialDto, expectedVc: VerifiableCredential) => {
@@ -122,7 +122,7 @@ describe('CredentialsService', () => {
       options: issueOptions
     });
     const vc2 = await service.issueCredential({
-      credential: chargingDataCredential,
+      credential: getChargingDataCredential(did),
       options: issueOptions
     });
     const presentation = service.presentationFrom(presentationDefinition as IPresentationDefinition, [
