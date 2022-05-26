@@ -95,7 +95,6 @@ describe('CredentialsService', () => {
        * Delete jws from proof as it is not deterministic
        * TODO: confirm this from the Ed25519Signature2018 spec
        */
-      console.log(vc.proof);
       delete vc.proof.jws;
       const expectedVcCopy = JSON.parse(JSON.stringify(expectedVc));
       delete expectedVcCopy.proof.jws;
@@ -107,6 +106,7 @@ describe('CredentialsService', () => {
     const issueOptions: IssueOptionsDto = {
       created: '2021-11-16T14:52:19.514Z'
     };
+    jest.spyOn(didService, 'getDID').mockResolvedValue(didDoc);
     jest.spyOn(didService, 'getVerificationMethod').mockResolvedValue({
       id: verificationMethod,
       type: 'some-verification-method-type',
@@ -116,7 +116,6 @@ describe('CredentialsService', () => {
         kty: 'OKP'
       }
     });
-
     jest.spyOn(keyService, 'getPrivateKeyFromKeyId').mockResolvedValue(key);
     const vc1 = await service.issueCredential({
       credential: energyContractCredential,

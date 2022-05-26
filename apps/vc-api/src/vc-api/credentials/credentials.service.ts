@@ -39,6 +39,8 @@ import { PresentationDto } from './dtos/presentation.dto';
 import { IPresentationDefinition, IVerifiableCredential, PEX, Status } from '@sphereon/pex';
 import { VerificationMethod } from 'did-resolver';
 import { ProofPurpose } from '@sphereon/pex';
+import { PresentationDefinitionWrapper } from '@sphereon/pex-models';
+import { ProvePresentationOptionsDto } from './dtos/prove-presentation-options.dto';
 
 /**
  * Credential issuance options that Spruce accepts
@@ -133,10 +135,7 @@ export class CredentialsService implements CredentialVerifier {
       provePresentationDto.presentation.holder
     );
     const key = await this.getKeyForVerificationMethod(verificationMethod.id);
-    const proofOptions = this.mapVcApiIssueOptionsToSpruceIssueOptions(
-      provePresentationDto.options,
-      verificationMethod.id
-    );
+    const proofOptions = this.mapVcApiPresentationOptionsToSpruceIssueOptions(provePresentationDto.options);
     return JSON.parse(
       await issuePresentation(
         JSON.stringify(provePresentationDto.presentation),
@@ -156,10 +155,7 @@ export class CredentialsService implements CredentialVerifier {
     }
     const verificationMethod = await this.getVerificationMethodForDid(authenticateDto.did);
     const key = await this.getKeyForVerificationMethod(verificationMethod.id);
-    const proofOptions = this.mapVcApiIssueOptionsToSpruceIssueOptions(
-      authenticateDto.options,
-      verificationMethod.id
-    );
+    const proofOptions = this.mapVcApiPresentationOptionsToSpruceIssueOptions(authenticateDto.options);
     return JSON.parse(await DIDAuth(authenticateDto.did, JSON.stringify(proofOptions), JSON.stringify(key)));
   }
 
@@ -200,7 +196,7 @@ export class CredentialsService implements CredentialVerifier {
   }
 
   /**
-   * As the Spruce proof issuance options may not align perfectly with the VC-API spec,
+   * As the Spruce proof issuance options may not align perfectly with the VC-API spec issuanceOptions,
    * this method provides a translation between the two
    * @param options
    * @returns
@@ -212,6 +208,23 @@ export class CredentialsService implements CredentialVerifier {
     return {
       proofPurpose: ProofPurpose.assertionMethod, // Issuance is always an "assertion" proof, AFAIK
       verificationMethod: verificationMethodId,
+      created: options.created,
+      challenge: options.challenge
+    };
+  }
+
+  /**
+   * As the Spruce proof issuance options may not align perfectly with the VC-API spec provePresentationOptions,
+   * this method provides a translation between the two
+   * @param options
+   * @returns
+   */
+  private mapVcApiPresentationOptionsToSpruceIssueOptions(
+    options: ProvePresentationOptionsDto
+  ): ISpruceIssueOptions {
+    return {
+      proofPurpose: options.proofPurpose,
+      verificationMethod: options.verificationMethod,
       created: options.created,
       challenge: options.challenge
     };
