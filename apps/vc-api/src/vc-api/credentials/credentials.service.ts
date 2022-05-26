@@ -216,7 +216,7 @@ export class CredentialsService implements CredentialVerifier {
   }
 
   /**
-   * As the Spruce proof issuance options may not align perfectly with the VC-API spec provePresentationOptions,
+   * As the Spruce proof presentation options may not align perfectly with the VC-API spec provePresentationOptions,
    * this method provides a translation between the two
    * @param options
    * @returns
