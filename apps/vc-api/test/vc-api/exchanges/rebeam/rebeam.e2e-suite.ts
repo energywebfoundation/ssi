@@ -17,12 +17,12 @@
 
 import * as request from 'supertest';
 import * as nock from 'nock';
-import { IssueOptionsDto } from '../../../../src/vc-api/credentials/dtos/issue-options.dto';
 import { ProofPurpose } from '@sphereon/pex';
 import { RebeamCpoNode } from './rebeam-cpo-node';
 import { app, getContinuationEndpoint, vcApiBaseUrl, walletClient } from '../../../app.e2e-spec';
 import { RebeamSupplier } from './rebeam-supplier';
 import { chargingDataCredential, presentationDefinition } from '../../credential.service.spec.data';
+import { ProvePresentationOptionsDto } from '../../../../src/vc-api/credentials/dtos/prove-presentation-options.dto';
 
 export const rebeamExchangeSuite = () => {
   it('Rebeam presentation using ed25119 signatures', async () => {
@@ -34,7 +34,7 @@ export const rebeamExchangeSuite = () => {
     const energyContractVp = await supplier.issueCredential(holderDID, walletClient);
     const chargingDataVerifiableCredential = await walletClient.issueVC({
       credential: chargingDataCredential,
-      options: { proofPurpose: ProofPurpose.authentication, verificationMethod: holderVerificationMethod }
+      options: {}
     });
 
     // CPO-NODE: Configure presentation exchange
@@ -59,11 +59,12 @@ export const rebeamExchangeSuite = () => {
       chargingDataVerifiableCredential
     ]);
 
-    const issuanceOptions: IssueOptionsDto = {
+    const presentationOptions: ProvePresentationOptionsDto = {
       proofPurpose: ProofPurpose.authentication,
+      verificationMethod: holderVerificationMethod,
       challenge: presentationVpRequest.challenge
     };
-    const vp = await walletClient.provePresentation({ presentation, options: issuanceOptions });
+    const vp = await walletClient.provePresentation({ presentation, options: presentationOptions });
 
     // Holder submits presentation
     await walletClient.continueExchange(presentationExchangeContinuationEndpoint, vp, false);

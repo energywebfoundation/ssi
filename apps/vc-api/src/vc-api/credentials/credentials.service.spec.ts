@@ -84,7 +84,6 @@ describe('CredentialsService', () => {
     'credential %p can be issued to be a vc %p',
     async (credential: CredentialDto, expectedVc: VerifiableCredential) => {
       const issuanceOptions: IssueOptionsDto = {
-        proofPurpose: ProofPurpose.assertionMethod,
         created: '2021-11-16T14:52:19.514Z'
       };
       jest.spyOn(didService, 'getDID').mockResolvedValueOnce(didDoc);
@@ -146,18 +145,16 @@ describe('CredentialsService', () => {
   });
 
   it('should prove a vp', async () => {
-    const issuanceOptions: IssueOptionsDto = {
+    const presentationOptions: ProvePresentationOptionsDto = {
+      verificationMethod: didDoc.verificationMethod[0].id,
       proofPurpose: ProofPurpose.authentication,
       created: rebeamVerifiablePresentation.proof.created
     };
     jest.spyOn(didService, 'getDID').mockResolvedValueOnce(didDoc);
     jest.spyOn(didService, 'getVerificationMethod').mockResolvedValueOnce(didDoc.verificationMethod[0]);
     jest.spyOn(keyService, 'getPrivateKeyFromKeyId').mockResolvedValueOnce(key);
-    const vp = await service.provePresentation({
-      presentation: rebeamPresentation,
-      options: issuanceOptions
-    });
-    expect(energyContractVerifiableCredential['proof']['jws']).toBeDefined();
+    const vp = await service.provePresentation({ presentation, options: presentationOptions });
+    expect(vc['proof']['jws']).toBeDefined();
     /**
      * Delete jws from proof as it is not deterministic
      * TODO: confirm this from the Ed25519Signature2018 spec
@@ -186,7 +183,9 @@ describe('CredentialsService', () => {
   });
 
   it('should be able to generate DIDAuth', async () => {
-    const issuanceOptions: IssueOptionsDto = {
+    const challenge = '2679f7f3-d9ff-4a7e-945c-0f30fb0765bd';
+    const issuanceOptions: ProvePresentationOptionsDto = {
+      verificationMethod: didDoc.verificationMethod[0].id,
       proofPurpose: ProofPurpose.authentication,
       created: '2021-11-16T14:52:19.514Z',
       challenge

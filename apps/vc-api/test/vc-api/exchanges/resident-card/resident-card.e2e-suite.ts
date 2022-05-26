@@ -27,6 +27,7 @@ import {
 import { ResidentCardIssuance } from './resident-card-issuance.exchange';
 import { ResidentCardPresentation } from './resident-card-presentation.exchange';
 import { app, getContinuationEndpoint, vcApiBaseUrl, walletClient } from '../../../app.e2e-spec';
+import { ProvePresentationOptionsDto } from 'src/vc-api/credentials/dtos/prove-presentation-options.dto';
 
 export const residentCardExchangeSuite = () => {
   it('should support Resident Card issuance and presentation', async () => {
@@ -48,7 +49,9 @@ export const residentCardExchangeSuite = () => {
     // As holder, create new DID and presentation to authentication as this DID
     // DID auth presentation: https://github.com/spruceid/didkit/blob/c5c422f2469c2c5cc2f6e6d8746e95b552fce3ed/lib/web/src/lib.rs#L382
     const holderDIDDoc = await walletClient.createDID('key');
-    const options: IssueOptionsDto = {
+    const holderVerificationMethod = holderDIDDoc.verificationMethod[0].id;
+    const options: ProvePresentationOptionsDto = {
+      verificationMethod: holderVerificationMethod,
       proofPurpose: ProofPurpose.authentication,
       challenge: issuanceVpRequest.challenge
     };
@@ -120,12 +123,13 @@ export const residentCardExchangeSuite = () => {
       verifiableCredential: [issuedVc],
       holder: holderDIDDoc.id
     };
-    const issuanceOptions: IssueOptionsDto = {
+    const presentationOptions: ProvePresentationOptionsDto = {
+      verificationMethod: holderVerificationMethod,
       proofPurpose: ProofPurpose.authentication,
       created: '2021-11-16T14:52:19.514Z',
       challenge: presentationVpRequest.challenge
     };
-    const vp = await walletClient.provePresentation({ presentation, options: issuanceOptions });
+    const vp = await walletClient.provePresentation({ presentation, options: presentationOptions });
 
     // Holder submits presentation
     await walletClient.continueExchange(presentationExchangeContinuationEndpoint, vp, false);

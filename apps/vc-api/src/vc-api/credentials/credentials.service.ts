@@ -38,6 +38,7 @@ import { CredentialVerifier } from './types/credential-verifier';
 import { PresentationDto } from './dtos/presentation.dto';
 import { IPresentationDefinition, IVerifiableCredential, PEX, Status } from '@sphereon/pex';
 import { VerificationMethod } from 'did-resolver';
+import { ProofPurpose } from '@sphereon/pex';
 
 /**
  * Credential issuance options that Spruce accepts
@@ -150,7 +151,7 @@ export class CredentialsService implements CredentialVerifier {
    * https://w3c-ccg.github.io/vp-request-spec/#did-authentication-request
    */
   async didAuthenticate(authenticateDto: AuthenticateDto): Promise<VerifiablePresentationDto> {
-    if (authenticateDto.options.proofPurpose !== 'authentication') {
+    if (authenticateDto.options.proofPurpose !== ProofPurpose.authentication) {
       throw new Error('proof purpose must be authentication for DIDAuth');
     }
     const verificationMethod = await this.getVerificationMethodForDid(authenticateDto.did);
@@ -209,7 +210,7 @@ export class CredentialsService implements CredentialVerifier {
     verificationMethodId: string
   ): ISpruceIssueOptions {
     return {
-      proofPurpose: options.proofPurpose,
+      proofPurpose: ProofPurpose.assertionMethod, // Issuance is always an "assertion" proof, AFAIK
       verificationMethod: verificationMethodId,
       created: options.created,
       challenge: options.challenge
