@@ -45,7 +45,7 @@ describe('KeyService', () => {
     expect(result).toBeUndefined();
   });
 
-  describe('Ed25519', () => {
+  describe.only('Ed25519', () => {
     beforeEach(async () => {
       const keyDescription = await service.generateKey({ type: keyType.ed25519 });
       newPublicKey = await service.getPublicKeyFromKeyId(keyDescription.keyId);

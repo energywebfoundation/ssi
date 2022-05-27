@@ -17,11 +17,20 @@
 
 import { Injectable } from '@nestjs/common';
 import { IGenerateKey, IGenerateKeyOptions, IKeyDescription } from '@energyweb/w3c-ccg-webkms';
-import { generateKeyPair, exportJWK, GenerateKeyPairResult, JWK, calculateJwkThumbprint } from 'jose';
+import {
+  generateKeyPair,
+  exportJWK,
+  GenerateKeyPairResult,
+  JWK,
+  calculateJwkThumbprint,
+  importJWK,
+  KeyLike
+} from 'jose';
 import { InjectRepository } from '@nestjs/typeorm';
 import { KeyPair } from './key-pair.entity';
 import { Repository } from 'typeorm';
 import { keyType } from './key-types';
+import { KeyPairDto } from './dtos/key-pair.dto';
 
 /**
  * "jose" package is recommended by OpenID developer: https://openid.net/developers/jwt/
@@ -33,7 +42,7 @@ export class KeyService implements IGenerateKey {
     private keyRepository: Repository<KeyPair>
   ) {}
 
-  async generateKey(options: IGenerateKeyOptions): Promise<IKeyDescription> {
+  public async generateKey(options: IGenerateKeyOptions): Promise<IKeyDescription> {
     if (options.type === keyType.secp256k1) {
       return await this.generateSecp256k1();
     }
@@ -54,9 +63,9 @@ export class KeyService implements IGenerateKey {
    * @returns public JWK corresponding to keyId
    *
    */
-  async getPublicKeyFromKeyId(keyId: string): Promise<JWK> {
+  public async getPublicKeyFromKeyId(keyId: string): Promise<JWK> {
     const keyPair = await this.keyRepository.findOne(keyId);
-    return keyPair?.publicKeyJWK;
+    return keyPair?.publicKey;
   }
 
   /**
@@ -67,9 +76,20 @@ export class KeyService implements IGenerateKey {
    * @param keyId Id of the public key of the key pair
    * @returns private JWK of the key pair
    */
-  async getPrivateKeyFromKeyId(keyId: string): Promise<JWK> {
+  public async getPrivateKeyFromKeyId(keyId: string): Promise<JWK> {
     const keyPair = await this.keyRepository.findOne(keyId);
-    return keyPair?.privateKeyJWK;
+    return keyPair?.privateKey;
+  }
+
+  public async importKey(key: KeyPairDto): Promise<void> {
+    const privateKey = (await importJWK(key.privateKey)) as KeyLike; // TODO: fix
+    const publicKey = (await importJWK(key.publicKey)) as KeyLike; // TODO: fix
+    await this.saveNewKey({ privateKey, publicKey });
+  }
+
+  public async exportKey(keyId: string): Promise<KeyPairDto> {
+    const keyPair = await this.keyRepository.findOne(keyId);
+    return keyPair;
   }
 
   private async saveNewKey(keyGenResult: GenerateKeyPairResult): Promise<IKeyDescription> {
@@ -77,8 +97,8 @@ export class KeyService implements IGenerateKey {
     publicKeyJWK.kid = await calculateJwkThumbprint(publicKeyJWK, 'sha256');
     const privateKeyJWK = await exportJWK(keyGenResult.privateKey);
     const keyEntity = this.keyRepository.create({
-      publicKeyJWK,
-      privateKeyJWK,
+      publicKey: publicKeyJWK,
+      privateKey: privateKeyJWK,
       publicKeyThumbprint: publicKeyJWK.kid
     });
     await this.keyRepository.save(keyEntity);

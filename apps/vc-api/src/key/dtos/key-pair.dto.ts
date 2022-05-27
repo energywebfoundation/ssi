@@ -15,20 +15,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { IsObject } from 'class-validator';
 import { JWK } from 'jose';
-import { Entity, Column } from 'typeorm';
 
 /**
- * An entity representing a stored KeyPair
+ * KeyPair
  */
-@Entity()
-export class KeyPair {
-  @Column('text', { primary: true })
-  public publicKeyThumbprint: string;
-
-  @Column('simple-json')
+export class KeyPairDto {
+  /**
+   * private key JWK
+   */
+  @IsObject()
   public privateKey: JWK;
 
-  @Column('simple-json')
+  /**
+   * public key JWK
+   */
+  @IsObject()
   public publicKey: JWK;
 }
