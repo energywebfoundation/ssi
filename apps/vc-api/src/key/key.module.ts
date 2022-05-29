@@ -19,10 +19,12 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { KeyPair } from './key-pair.entity';
 import { KeyService } from './key.service';
+import { KeyController } from './key.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([KeyPair])],
   providers: [KeyService],
-  exports: [KeyService]
+  exports: [KeyService],
+  controllers: [KeyController]
 })
 export class KeyModule {}
