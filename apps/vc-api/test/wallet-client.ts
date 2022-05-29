@@ -40,6 +40,15 @@ export class WalletClient {
     this.#app = app;
   }
 
+  async exportKey(keyId: string): Promise<DIDDocument> {
+    const getResponse = await request(this.#app.getHttpServer())
+      .get(`/key/${keyId}`)
+      .expect(200);
+    expect(getResponse.body).toHaveProperty('privateKey');
+    expect(getResponse.body).toHaveProperty('publicKey');
+    return getResponse.body;
+  }
+
   async createDID(requestedMethod: string): Promise<DIDDocument> {
     const postResponse = await request(this.#app.getHttpServer())
       .post('/did')

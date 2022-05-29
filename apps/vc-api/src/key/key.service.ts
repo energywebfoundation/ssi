@@ -32,6 +32,7 @@ import { Repository } from 'typeorm';
 import { keyType } from './key-types';
 import { KeyPairDto } from './dtos/key-pair.dto';
 import { KeyModule } from './key.module';
+import { KeyDescriptionDto } from './dtos/key-description.dto';
 
 /**
  * "jose" package is recommended by OpenID developer: https://openid.net/developers/jwt/
@@ -91,8 +92,8 @@ export class KeyService implements IGenerateKey {
     throw new Error(`importJWK produce incorrect type. public key: ${publicKey}`);
   }
 
-  public async exportKey(keyId: string): Promise<KeyPairDto> {
-    const keyPair = await this.keyRepository.findOne(keyId);
+  public async exportKey(keyDescription: KeyDescriptionDto): Promise<KeyPairDto> {
+    const keyPair = await this.keyRepository.findOne(keyDescription.keyId);
     return keyPair;
   }
 
