@@ -20,12 +20,31 @@ import { walletClient } from '../app.e2e-spec';
 export const keySuite = () => {
   it('should export keypair for generated did:key', async () => {
     const didDoc = await walletClient.createDID('key');
-    const keyId = didDoc.verificationMethod[0].publicKeyJwk.kid;
+    const didDocPubKey = didDoc.verificationMethod[0].publicKeyJwk;
+    const keyId = didDocPubKey.kid;
     const exportedKey = await walletClient.exportKey(keyId);
     expect(exportedKey).toBeDefined();
+    expect(exportedKey.publicKey).toEqual(didDocPubKey);
   });
 
-  xit('should import and export a key', async () => {
-    await walletClient.createDID('key');
+  it('should import and export a key', async () => {
+    const keyPair = {
+      publicKeyThumbprint: 'AVjSzgwrxmpi4AGnt32kvb2LgAh6ZHdmesW0RPIdMg0',
+      privateKey: {
+        crv: 'Ed25519',
+        d: '6PUeBq8ogV4TH7jTWhBOseIHjxXJ-ldXA9Cvr_-lnCU',
+        x: 'uh-elw-73L1j1P7OuXz4gpNG4tYE4F_QJw8D6NTYjBg',
+        kty: 'OKP'
+      },
+      publicKey: {
+        crv: 'Ed25519',
+        x: 'uh-elw-73L1j1P7OuXz4gpNG4tYE4F_QJw8D6NTYjBg',
+        kty: 'OKP',
+        kid: 'AVjSzgwrxmpi4AGnt32kvb2LgAh6ZHdmesW0RPIdMg0'
+      }
+    };
+    const keyDescription = await walletClient.importKey(keyPair);
+    const exportedKey = await walletClient.exportKey(keyDescription.keyId);
+    expect(exportedKey).toEqual(keyPair);
   });
 };

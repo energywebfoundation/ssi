@@ -47,7 +47,7 @@ describe('App (e2e)', () => {
   });
 
   describe('DID (e2e)', didSuite);
-  describe.only('Key (e2e)', keySuite);
+  describe('Key (e2e)', keySuite);
   describe('VC-API (e2e)', vcApiSuite);
   describe('Resident Card (e2e)', residentCardExchangeSuite);
   describe('Rebeam (e2e)', rebeamExchangeSuite);

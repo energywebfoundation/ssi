@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { IGenerateKey, IGenerateKeyOptions, IKeyDescription } from '@energyweb/w3c-ccg-webkms';
 import {
   generateKeyPair,
@@ -23,16 +23,19 @@ import {
   GenerateKeyPairResult,
   JWK,
   calculateJwkThumbprint,
-  importJWK,
-  KeyLike
+  importJWK
 } from 'jose';
 import { InjectRepository } from '@nestjs/typeorm';
 import { KeyPair } from './key-pair.entity';
 import { Repository } from 'typeorm';
 import { keyType } from './key-types';
 import { KeyPairDto } from './dtos/key-pair.dto';
-import { KeyModule } from './key.module';
 import { KeyDescriptionDto } from './dtos/key-description.dto';
+
+// picked 'EdDSA' as 'alg' based on:
+// - https://stackoverflow.com/a/66894047
+// - https://github.com/panva/jose/issues/210
+const ED25519_ALG = 'EdDSA';
 
 /**
  * "jose" package is recommended by OpenID developer: https://openid.net/developers/jwt/
@@ -83,13 +86,23 @@ export class KeyService implements IGenerateKey {
     return keyPair?.privateKey;
   }
 
+  /**
+   * Import a key pair
+   *
+   * Currently only works for Ed25119 key as alg is hardcoded
+   * @param key
+   * @returns
+   */
   public async importKey(key: KeyPairDto): Promise<IKeyDescription> {
-    const privateKey = await importJWK(key.privateKey);
-    const publicKey = await importJWK(key.publicKey);
+    if (key.privateKey.crv !== 'Ed25519' || key.publicKey.crv !== 'Ed25519') {
+      throw new BadRequestException('Only Ed25519 keys are supported');
+    }
+    const privateKey = await importJWK(key.privateKey, ED25519_ALG);
+    const publicKey = await importJWK(key.publicKey, ED25519_ALG);
     if ('type' in privateKey && 'type' in publicKey) {
       return await this.saveNewKey({ privateKey, publicKey });
     }
-    throw new Error(`importJWK produce incorrect type. public key: ${publicKey}`);
+    throw new Error(`importJWK produced incorrect type. public key: ${publicKey}`);
   }
 
   public async exportKey(keyDescription: KeyDescriptionDto): Promise<KeyPairDto> {
@@ -118,10 +131,7 @@ export class KeyService implements IGenerateKey {
   }
 
   private async generateEd25119(): Promise<IKeyDescription> {
-    // picked 'EdDSA' as 'alg' based on:
-    // - https://stackoverflow.com/a/66894047
-    // - https://github.com/panva/jose/issues/210
-    const keyGenResult = await generateKeyPair('EdDSA');
+    const keyGenResult = await generateKeyPair(ED25519_ALG);
     return await this.saveNewKey(keyGenResult);
   }
 }
