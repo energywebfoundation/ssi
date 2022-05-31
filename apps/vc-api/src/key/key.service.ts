@@ -89,7 +89,7 @@ export class KeyService implements IGenerateKey {
   /**
    * Import a key pair
    *
-   * Currently only works for Ed25119 key as alg is hardcoded
+   * Currently only works for Ed25519 key as alg is hardcoded
    * @param key
    * @returns
    */
