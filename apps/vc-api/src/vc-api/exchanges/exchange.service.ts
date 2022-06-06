@@ -88,7 +88,7 @@ export class ExchangeService {
   public async continueExchange(
     verifiablePresentation: VerifiablePresentationDto,
     transactionId: string
-  ): Promise<ExchangeResponseDto> {
+  ): Promise<ExchangeResponseDto | null> {
     const transactionQuery = await this.getExchangeTransaction(transactionId);
     if (transactionQuery.errors.length > 0 || !transactionQuery.transaction) {
       return {
@@ -96,6 +96,7 @@ export class ExchangeService {
       };
     }
     const transaction = transactionQuery.transaction;
+
     const { response, callback } = await transaction.processPresentation(
       verifiablePresentation,
       this.vpSubmissionVerifierService
@@ -109,7 +110,8 @@ export class ExchangeService {
         error: (e) => Logger.error(inspect(e))
       });
     });
-    return response;
+
+    return transaction.presentationReview ? response : null;
   }
 
   public async getExchange(exchangeId: string): Promise<{ errors: string[]; exchange?: ExchangeEntity }> {

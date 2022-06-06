@@ -15,8 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Body, Controller, Get, Param, Post, Put, HttpCode } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, HttpCode, Res } from '@nestjs/common';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
+import { Response } from 'express';
 import { IPresentationDefinition } from '@sphereon/pex';
 import { CredentialsService } from './credentials/credentials.service';
 import { IssueCredentialDto } from './credentials/dtos/issue-credential.dto';
@@ -167,9 +168,17 @@ export class VcApiController {
   async continueExchange(
     @Param('exchangeId') exchangeId: string,
     @Param('transactionId') transactionId: string,
-    @Body() presentation: VerifiablePresentationDto
-  ): Promise<ExchangeResponseDto> {
-    return await this.exchangeService.continueExchange(presentation, transactionId);
+    @Body() presentation: VerifiablePresentationDto,
+    @Res() res: Response
+  ): Promise<ExchangeResponseDto | Response> {
+    const response = await this.exchangeService.continueExchange(presentation, transactionId);
+
+    if (!response) {
+      // Retry-After 5 seconds
+      return res.status(202).setHeader('Retry-After', 5).send();
+    }
+
+    return response;
   }
 
   /**
