@@ -27,7 +27,7 @@ export class CreateDidOptionsDto {
    * Must be one of "key" or "ethr"
    */
   @IsEnum(DidMethod)
-  method: string;
+  method: DidMethod;
 
   /**
    * id of key (for example, JWK thumbprint).
