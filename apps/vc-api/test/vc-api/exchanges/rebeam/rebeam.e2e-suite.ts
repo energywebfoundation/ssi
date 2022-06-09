@@ -68,7 +68,7 @@ export const rebeamExchangeSuite = () => {
     const vp = await walletClient.provePresentation({ presentation, options: presentationOptions });
 
     // Holder submits presentation
-    await walletClient.continueExchange(presentationExchangeContinuationEndpoint, vp, false, true);
+    await walletClient.continueExchange(presentationExchangeContinuationEndpoint, vp, false);
     scope.done();
   });
 
