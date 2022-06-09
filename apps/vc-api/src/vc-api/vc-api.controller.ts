@@ -174,11 +174,11 @@ export class VcApiController {
     const response = await this.exchangeService.continueExchange(presentation, transactionId);
 
     if (response.processingInProgress) {
-      // Retry-After 5 seconds
-      return res.status(202).setHeader('Retry-After', 5).send();
+      // Currently 5 second retry time is hardcoded but it could be dynamic based on the use case in the future
+      res.status(202).setHeader('Retry-After', 5);
     }
 
-    return response;
+    return res.send(response);
   }
 
   /**
