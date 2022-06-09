@@ -173,7 +173,7 @@ export class VcApiController {
   ): Promise<ExchangeResponseDto | Response> {
     const response = await this.exchangeService.continueExchange(presentation, transactionId);
 
-    if (!response) {
+    if (response.processingInProgress) {
       // Retry-After 5 seconds
       return res.status(202).setHeader('Retry-After', 5).send();
     }
