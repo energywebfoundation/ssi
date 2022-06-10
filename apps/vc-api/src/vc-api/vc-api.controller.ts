@@ -165,6 +165,11 @@ export class VcApiController {
    * @returns
    */
   @Put('/exchanges/:exchangeId/:transactionId')
+  @ApiResponse({ status: 200, description: 'Verifiable Presentation successfully submitted and verified' })
+  @ApiResponse({
+    status: 202,
+    description: 'Verifiable Presentation successfully submitted. Further review in progress.'
+  })
   async continueExchange(
     @Param('exchangeId') exchangeId: string,
     @Param('transactionId') transactionId: string,
