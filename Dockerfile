@@ -1,19 +1,29 @@
 FROM node:16.10.0-alpine as base
 
-# Install the required packages
-RUN apk add --no-cache curl \
-    && curl -sL https://unpkg.com/@pnpm/self-installer | PNPM_VERSION=6.32.9 node
-RUN npm install -g @microsoft/rush
+WORKDIR /app
+
+FROM base as builder
+
+RUN apk add g++ make py3-pip
+
+COPY common common
+COPY rush.json .
+COPY apps/vc-api/package.json apps/vc-api/package.json
+COPY libraries/did/package.json libraries/did/package.json
+COPY libraries/webkms/package.json libraries/webkms/package.json
+
+RUN node common/scripts/install-run-rush.js install
 
 COPY . .
-RUN rush install && pnpm add -g pnpm && rush build
 
-FROM node:14-alpine
+RUN node common/scripts/install-run-rush.js build
+RUN node common/scripts/install-run-rush.js deploy -s ssi-vc-api
+RUN cp -R ./apps/vc-api/dist ./common/deploy/apps/vc-api
 
-COPY --from=base . .
-
+FROM base as final
+ENV NODE_ENV=production
 EXPOSE 3000
 
-WORKDIR /apps/vc-api
+COPY --from=builder /app/common/deploy /app
 
-CMD [ "pnpm", "run", "start" ]
+CMD ["node", "apps/vc-api/dist/src/main.js"]
