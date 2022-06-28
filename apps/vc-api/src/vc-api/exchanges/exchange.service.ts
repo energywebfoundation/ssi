@@ -16,7 +16,6 @@
  */
 
 import { Injectable, Logger, ConflictException } from '@nestjs/common';
-import { isNil } from '@nestjs/common/utils/shared.utils';
 import { HttpService } from '@nestjs/axios';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -45,7 +44,7 @@ export class ExchangeService {
   ) {}
 
   public async createExchange(exchangeDefinitionDto: ExchangeDefinitionDto) {
-    if (!isNil(await this.exchangeRepository.findOne(exchangeDefinitionDto.exchangeId))) {
+    if (!!(await this.exchangeRepository.findOne(exchangeDefinitionDto.exchangeId))) {
       throw new ConflictException(`exchangeId='${exchangeDefinitionDto.exchangeId}' already exists`);
     }
 
