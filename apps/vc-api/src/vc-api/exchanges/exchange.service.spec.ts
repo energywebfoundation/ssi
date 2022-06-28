@@ -58,6 +58,7 @@ describe('ExchangeService', () => {
     findOne: jest.fn(() => transaction),
     save: jest.fn((entity) => {
       transaction = entity;
+      return entity;
     })
   }));
 
@@ -68,6 +69,7 @@ describe('ExchangeService', () => {
       findOne: jest.fn(() => exchange),
       save: jest.fn((entity: ExchangeEntity) => {
         exchange = entity;
+        return entity;
       })
     };
   });
