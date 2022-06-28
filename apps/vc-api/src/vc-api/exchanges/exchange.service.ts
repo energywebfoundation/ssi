@@ -15,7 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, ConflictException } from '@nestjs/common';
+import { isNil } from '@nestjs/common/utils/shared.utils';
 import { HttpService } from '@nestjs/axios';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -44,6 +45,10 @@ export class ExchangeService {
   ) {}
 
   public async createExchange(exchangeDefinitionDto: ExchangeDefinitionDto) {
+    if (!isNil(await this.exchangeRepository.findOne(exchangeDefinitionDto.exchangeId))) {
+      throw new ConflictException(`exchangeId='${exchangeDefinitionDto.exchangeId}' already exists`);
+    }
+
     const exchange = new ExchangeEntity(exchangeDefinitionDto);
     await this.exchangeRepository.save(exchange);
     return {
