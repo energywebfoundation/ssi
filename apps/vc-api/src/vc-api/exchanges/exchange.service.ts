@@ -44,7 +44,7 @@ export class ExchangeService {
   ) {}
 
   public async createExchange(exchangeDefinitionDto: ExchangeDefinitionDto) {
-    if (!!(await this.exchangeRepository.findOne(exchangeDefinitionDto.exchangeId))) {
+    if (await this.exchangeRepository.findOne(exchangeDefinitionDto.exchangeId)) {
       throw new ConflictException(`exchangeId='${exchangeDefinitionDto.exchangeId}' already exists`);
     }
 
