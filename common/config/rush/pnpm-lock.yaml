@@ -4,7 +4,7 @@ specifiers:
   '@nestjs/axios': ~0.0.7
   '@nestjs/cli': ^8.0.0
   '@nestjs/common': ^8.0.0
-  '@nestjs/config': ~1.1.0
+  '@nestjs/config': ^2.1.0
   '@nestjs/core': ^8.0.0
   '@nestjs/platform-express': ^8.0.0
   '@nestjs/schematics': ^8.0.0
@@ -56,7 +56,7 @@ dependencies:
   '@nestjs/axios': 0.0.8_37c15d9aad112cee731c8d239db0c0af
   '@nestjs/cli': 8.2.8
   '@nestjs/common': 8.4.7_a33b8c25f6562e8508e37318284cdc0d
-  '@nestjs/config': 1.1.7_37c15d9aad112cee731c8d239db0c0af
+  '@nestjs/config': 2.1.0_37c15d9aad112cee731c8d239db0c0af
   '@nestjs/core': 8.4.7_2aa064eef171d5a7957432d22e4b3f20
   '@nestjs/platform-express': 8.4.7_fce4c3b686c1225eb94686491d30b061
   '@nestjs/schematics': 8.0.11_typescript@4.7.4
@@ -1612,16 +1612,16 @@ packages:
       - debug
     dev: false
 
-  /@nestjs/config/1.1.7_37c15d9aad112cee731c8d239db0c0af:
-    resolution: {integrity: sha512-geSsAfANUpTl0bYesPbdvzjw+7sPdTynz66uyLvq2B+mG8W5CTHsEREsFkH/5+djkJF4BYu1vvB6tnlio/AQQg==}
+  /@nestjs/config/2.1.0_37c15d9aad112cee731c8d239db0c0af:
+    resolution: {integrity: sha512-wUpt1/QJEN7xnJl4pM3c9rHrY1widq2yPOZfjaMD1//XAP9LLHTaW+RxSEG6BSGIm3w4wGtjco+gKNB2WL7yRg==}
     peerDependencies:
       '@nestjs/common': ^7.0.0 || ^8.0.0
       reflect-metadata: ^0.1.13
       rxjs: ^6.0.0 || ^7.2.0
     dependencies:
       '@nestjs/common': 8.4.7_a33b8c25f6562e8508e37318284cdc0d
-      dotenv: 10.0.0
-      dotenv-expand: 5.1.0
+      dotenv: 16.0.1
+      dotenv-expand: 8.0.3
       lodash: 4.17.21
       reflect-metadata: 0.1.13
       rxjs: 7.5.5
@@ -3627,13 +3627,14 @@ packages:
       webidl-conversions: 5.0.0
     dev: false
 
-  /dotenv-expand/5.1.0:
-    resolution: {integrity: sha512-YXQl1DSa4/PQyRfgrv6aoNjhasp/p4qs9FjJ4q4cQk+8m4r6k4ZSiEyytKG8f8W9gi8WsQtIObNmKd+tMzNTmA==}
+  /dotenv-expand/8.0.3:
+    resolution: {integrity: sha512-SErOMvge0ZUyWd5B0NXMQlDkN+8r+HhVUsxgOO7IoPDOdDRD2JjExpN6y3KnFR66jsJMwSn1pqIivhU5rcJiNg==}
+    engines: {node: '>=12'}
     dev: false
 
-  /dotenv/10.0.0:
-    resolution: {integrity: sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==}
-    engines: {node: '>=10'}
+  /dotenv/16.0.1:
+    resolution: {integrity: sha512-1K6hR6wtk2FviQ4kEiSjFiH5rpzEVi8WW0x96aztHVMhEspNpc4DVOUTEHtEva5VThQ8IaBX1Pe4gSzpVVUsKQ==}
+    engines: {node: '>=12'}
     dev: false
 
   /dotenv/8.6.0:
@@ -8289,7 +8290,7 @@ packages:
     dev: false
 
   file:projects/ssi-vc-api.tgz_babel-jest@26.6.3:
-    resolution: {integrity: sha512-m8joN40gB1fWGHeagwAhoEJboIpDioH8RULEnJjAn+vbwVcyFF6Z26fULIcNfsEBkmGMkD5ygwZRTmNWJJBPxQ==, tarball: file:projects/ssi-vc-api.tgz}
+    resolution: {integrity: sha512-Qotfqh9pU0+XBWj2ln9k7XWVnBGtjgp6VmcfIWFaTSYvHARGfKY31TUL0DPvNeoVeN+j3M6pB7azzAAaP5TY7w==, tarball: file:projects/ssi-vc-api.tgz}
     id: file:projects/ssi-vc-api.tgz
     name: '@rush-temp/ssi-vc-api'
     version: 0.0.0
@@ -8297,7 +8298,7 @@ packages:
       '@nestjs/axios': 0.0.8_37c15d9aad112cee731c8d239db0c0af
       '@nestjs/cli': 8.2.8
       '@nestjs/common': 8.4.7_a33b8c25f6562e8508e37318284cdc0d
-      '@nestjs/config': 1.1.7_37c15d9aad112cee731c8d239db0c0af
+      '@nestjs/config': 2.1.0_37c15d9aad112cee731c8d239db0c0af
       '@nestjs/core': 8.4.7_2aa064eef171d5a7957432d22e4b3f20
       '@nestjs/platform-express': 8.4.7_fce4c3b686c1225eb94686491d30b061
       '@nestjs/schematics': 8.0.11_typescript@4.7.4
