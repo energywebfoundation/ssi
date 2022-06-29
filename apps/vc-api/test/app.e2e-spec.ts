@@ -21,6 +21,7 @@ import { AppModule } from '../src/app.module';
 import { WalletClient } from './wallet-client';
 import { didSuite } from './did/did.e2e-suite';
 import { residentCardExchangeSuite } from './vc-api/exchanges/resident-card/resident-card.e2e-suite';
+import { residentCardPresentationErrorsSuite } from './vc-api/exchanges/resident-card/resident-card-presentation-errors.e2e-suite';
 import { VpRequestDto } from '../src/vc-api/exchanges/dtos/vp-request.dto';
 import { rebeamExchangeSuite } from './vc-api/exchanges/rebeam/rebeam.e2e-suite';
 import { vcApiSuite } from './vc-api/credentials/vc-api.e2e-suite';
@@ -56,6 +57,7 @@ describe('App (e2e)', () => {
   describe('Key (e2e)', keySuite);
   describe('VC-API (e2e)', vcApiSuite);
   describe('Resident Card (e2e)', residentCardExchangeSuite);
+  describe('Resident Card Errors (e2e)', residentCardPresentationErrorsSuite);
   describe('Rebeam (e2e)', rebeamExchangeSuite);
 });
 
