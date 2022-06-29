@@ -167,6 +167,11 @@ export class VcApiController {
   @Put('/exchanges/:exchangeId/:transactionId')
   @ApiResponse({ status: 200, description: 'Verifiable Presentation successfully submitted and verified' })
   @ApiResponse({
+    status: 400,
+    description: `Verifiable Presentation malformed or does not meet presentation requirements. 
+       In the case of the latter, see the errors array in response for more precise reason.`
+  })
+  @ApiResponse({
     status: 202,
     description: 'Verifiable Presentation successfully submitted. Further review in progress.'
   })
