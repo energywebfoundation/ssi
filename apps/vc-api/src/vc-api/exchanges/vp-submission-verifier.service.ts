@@ -20,6 +20,7 @@ import { ProofPurpose, IPresentationDefinition, PEX, IPresentation } from '@sphe
 import { CredentialsService } from '../credentials/credentials.service';
 import { VerificationResult } from '../credentials/types/verification-result';
 import { VpRequestEntity } from './entities/vp-request.entity';
+import { EXCHANGE_ERROR_MESSAGES } from './types/exchange-error-messages';
 import { SubmissionVerifier } from './types/submission-verifier';
 import { VerifiablePresentation } from './types/verifiable-presentation';
 import { VpRequestQueryType } from './types/vp-request-query-type';
@@ -75,7 +76,7 @@ export class VpSubmissionVerifierService implements SubmissionVerifier {
     const commonErrors = [];
     // Common checking
     if (presentation.proof.challenge !== vpRequest.challenge) {
-      commonErrors.push('Challenge does not match');
+      commonErrors.push(EXCHANGE_ERROR_MESSAGES.CHALLENGES_DO_NOT_MATCH);
     }
 
     // Type specific checking
