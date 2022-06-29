@@ -29,7 +29,7 @@
     "@nestjs/config": "~1.1.0",
     "@nestjs/core": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
-    "@nestjs/typeorm": "^8.0.2",
+    "@nestjs/typeorm": "8.0.4",
     "jose": "^4.1.5",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",

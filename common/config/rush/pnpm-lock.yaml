@@ -10,7 +10,7 @@ specifiers:
   '@nestjs/schematics': ^8.0.0
   '@nestjs/swagger': ~5.1.5
   '@nestjs/testing': ^8.0.0
-  '@nestjs/typeorm': ^8.0.2
+  '@nestjs/typeorm': 8.0.4
   '@rush-temp/ssi-did': file:./projects/ssi-did.tgz
   '@rush-temp/ssi-vc-api': file:./projects/ssi-vc-api.tgz
   '@rush-temp/w3c-ccg-webkms': file:./projects/w3c-ccg-webkms.tgz
@@ -62,7 +62,7 @@ dependencies:
   '@nestjs/schematics': 8.0.4_typescript@4.4.4
   '@nestjs/swagger': 5.1.5_ea14560b646b9e6de5a63f20f1277708
   '@nestjs/testing': 8.1.2_830699a7a1bc4b367722dd63c0377123
-  '@nestjs/typeorm': 8.0.2_12346420c5d0822584d78b786936ea28
+  '@nestjs/typeorm': 8.0.4_12346420c5d0822584d78b786936ea28
   '@rush-temp/ssi-did': file:projects/ssi-did.tgz_ts-node@10.7.0
   '@rush-temp/ssi-vc-api': file:projects/ssi-vc-api.tgz_babel-jest@26.6.3
   '@rush-temp/w3c-ccg-webkms': file:projects/w3c-ccg-webkms.tgz
@@ -1437,8 +1437,8 @@ packages:
       tslib: 2.3.1
     dev: false
 
-  /@nestjs/typeorm/8.0.2_12346420c5d0822584d78b786936ea28:
-    resolution: {integrity: sha512-UHn4IsRkzm22eNDir/uI+x8gmgo66EO7SxWfVOiPpeLSdrTfZHKYz6q/P9KRgYbwXs8TrywVdIbJhp+4C0tzjQ==}
+  /@nestjs/typeorm/8.0.4_12346420c5d0822584d78b786936ea28:
+    resolution: {integrity: sha512-l1Fv+XicVFs7j4EKTq32lJ6QomYLlXZwvug9zcts6IBDVd8rYYBPy28pyBMDzLtnm0zD4tcW298rpylL7eTZtQ==}
     peerDependencies:
       '@nestjs/common': ^8.0.0
       '@nestjs/core': ^8.0.0
@@ -8170,7 +8170,7 @@ packages:
     dev: false
 
   file:projects/ssi-vc-api.tgz_babel-jest@26.6.3:
-    resolution: {integrity: sha512-qUYSkNYpZlKCgHbMmk1R94fFFzv6VHyhSZblueAEz0VVHzvbr3cUgRaaUPB5OgD7DJJgIR0IZ6/wt6HNkpTLhg==, tarball: file:projects/ssi-vc-api.tgz}
+    resolution: {integrity: sha512-m8joN40gB1fWGHeagwAhoEJboIpDioH8RULEnJjAn+vbwVcyFF6Z26fULIcNfsEBkmGMkD5ygwZRTmNWJJBPxQ==, tarball: file:projects/ssi-vc-api.tgz}
     id: file:projects/ssi-vc-api.tgz
     name: '@rush-temp/ssi-vc-api'
     version: 0.0.0
@@ -8185,7 +8185,7 @@ packages:
       '@nestjs/schematics': 8.0.4_typescript@4.4.4
       '@nestjs/swagger': 5.1.5_ea14560b646b9e6de5a63f20f1277708
       '@nestjs/testing': 8.1.2_830699a7a1bc4b367722dd63c0377123
-      '@nestjs/typeorm': 8.0.2_12346420c5d0822584d78b786936ea28
+      '@nestjs/typeorm': 8.0.4_12346420c5d0822584d78b786936ea28
       '@rushstack/eslint-config': 2.3.4_eslint@7.32.0+typescript@4.4.4
       '@sphereon/pex': 1.0.2
       '@sphereon/pex-models': 1.1.0
