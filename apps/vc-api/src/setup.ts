@@ -25,7 +25,8 @@ async function setupApp(): Promise<INestApplication> {
   app.enableCors({ origin: true });
   app.useGlobalPipes(new ValidationPipe());
   app.enableVersioning({
-    type: VersioningType.URI
+    type: VersioningType.URI,
+    defaultVersion: ['1']
   });
   return app;
 }
