@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { INestApplication, ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
@@ -24,6 +24,9 @@ async function setupApp(): Promise<INestApplication> {
   const app = await NestFactory.create(AppModule);
   app.enableCors({ origin: true });
   app.useGlobalPipes(new ValidationPipe());
+  app.enableVersioning({
+    type: VersioningType.URI
+  });
   return app;
 }
 
