@@ -67,7 +67,7 @@ dependencies:
   '@nestjs/swagger': 5.1.5_d698c50e080e28585857283d96ea096d
   '@nestjs/testing': 8.4.7_c1bddf0102e0d68dc342d4afcbe21907
   '@nestjs/typeorm': 8.0.4_4967a077601f378d566b47f3ee68696d
-  '@rush-temp/credential-from-input-descriptor': file:projects/credential-from-input-descriptor.tgz_0b66adfed44fbb8190f200a2dca11c2f
+  '@rush-temp/credential-from-input-descriptor': file:projects/credential-from-input-descriptor.tgz_d16e3775f614b1105d18c3137bd18587
   '@rush-temp/ssi-did': file:projects/ssi-did.tgz_ts-node@10.8.1
   '@rush-temp/ssi-vc-api': file:projects/ssi-vc-api.tgz_babel-jest@26.6.3
   '@rush-temp/w3c-ccg-webkms': file:projects/w3c-ccg-webkms.tgz
@@ -8237,8 +8237,8 @@ packages:
     resolution: {integrity: sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==}
     dev: false
 
-  file:projects/credential-from-input-descriptor.tgz_0b66adfed44fbb8190f200a2dca11c2f:
-    resolution: {integrity: sha512-Hy4OuvVx3xKU80d3/SCnJzrYeX9zC0f6zOo4uFHMGAKjeBbbR0zL/l0JNt4rpoin96zXy03WvGt3SGufkw5QcA==, tarball: file:projects/credential-from-input-descriptor.tgz}
+  file:projects/credential-from-input-descriptor.tgz_d16e3775f614b1105d18c3137bd18587:
+    resolution: {integrity: sha512-RJDVPeVy303YsvEgqpRxikobGkNtewbJzEWgY4BKh/1HdGEtNaLOBadFGiAWC5p1aP6eTTobAJoFmW4kcOUitg==, tarball: file:projects/credential-from-input-descriptor.tgz}
     id: file:projects/credential-from-input-descriptor.tgz
     name: '@rush-temp/credential-from-input-descriptor'
     version: 0.0.0
@@ -8248,6 +8248,7 @@ packages:
       '@nestjs/core': 8.4.7_2aa064eef171d5a7957432d22e4b3f20
       '@nestjs/platform-express': 8.4.7_fce4c3b686c1225eb94686491d30b061
       '@nestjs/schematics': 8.0.11_typescript@4.7.4
+      '@nestjs/swagger': 5.1.5_d698c50e080e28585857283d96ea096d
       '@nestjs/testing': 8.4.7_c1bddf0102e0d68dc342d4afcbe21907
       '@types/express': 4.17.13
       '@types/jest': 27.5.2
@@ -8286,8 +8287,10 @@ packages:
       - debug
       - encoding
       - esbuild
+      - fastify-swagger
       - node-notifier
       - supports-color
+      - swagger-ui-express
       - uglify-js
       - utf-8-validate
       - vue-template-compiler
