@@ -12,6 +12,7 @@ specifiers:
   '@nestjs/swagger': ~5.1.0
   '@nestjs/testing': ^8.0.0
   '@nestjs/typeorm': 8.0.4
+  '@rush-temp/credential-from-input-descriptor': file:./projects/credential-from-input-descriptor.tgz
   '@rush-temp/ssi-did': file:./projects/ssi-did.tgz
   '@rush-temp/ssi-vc-api': file:./projects/ssi-vc-api.tgz
   '@rush-temp/w3c-ccg-webkms': file:./projects/w3c-ccg-webkms.tgz
@@ -43,6 +44,7 @@ specifiers:
   reflect-metadata: ^0.1.0
   rimraf: ^3.0.0
   rxjs: ^7.0.0
+  source-map-support: ^0.5.0
   supertest: ^6.0.0
   swagger-ui-express: ~4.4.0
   ts-jest: ^27.0.0
@@ -65,6 +67,7 @@ dependencies:
   '@nestjs/swagger': 5.1.5_d698c50e080e28585857283d96ea096d
   '@nestjs/testing': 8.4.7_c1bddf0102e0d68dc342d4afcbe21907
   '@nestjs/typeorm': 8.0.4_4967a077601f378d566b47f3ee68696d
+  '@rush-temp/credential-from-input-descriptor': file:projects/credential-from-input-descriptor.tgz_0b66adfed44fbb8190f200a2dca11c2f
   '@rush-temp/ssi-did': file:projects/ssi-did.tgz_ts-node@10.8.1
   '@rush-temp/ssi-vc-api': file:projects/ssi-vc-api.tgz_babel-jest@26.6.3
   '@rush-temp/w3c-ccg-webkms': file:projects/w3c-ccg-webkms.tgz
@@ -96,6 +99,7 @@ dependencies:
   reflect-metadata: 0.1.13
   rimraf: 3.0.2
   rxjs: 7.5.5
+  source-map-support: 0.5.21
   supertest: 6.2.3
   swagger-ui-express: 4.4.0
   ts-jest: 27.1.5_d72aeffe33666a81c9d394a1de77d638
@@ -8231,6 +8235,64 @@ packages:
 
   /zen-observable/0.8.15:
     resolution: {integrity: sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==}
+    dev: false
+
+  file:projects/credential-from-input-descriptor.tgz_0b66adfed44fbb8190f200a2dca11c2f:
+    resolution: {integrity: sha512-Hy4OuvVx3xKU80d3/SCnJzrYeX9zC0f6zOo4uFHMGAKjeBbbR0zL/l0JNt4rpoin96zXy03WvGt3SGufkw5QcA==, tarball: file:projects/credential-from-input-descriptor.tgz}
+    id: file:projects/credential-from-input-descriptor.tgz
+    name: '@rush-temp/credential-from-input-descriptor'
+    version: 0.0.0
+    dependencies:
+      '@nestjs/cli': 8.2.8
+      '@nestjs/common': 8.4.7_5199533202e21c7185c9d97f881e2827
+      '@nestjs/core': 8.4.7_2aa064eef171d5a7957432d22e4b3f20
+      '@nestjs/platform-express': 8.4.7_fce4c3b686c1225eb94686491d30b061
+      '@nestjs/schematics': 8.0.11_typescript@4.7.4
+      '@nestjs/testing': 8.4.7_c1bddf0102e0d68dc342d4afcbe21907
+      '@types/express': 4.17.13
+      '@types/jest': 27.5.2
+      '@types/node': 16.11.41
+      '@types/supertest': 2.0.12
+      '@typescript-eslint/eslint-plugin': 5.30.5_f646e16e2de31e818e163bded4698d6b
+      '@typescript-eslint/parser': 5.30.5_eslint@8.19.0+typescript@4.7.4
+      eslint: 8.19.0
+      eslint-config-prettier: 8.5.0_eslint@8.19.0
+      eslint-plugin-prettier: 4.2.1_fd2e32b7574349919aac0818c3f895ea
+      jest: 27.0.6_ts-node@10.8.1
+      prettier: 2.7.1
+      reflect-metadata: 0.1.13
+      rimraf: 3.0.2
+      rxjs: 7.5.5
+      source-map-support: 0.5.21
+      supertest: 6.2.3
+      ts-jest: 27.1.5_d72aeffe33666a81c9d394a1de77d638
+      ts-loader: 9.3.1_typescript@4.7.4
+      ts-node: 10.8.1_841f2a74d64cdda652a10d589e346265
+      tsconfig-paths: 4.0.0
+      typescript: 4.7.4
+    transitivePeerDependencies:
+      - '@babel/core'
+      - '@nestjs/microservices'
+      - '@nestjs/websockets'
+      - '@swc/core'
+      - '@swc/wasm'
+      - babel-jest
+      - bufferutil
+      - cache-manager
+      - canvas
+      - chokidar
+      - class-transformer
+      - class-validator
+      - debug
+      - encoding
+      - esbuild
+      - node-notifier
+      - supports-color
+      - uglify-js
+      - utf-8-validate
+      - vue-template-compiler
+      - webpack
+      - webpack-cli
     dev: false
 
   file:projects/ssi-did.tgz_ts-node@10.8.1:
