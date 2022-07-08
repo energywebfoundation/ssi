@@ -21,7 +21,7 @@ specifiers:
   '@spruceid/didkit-wasm-node': ~0.2.0
   '@trust/keyto': ^1.0.0
   '@types/express': ^4.0.0
-  '@types/jest': ^26.0.0
+  '@types/jest': ^27.0.0
   '@types/node': ^16.0.0
   '@types/supertest': ^2.0.0
   '@typescript-eslint/eslint-plugin': ^4.0.0
@@ -42,7 +42,7 @@ specifiers:
   prettier: ^2.0.0
   reflect-metadata: ^0.1.0
   rimraf: ^3.0.0
-  rxjs: ^7.2.0
+  rxjs: ^7.0.0
   supertest: ^6.0.0
   swagger-ui-express: ~4.4.0
   ts-jest: ^27.0.0
@@ -74,7 +74,7 @@ dependencies:
   '@spruceid/didkit-wasm-node': 0.2.1
   '@trust/keyto': 1.0.1
   '@types/express': 4.17.13
-  '@types/jest': 26.0.24
+  '@types/jest': 27.5.2
   '@types/node': 16.11.41
   '@types/supertest': 2.0.12
   '@typescript-eslint/eslint-plugin': 4.33.0_d91404fd3b7596e5b6874ef0a887f4fa
@@ -98,7 +98,7 @@ dependencies:
   rxjs: 7.5.5
   supertest: 6.2.3
   swagger-ui-express: 4.4.0
-  ts-jest: 27.1.5_436aef4ab86d003be7e1738ac3cd3bae
+  ts-jest: 27.1.5_d72aeffe33666a81c9d394a1de77d638
   ts-loader: 9.3.1_typescript@4.7.4
   ts-node: 10.8.1_841f2a74d64cdda652a10d589e346265
   tsconfig-paths: 3.14.1
@@ -2071,11 +2071,11 @@ packages:
       '@types/istanbul-lib-report': 3.0.0
     dev: false
 
-  /@types/jest/26.0.24:
-    resolution: {integrity: sha512-E/X5Vib8BWqZNRlDxj9vYXhsDwPYbPINqKF9BsnSoon4RQ0D9moEuLD8txgyypFLH7J4+Lho9Nr/c8H0Fi+17w==}
+  /@types/jest/27.5.2:
+    resolution: {integrity: sha512-mpT8LJJ4CMeeahobofYWIjFo0xonRS/HfxnVEPMPFSQdGUt1uHCnoPT7Zhb+sjDU2wz0oKV0OLUR0WzrHNgfeA==}
     dependencies:
-      jest-diff: 26.6.2
-      pretty-format: 26.6.2
+      jest-matcher-utils: 27.5.1
+      pretty-format: 27.5.1
     dev: false
 
   /@types/json-schema/7.0.11:
@@ -3596,11 +3596,6 @@ packages:
 
   /did-resolver/3.2.2:
     resolution: {integrity: sha512-Eeo2F524VM5N3W4GwglZrnul2y6TLTwMQP3In62JdG34NZoqihYyOZLk+5wUW8sSgvIYIcJM8Dlt3xsdKZZ3tg==}
-    dev: false
-
-  /diff-sequences/26.6.2:
-    resolution: {integrity: sha512-Mv/TDa3nZ9sbc5soK+OoA74BsS3mL37yixCvUAQkiuA4Wz6YtwP/K47n2rv2ovzHZvoiQeA5FTQOschKkEwB0Q==}
-    engines: {node: '>= 10.14.2'}
     dev: false
 
   /diff-sequences/27.5.1:
@@ -5261,16 +5256,6 @@ packages:
       - utf-8-validate
     dev: false
 
-  /jest-diff/26.6.2:
-    resolution: {integrity: sha512-6m+9Z3Gv9wN0WFVasqjCL/06+EFCMTqDEUl/b87HYK2rAPTyfz4ZIuSlPhY51PIQRWx5TaxeF1qmXKe9gfN3sA==}
-    engines: {node: '>= 10.14.2'}
-    dependencies:
-      chalk: 4.1.2
-      diff-sequences: 26.6.2
-      jest-get-type: 26.3.0
-      pretty-format: 26.6.2
-    dev: false
-
   /jest-diff/27.5.1:
     resolution: {integrity: sha512-m0NvkX55LDt9T4mctTEgnZk3fmEg3NRYutvMPWM/0iPnkFj2wIeF45O1718cMSOFO1vINkqmxqD8vE37uTEbqw==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
@@ -5327,11 +5312,6 @@ packages:
       '@types/node': 16.11.41
       jest-mock: 27.5.1
       jest-util: 27.5.1
-    dev: false
-
-  /jest-get-type/26.3.0:
-    resolution: {integrity: sha512-TpfaviN1R2pQWkIihlfEanwOXK0zcxrKEE4MlU6Tn7keoXdN6/3gK/xl0yEh8DOunn5pOVGKf8hB4R9gVh04ig==}
-    engines: {node: '>= 10.14.2'}
     dev: false
 
   /jest-get-type/27.5.1:
@@ -6599,16 +6579,6 @@ packages:
     hasBin: true
     dev: false
 
-  /pretty-format/26.6.2:
-    resolution: {integrity: sha512-7AeGuCYNGmycyQbCqd/3PWH4eOoX/OiCa0uphp57NVTeAGdJGaAliecxwBDHYQCIvrW7aDBZCYeNTP/WX69mkg==}
-    engines: {node: '>= 10'}
-    dependencies:
-      '@jest/types': 26.6.2
-      ansi-regex: 5.0.1
-      ansi-styles: 4.3.0
-      react-is: 17.0.2
-    dev: false
-
   /pretty-format/27.5.1:
     resolution: {integrity: sha512-Qb1gy5OrP5+zDf2Bvnzdl3jsTf1qXVMazbvCoKhtKqVs4/YK4ozX4gKQJJVyNe+cajNPn0KoC0MC3FUmaHWEmQ==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
@@ -7616,7 +7586,7 @@ packages:
     hasBin: true
     dev: false
 
-  /ts-jest/27.1.5_436aef4ab86d003be7e1738ac3cd3bae:
+  /ts-jest/27.1.5_d72aeffe33666a81c9d394a1de77d638:
     resolution: {integrity: sha512-Xv6jBQPoBEvBq/5i2TeSG9tt/nqkbpcurrEG1b+2yfBrcJelOZF9Ml6dmyMh7bcW9JyFbRYpR5rxROSlBLTZHA==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     hasBin: true
@@ -7637,7 +7607,7 @@ packages:
       esbuild:
         optional: true
     dependencies:
-      '@types/jest': 26.0.24
+      '@types/jest': 27.5.2
       babel-jest: 26.6.3
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
@@ -8278,7 +8248,7 @@ packages:
     dev: false
 
   file:projects/ssi-did.tgz_ts-node@10.8.1:
-    resolution: {integrity: sha512-C5+TByOpvB/zmwcBf2jZNmRMdbNO0z03U5sDL6Dz35hYsI6PcTXhmaMH7Y8oxIUuW7k8NpetJIl9R/Pw6quwZA==, tarball: file:projects/ssi-did.tgz}
+    resolution: {integrity: sha512-YZ6Gt9IDOSCcUHSlfSwzG2RYyhSIzQinVZThT3+S8gOAcgM16zmjBw+wa3AGONB9xgNQblV1cdX8SJr/gMpb6Q==, tarball: file:projects/ssi-did.tgz}
     id: file:projects/ssi-did.tgz
     name: '@rush-temp/ssi-did'
     version: 0.0.0
@@ -8286,7 +8256,7 @@ packages:
       '@rushstack/eslint-config': 2.3.4_eslint@7.32.0+typescript@4.7.4
       '@spruceid/didkit-wasm-node': 0.2.1
       '@trust/keyto': 1.0.1
-      '@types/jest': 26.0.24
+      '@types/jest': 27.5.2
       babel-jest: 26.6.3
       did-resolver: 3.2.2
       eslint: 7.32.0
@@ -8294,7 +8264,7 @@ packages:
       ethr-did-resolver: 5.0.4
       jest: 27.0.6_ts-node@10.8.1
       rimraf: 3.0.2
-      ts-jest: 27.1.5_436aef4ab86d003be7e1738ac3cd3bae
+      ts-jest: 27.1.5_d72aeffe33666a81c9d394a1de77d638
       typescript: 4.7.4
     transitivePeerDependencies:
       - '@babel/core'
@@ -8308,7 +8278,7 @@ packages:
     dev: false
 
   file:projects/ssi-vc-api.tgz_babel-jest@26.6.3:
-    resolution: {integrity: sha512-q/KoZ0Bjvwb0RIxqyvxUfAKTl0lSWdiWS2LjwW89PgKI1nAL8ccr4lBzMw29PSfyBYrqABOnBm/EO2qxML0L3Q==, tarball: file:projects/ssi-vc-api.tgz}
+    resolution: {integrity: sha512-ZaQI6um41FKHk5Rn2EGFmu475baPJ/4XM2sDmWIVk2BHgxYer8HYFkUPnSsZVh/KqlAQifjUaKw/ij6udG++NQ==, tarball: file:projects/ssi-vc-api.tgz}
     id: file:projects/ssi-vc-api.tgz
     name: '@rush-temp/ssi-vc-api'
     version: 0.0.0
@@ -8329,7 +8299,7 @@ packages:
       '@sphereon/pex-models': 1.1.0
       '@spruceid/didkit-wasm-node': 0.2.1
       '@types/express': 4.17.13
-      '@types/jest': 26.0.24
+      '@types/jest': 27.5.2
       '@types/node': 16.11.41
       '@types/supertest': 2.0.12
       '@typescript-eslint/eslint-plugin': 4.33.0_d91404fd3b7596e5b6874ef0a887f4fa
@@ -8350,7 +8320,7 @@ packages:
       rxjs: 7.5.5
       supertest: 6.2.3
       swagger-ui-express: 4.4.0
-      ts-jest: 27.1.5_436aef4ab86d003be7e1738ac3cd3bae
+      ts-jest: 27.1.5_d72aeffe33666a81c9d394a1de77d638
       ts-loader: 9.3.1_typescript@4.7.4
       ts-node: 10.8.1_841f2a74d64cdda652a10d589e346265
       tsconfig-paths: 3.14.1
