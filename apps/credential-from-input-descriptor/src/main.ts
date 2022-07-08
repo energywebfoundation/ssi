@@ -13,6 +13,7 @@ async function bootstrap() {
 bootstrap();
 
 function setupApp(app: INestApplication) {
+  app.enableCors({ origin: true });
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 }
 
