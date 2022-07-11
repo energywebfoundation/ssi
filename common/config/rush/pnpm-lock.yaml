@@ -44,7 +44,7 @@ specifiers:
   rimraf: ^3.0.0
   rxjs: ^7.2.0
   supertest: ^6.0.0
-  swagger-ui-express: ~4.1.0
+  swagger-ui-express: ~4.4.0
   ts-jest: ^27.0.0
   ts-loader: ^9.0.0
   ts-node: ^10.0.0
@@ -62,7 +62,7 @@ dependencies:
   '@nestjs/platform-express': 8.4.7_fce4c3b686c1225eb94686491d30b061
   '@nestjs/schematics': 8.0.11_typescript@4.7.4
   '@nestjs/serve-static': 2.2.2_fce4c3b686c1225eb94686491d30b061
-  '@nestjs/swagger': 5.1.5_b10249312791792b959b5a76100b325e
+  '@nestjs/swagger': 5.1.5_d698c50e080e28585857283d96ea096d
   '@nestjs/testing': 8.4.7_c1bddf0102e0d68dc342d4afcbe21907
   '@nestjs/typeorm': 8.0.4_4967a077601f378d566b47f3ee68696d
   '@rush-temp/ssi-did': file:projects/ssi-did.tgz_ts-node@10.8.1
@@ -97,7 +97,7 @@ dependencies:
   rimraf: 3.0.2
   rxjs: 7.5.5
   supertest: 6.2.3
-  swagger-ui-express: 4.1.6
+  swagger-ui-express: 4.4.0
   ts-jest: 27.1.5_436aef4ab86d003be7e1738ac3cd3bae
   ts-loader: 9.3.1_typescript@4.7.4
   ts-node: 10.8.1_841f2a74d64cdda652a10d589e346265
@@ -1733,7 +1733,7 @@ packages:
       path-to-regexp: 0.1.7
     dev: false
 
-  /@nestjs/swagger/5.1.5_b10249312791792b959b5a76100b325e:
+  /@nestjs/swagger/5.1.5_d698c50e080e28585857283d96ea096d:
     resolution: {integrity: sha512-jvsgciVEFcYVVEuLdNAmgJDpFSQzIoukg+Ovz1vJ97OeCprx0sVhmocn13nCl/dEwIkwoM3eby9OiaccX0A+3A==}
     peerDependencies:
       '@nestjs/common': ^8.0.0
@@ -1753,7 +1753,7 @@ packages:
       lodash: 4.17.21
       path-to-regexp: 3.2.0
       reflect-metadata: 0.1.13
-      swagger-ui-express: 4.1.6
+      swagger-ui-express: 4.4.0
     transitivePeerDependencies:
       - class-transformer
       - class-validator
@@ -7403,17 +7403,17 @@ packages:
     engines: {node: '>= 0.4'}
     dev: false
 
-  /swagger-ui-dist/3.52.5:
-    resolution: {integrity: sha512-8z18eX8G/jbTXYzyNIaobrnD7PSN7yU/YkSasMmajrXtw0FGS64XjrKn5v37d36qmU3o1xLeuYnktshRr7uIFw==}
+  /swagger-ui-dist/4.12.0:
+    resolution: {integrity: sha512-B0Iy2ueXtbByE6OOyHTi3lFQkpPi/L7kFOKFeKTr44za7dJIELa9kzaca6GkndCgpK1QTjArnoXG+aUy0XQp1w==}
     dev: false
 
-  /swagger-ui-express/4.1.6:
-    resolution: {integrity: sha512-Xs2BGGudvDBtL7RXcYtNvHsFtP1DBFPMJFRxHe5ez/VG/rzVOEjazJOOSc/kSCyxreCTKfJrII6MJlL9a6t8vw==}
+  /swagger-ui-express/4.4.0:
+    resolution: {integrity: sha512-1CzRkHG386VQMVZK406jcpgnW2a9A5A/NiAjKhsFTQqUBWRF+uGbXTU/mA7WSV3mTzyOQDvjBdWP/c2qd5lqKw==}
     engines: {node: '>= v0.10.32'}
     peerDependencies:
       express: '>=4.0.0'
     dependencies:
-      swagger-ui-dist: 3.52.5
+      swagger-ui-dist: 4.12.0
     dev: false
 
   /symbol-observable/4.0.0:
@@ -8308,7 +8308,7 @@ packages:
     dev: false
 
   file:projects/ssi-vc-api.tgz_babel-jest@26.6.3:
-    resolution: {integrity: sha512-cF5JUyhdnGdhHNYc1QaY3vTAe5mbr06EFMtIr26zwwqg2d5KFN7euxh6jrCu4Gr3xxcaKXSTE/f2AmsxtOAJbQ==, tarball: file:projects/ssi-vc-api.tgz}
+    resolution: {integrity: sha512-q/KoZ0Bjvwb0RIxqyvxUfAKTl0lSWdiWS2LjwW89PgKI1nAL8ccr4lBzMw29PSfyBYrqABOnBm/EO2qxML0L3Q==, tarball: file:projects/ssi-vc-api.tgz}
     id: file:projects/ssi-vc-api.tgz
     name: '@rush-temp/ssi-vc-api'
     version: 0.0.0
@@ -8321,7 +8321,7 @@ packages:
       '@nestjs/platform-express': 8.4.7_fce4c3b686c1225eb94686491d30b061
       '@nestjs/schematics': 8.0.11_typescript@4.7.4
       '@nestjs/serve-static': 2.2.2_fce4c3b686c1225eb94686491d30b061
-      '@nestjs/swagger': 5.1.5_b10249312791792b959b5a76100b325e
+      '@nestjs/swagger': 5.1.5_d698c50e080e28585857283d96ea096d
       '@nestjs/testing': 8.4.7_c1bddf0102e0d68dc342d4afcbe21907
       '@nestjs/typeorm': 8.0.4_4967a077601f378d566b47f3ee68696d
       '@rushstack/eslint-config': 2.3.4_eslint@7.32.0+typescript@4.7.4
@@ -8349,7 +8349,7 @@ packages:
       rimraf: 3.0.2
       rxjs: 7.5.5
       supertest: 6.2.3
-      swagger-ui-express: 4.1.6
+      swagger-ui-express: 4.4.0
       ts-jest: 27.1.5_436aef4ab86d003be7e1738ac3cd3bae
       ts-loader: 9.3.1_typescript@4.7.4
       ts-node: 10.8.1_841f2a74d64cdda652a10d589e346265
