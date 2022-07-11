@@ -18,7 +18,7 @@ specifiers:
   '@rushstack/eslint-config': ~2.3.0
   '@sphereon/pex': ~1.1.0
   '@sphereon/pex-models': ~1.1.0
-  '@spruceid/didkit-wasm-node': ~0.1.0
+  '@spruceid/didkit-wasm-node': ~0.2.0
   '@trust/keyto': ^1.0.0
   '@types/express': ^4.0.0
   '@types/jest': ^26.0.0
@@ -71,7 +71,7 @@ dependencies:
   '@rushstack/eslint-config': 2.3.4_eslint@7.32.0+typescript@4.7.4
   '@sphereon/pex': 1.1.2
   '@sphereon/pex-models': 1.1.0
-  '@spruceid/didkit-wasm-node': 0.1.6
+  '@spruceid/didkit-wasm-node': 0.2.1
   '@trust/keyto': 1.0.1
   '@types/express': 4.17.13
   '@types/jest': 26.0.24
@@ -1927,8 +1927,8 @@ packages:
       string.prototype.matchall: 4.0.7
     dev: false
 
-  /@spruceid/didkit-wasm-node/0.1.6:
-    resolution: {integrity: sha512-8+NDgNCDLvNf142Up7DKZLqG04G6soiFoMw8ZX3U4pVyu2r3GPWP2Dc3sPGMF+8Aegoe6GbVT3gZjCFoKMt4bw==}
+  /@spruceid/didkit-wasm-node/0.2.1:
+    resolution: {integrity: sha512-c8e3u5FIRS/2Gf6UHnRPnfRozgKgby4avZzlvIiaJRDVLl1LaX1SE13vEvKV2rAq6NMfZrV4YG908M4uVlT90Q==}
     dev: false
 
   /@sqltools/formatter/1.2.3:
@@ -8278,13 +8278,13 @@ packages:
     dev: false
 
   file:projects/ssi-did.tgz_ts-node@10.8.1:
-    resolution: {integrity: sha512-Ku8q66Km5wBxBtkM05MIReKXkY2hPAnmtnJwlNPU1RZM3BnkJhIH4HkPyeZdEZe+zvStZrkkNvjipBA0gCkKaA==, tarball: file:projects/ssi-did.tgz}
+    resolution: {integrity: sha512-v/90rJxF437mC0RkVSY5vXzH8PnQNLVqn0r7kHq6c0eWGUz5d5hus659PZ21dc9LhtGdKbYTYL3mDbOBRnXRuA==, tarball: file:projects/ssi-did.tgz}
     id: file:projects/ssi-did.tgz
     name: '@rush-temp/ssi-did'
     version: 0.0.0
     dependencies:
       '@rushstack/eslint-config': 2.3.4_eslint@7.32.0+typescript@4.7.4
-      '@spruceid/didkit-wasm-node': 0.1.6
+      '@spruceid/didkit-wasm-node': 0.2.1
       '@trust/keyto': 1.0.1
       '@types/jest': 26.0.24
       babel-jest: 26.6.3
@@ -8308,7 +8308,7 @@ packages:
     dev: false
 
   file:projects/ssi-vc-api.tgz_babel-jest@26.6.3:
-    resolution: {integrity: sha512-zTFWN6QfCHTfESqAY7XPohrRFmMWyseaapoPeScacZvKgNn2BBiKyi47CdY5UE8M2BMcv2etN8q3wprX6pkaIg==, tarball: file:projects/ssi-vc-api.tgz}
+    resolution: {integrity: sha512-lr/KwGXU8Y4Q0DnDUtVV1mORBQyvDk+LHKAQmsI9ZPe2ZCIjWOeqnVQFw2u7s9ClYCZBAoAWs+rdBk3UKBvuLg==, tarball: file:projects/ssi-vc-api.tgz}
     id: file:projects/ssi-vc-api.tgz
     name: '@rush-temp/ssi-vc-api'
     version: 0.0.0
@@ -8327,7 +8327,7 @@ packages:
       '@rushstack/eslint-config': 2.3.4_eslint@7.32.0+typescript@4.7.4
       '@sphereon/pex': 1.1.2
       '@sphereon/pex-models': 1.1.0
-      '@spruceid/didkit-wasm-node': 0.1.6
+      '@spruceid/didkit-wasm-node': 0.2.1
       '@types/express': 4.17.13
       '@types/jest': 26.0.24
       '@types/node': 16.11.41

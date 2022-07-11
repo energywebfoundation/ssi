@@ -22,7 +22,7 @@
     "ethers": "5.5.1",
     "did-resolver": "~3.1.0",
     "ethr-did-resolver": "~5.0.0",
-    "@spruceid/didkit-wasm-node": "~0.1.0"
+    "@spruceid/didkit-wasm-node": "~0.2.0"
   },
   "devDependencies": {
     "@rushstack/eslint-config": "~2.3.0",
