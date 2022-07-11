@@ -4,54 +4,54 @@ specifiers:
   '@nestjs/axios': ~0.0.8
   '@nestjs/cli': ^8.0.0
   '@nestjs/common': ^8.0.0
-  '@nestjs/config': ^2.1.0
+  '@nestjs/config': ^2.0.0
   '@nestjs/core': ^8.0.0
   '@nestjs/platform-express': ^8.0.0
   '@nestjs/schematics': ^8.0.0
-  '@nestjs/serve-static': ~2.2.2
-  '@nestjs/swagger': ~5.1.5
+  '@nestjs/serve-static': ~2.2.0
+  '@nestjs/swagger': ~5.1.0
   '@nestjs/testing': ^8.0.0
   '@nestjs/typeorm': 8.0.4
   '@rush-temp/ssi-did': file:./projects/ssi-did.tgz
   '@rush-temp/ssi-vc-api': file:./projects/ssi-vc-api.tgz
   '@rush-temp/w3c-ccg-webkms': file:./projects/w3c-ccg-webkms.tgz
-  '@rushstack/eslint-config': ~2.3.2
-  '@sphereon/pex': ~1.1.2
+  '@rushstack/eslint-config': ~2.3.0
+  '@sphereon/pex': ~1.1.0
   '@sphereon/pex-models': ~1.1.0
-  '@spruceid/didkit-wasm-node': ~0.1.6
-  '@trust/keyto': ^1.0.1
-  '@types/express': ^4.17.13
-  '@types/jest': ^26.0.24
+  '@spruceid/didkit-wasm-node': ~0.1.0
+  '@trust/keyto': ^1.0.0
+  '@types/express': ^4.0.0
+  '@types/jest': ^26.0.0
   '@types/node': ^16.0.0
-  '@types/supertest': ^2.0.11
-  '@typescript-eslint/eslint-plugin': ^4.28.2
-  '@typescript-eslint/parser': ^4.28.2
+  '@types/supertest': ^2.0.0
+  '@typescript-eslint/eslint-plugin': ^4.0.0
+  '@typescript-eslint/parser': ^4.0.0
   babel-jest: 26.6.3
-  better-sqlite3: ~7.5.0
+  better-sqlite3: ~7.6.0
   class-transformer: ~0.4.0
-  class-validator: ~0.13.1
-  did-resolver: ~3.1.3
-  eslint: ^7.30.0
-  eslint-config-prettier: ^8.3.0
-  eslint-plugin-prettier: ^3.4.0
+  class-validator: ~0.13.0
+  did-resolver: ~3.1.0
+  eslint: ^7.0.0
+  eslint-config-prettier: ^8.0.0
+  eslint-plugin-prettier: ^3.0.0
   ethers: 5.5.1
-  ethr-did-resolver: ~5.0.2
+  ethr-did-resolver: ~5.0.0
   jest: 27.0.6
-  jose: ^4.1.5
-  nock: ~13.2.4
-  prettier: ^2.3.2
-  reflect-metadata: ^0.1.13
-  rimraf: ^3.0.2
+  jose: ^4.0.0
+  nock: ~13.2.0
+  prettier: ^2.0.0
+  reflect-metadata: ^0.1.0
+  rimraf: ^3.0.0
   rxjs: ^7.2.0
-  supertest: ^6.1.3
-  swagger-ui-express: ~4.1.6
-  ts-jest: ^27.0.3
-  ts-loader: ^9.2.3
-  ts-node: ^10.7.0
-  tsconfig-paths: ^3.10.1
-  typeorm: ^0.2.38
-  typescript: ^4.3.5
-  uuid: ~8.3.2
+  supertest: ^6.0.0
+  swagger-ui-express: ~4.1.0
+  ts-jest: ^27.0.0
+  ts-loader: ^9.0.0
+  ts-node: ^10.0.0
+  tsconfig-paths: ^3.0.0
+  typeorm: ^0.2.0
+  typescript: ^4.0.0
+  uuid: ~8.3.0
 
 dependencies:
   '@nestjs/axios': 0.0.8_37c15d9aad112cee731c8d239db0c0af
@@ -80,7 +80,7 @@ dependencies:
   '@typescript-eslint/eslint-plugin': 4.33.0_d91404fd3b7596e5b6874ef0a887f4fa
   '@typescript-eslint/parser': 4.33.0_eslint@7.32.0+typescript@4.7.4
   babel-jest: 26.6.3
-  better-sqlite3: 7.5.3
+  better-sqlite3: 7.6.0
   class-transformer: 0.4.0
   class-validator: 0.13.2
   did-resolver: 3.1.5
@@ -102,7 +102,7 @@ dependencies:
   ts-loader: 9.3.1_typescript@4.7.4
   ts-node: 10.8.1_841f2a74d64cdda652a10d589e346265
   tsconfig-paths: 3.14.1
-  typeorm: 0.2.45_better-sqlite3@7.5.3
+  typeorm: 0.2.45_better-sqlite3@7.6.0
   typescript: 4.7.4
   uuid: 8.3.2
 
@@ -1791,7 +1791,7 @@ packages:
       '@nestjs/core': 8.4.7_2aa064eef171d5a7957432d22e4b3f20
       reflect-metadata: 0.1.13
       rxjs: 7.5.5
-      typeorm: 0.2.45_better-sqlite3@7.5.3
+      typeorm: 0.2.45_better-sqlite3@7.6.0
       uuid: 8.3.2
     dev: false
 
@@ -2955,8 +2955,8 @@ packages:
     resolution: {integrity: sha512-s0IrSOzLlbvX7yp4WBfPITzpAU8sqQcpsmwXDiKwrG4r491vwCO/XpejasRNl0piBMe/DvP4Tz0mIS/X1DPJBQ==}
     dev: false
 
-  /better-sqlite3/7.5.3:
-    resolution: {integrity: sha512-tNIrDsThpWT8j1mg+svI1pqCYROqNOWMbB2qXVg+TJqH9UR5XnbAHyRsLZoJagldGTTqJPj/sUPVOkW0GRpYqw==}
+  /better-sqlite3/7.6.0:
+    resolution: {integrity: sha512-wYckL8S8RHP+KKNsZuJGZ7z/6FFmVgwd0U8jSv6t997C+EFR1yvi8p2WIpTb10jiV5rRA5VtMdgtAZFcAnK3Iw==}
     requiresBuild: true
     dependencies:
       bindings: 1.5.0
@@ -7784,7 +7784,7 @@ packages:
     resolution: {integrity: sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==}
     dev: false
 
-  /typeorm/0.2.45_better-sqlite3@7.5.3:
+  /typeorm/0.2.45_better-sqlite3@7.6.0:
     resolution: {integrity: sha512-c0rCO8VMJ3ER7JQ73xfk0zDnVv0WDjpsP6Q1m6CVKul7DB9iVdWLRjPzc8v2eaeBuomsbZ2+gTaYr8k1gm3bYA==}
     hasBin: true
     peerDependencies:
@@ -7837,7 +7837,7 @@ packages:
     dependencies:
       '@sqltools/formatter': 1.2.3
       app-root-path: 3.0.0
-      better-sqlite3: 7.5.3
+      better-sqlite3: 7.6.0
       buffer: 6.0.3
       chalk: 4.1.2
       cli-highlight: 2.1.11
@@ -8278,7 +8278,7 @@ packages:
     dev: false
 
   file:projects/ssi-did.tgz_ts-node@10.8.1:
-    resolution: {integrity: sha512-cFwrpzL7cFv+tOyUnQcr4SpV4mkGP30mAsiLqN6/va6QSYGdj9mm4o31Hivmdv7azS0JC6Ofms/kpjO+nyS3qg==, tarball: file:projects/ssi-did.tgz}
+    resolution: {integrity: sha512-Ku8q66Km5wBxBtkM05MIReKXkY2hPAnmtnJwlNPU1RZM3BnkJhIH4HkPyeZdEZe+zvStZrkkNvjipBA0gCkKaA==, tarball: file:projects/ssi-did.tgz}
     id: file:projects/ssi-did.tgz
     name: '@rush-temp/ssi-did'
     version: 0.0.0
@@ -8308,7 +8308,7 @@ packages:
     dev: false
 
   file:projects/ssi-vc-api.tgz_babel-jest@26.6.3:
-    resolution: {integrity: sha512-DdN9jxzNdaSveHWy3Ui7ww0lMwtgMZCJhjG1QYvEFQtf9qnn864VKc+q11ZXHz8DrGHvsWTiFUp5kVZb/zHTiA==, tarball: file:projects/ssi-vc-api.tgz}
+    resolution: {integrity: sha512-zTFWN6QfCHTfESqAY7XPohrRFmMWyseaapoPeScacZvKgNn2BBiKyi47CdY5UE8M2BMcv2etN8q3wprX6pkaIg==, tarball: file:projects/ssi-vc-api.tgz}
     id: file:projects/ssi-vc-api.tgz
     name: '@rush-temp/ssi-vc-api'
     version: 0.0.0
@@ -8334,7 +8334,7 @@ packages:
       '@types/supertest': 2.0.12
       '@typescript-eslint/eslint-plugin': 4.33.0_d91404fd3b7596e5b6874ef0a887f4fa
       '@typescript-eslint/parser': 4.33.0_eslint@7.32.0+typescript@4.7.4
-      better-sqlite3: 7.5.3
+      better-sqlite3: 7.6.0
       class-transformer: 0.4.0
       class-validator: 0.13.2
       did-resolver: 3.1.5
@@ -8354,7 +8354,7 @@ packages:
       ts-loader: 9.3.1_typescript@4.7.4
       ts-node: 10.8.1_841f2a74d64cdda652a10d589e346265
       tsconfig-paths: 3.14.1
-      typeorm: 0.2.45_better-sqlite3@7.5.3
+      typeorm: 0.2.45_better-sqlite3@7.6.0
       typescript: 4.7.4
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -8397,7 +8397,7 @@ packages:
     dev: false
 
   file:projects/w3c-ccg-webkms.tgz:
-    resolution: {integrity: sha512-J3YcuUiSqqDbX2dfCVyfPrp+Syhozn9zE/iUpXavsSZE+J75GThFjkQDcF05jPDvVppT4i6j32ie0ju3SBQlJw==, tarball: file:projects/w3c-ccg-webkms.tgz}
+    resolution: {integrity: sha512-gQdXF9yOucWjZa+HQNbZk4jiP7j+M1kYL9D47zOIkCHdct9n854ooJzda18yJfLJMvuXiFACSuVBAwlwClgA3g==, tarball: file:projects/w3c-ccg-webkms.tgz}
     name: '@rush-temp/w3c-ccg-webkms'
     version: 0.0.0
     dependencies:
