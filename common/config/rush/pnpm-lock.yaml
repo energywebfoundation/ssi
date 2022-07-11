@@ -30,7 +30,7 @@ specifiers:
   better-sqlite3: ~7.6.0
   class-transformer: ~0.4.0
   class-validator: ~0.13.0
-  did-resolver: ~3.1.0
+  did-resolver: ~3.2.0
   eslint: ^7.0.0
   eslint-config-prettier: ^8.0.0
   eslint-plugin-prettier: ^3.0.0
@@ -83,7 +83,7 @@ dependencies:
   better-sqlite3: 7.6.0
   class-transformer: 0.4.0
   class-validator: 0.13.2
-  did-resolver: 3.1.5
+  did-resolver: 3.2.2
   eslint: 7.32.0
   eslint-config-prettier: 8.5.0_eslint@7.32.0
   eslint-plugin-prettier: 3.4.1_f9a5537566b3ca3b5b68fc99385c0ca6
@@ -3594,8 +3594,8 @@ packages:
       wrappy: 1.0.2
     dev: false
 
-  /did-resolver/3.1.5:
-    resolution: {integrity: sha512-/4lM1vK5osnWVZ2oN9QhlWV5xOwssuLSL1MvueBc8LQWotbD5kM9XQMe7h4GydYpbh3JaWMFkOWwc9jvSZ+qgg==}
+  /did-resolver/3.2.2:
+    resolution: {integrity: sha512-Eeo2F524VM5N3W4GwglZrnul2y6TLTwMQP3In62JdG34NZoqihYyOZLk+5wUW8sSgvIYIcJM8Dlt3xsdKZZ3tg==}
     dev: false
 
   /diff-sequences/26.6.2:
@@ -4065,7 +4065,7 @@ packages:
       '@ethersproject/contracts': 5.6.2
       '@ethersproject/providers': 5.6.8
       '@ethersproject/transactions': 5.6.2
-      did-resolver: 3.1.5
+      did-resolver: 3.2.2
       ethr-did-registry: 0.0.3
     transitivePeerDependencies:
       - bufferutil
@@ -8278,7 +8278,7 @@ packages:
     dev: false
 
   file:projects/ssi-did.tgz_ts-node@10.8.1:
-    resolution: {integrity: sha512-v/90rJxF437mC0RkVSY5vXzH8PnQNLVqn0r7kHq6c0eWGUz5d5hus659PZ21dc9LhtGdKbYTYL3mDbOBRnXRuA==, tarball: file:projects/ssi-did.tgz}
+    resolution: {integrity: sha512-C5+TByOpvB/zmwcBf2jZNmRMdbNO0z03U5sDL6Dz35hYsI6PcTXhmaMH7Y8oxIUuW7k8NpetJIl9R/Pw6quwZA==, tarball: file:projects/ssi-did.tgz}
     id: file:projects/ssi-did.tgz
     name: '@rush-temp/ssi-did'
     version: 0.0.0
@@ -8288,7 +8288,7 @@ packages:
       '@trust/keyto': 1.0.1
       '@types/jest': 26.0.24
       babel-jest: 26.6.3
-      did-resolver: 3.1.5
+      did-resolver: 3.2.2
       eslint: 7.32.0
       ethers: 5.5.1
       ethr-did-resolver: 5.0.4
@@ -8308,7 +8308,7 @@ packages:
     dev: false
 
   file:projects/ssi-vc-api.tgz_babel-jest@26.6.3:
-    resolution: {integrity: sha512-lr/KwGXU8Y4Q0DnDUtVV1mORBQyvDk+LHKAQmsI9ZPe2ZCIjWOeqnVQFw2u7s9ClYCZBAoAWs+rdBk3UKBvuLg==, tarball: file:projects/ssi-vc-api.tgz}
+    resolution: {integrity: sha512-qLcyvCATUyth7MN3tMS7/wInbz3KRWHoU2Ncx0HMz9xDiy/4f2ci9Yj8HAh8iyDKBD0Ah2UId5oBmYeSFSr/WQ==, tarball: file:projects/ssi-vc-api.tgz}
     id: file:projects/ssi-vc-api.tgz
     name: '@rush-temp/ssi-vc-api'
     version: 0.0.0
@@ -8337,7 +8337,7 @@ packages:
       better-sqlite3: 7.6.0
       class-transformer: 0.4.0
       class-validator: 0.13.2
-      did-resolver: 3.1.5
+      did-resolver: 3.2.2
       eslint: 7.32.0
       eslint-config-prettier: 8.5.0_eslint@7.32.0
       eslint-plugin-prettier: 3.4.1_f9a5537566b3ca3b5b68fc99385c0ca6
