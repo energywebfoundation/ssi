@@ -52,6 +52,7 @@ specifiers:
   ts-loader: ^9.0.0
   ts-node: ^10.0.0
   tsconfig-paths: ^4.0.0
+  type-fest: ~2.16.0
   typeorm: ^0.2.0
   typescript: ^4.0.0
   uuid: ~8.3.0
@@ -108,6 +109,7 @@ dependencies:
   ts-loader: 9.3.1_typescript@4.7.4
   ts-node: 10.8.1_841f2a74d64cdda652a10d589e346265
   tsconfig-paths: 4.0.0
+  type-fest: 2.16.0
   typeorm: 0.2.45_better-sqlite3@7.6.0
   typescript: 4.7.4
   uuid: 8.3.2
@@ -7763,6 +7765,11 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
+  /type-fest/2.16.0:
+    resolution: {integrity: sha512-qpaThT2HQkFb83gMOrdKVsfCN7LKxP26Yq+smPzY1FqoHRjqmjqHXA7n5Gkxi8efirtbeEUxzfEdePthQWCuHw==}
+    engines: {node: '>=12.20'}
+    dev: false
+
   /type-is/1.6.18:
     resolution: {integrity: sha512-TkRKr9sUTxEH8MdfuCSP7VizJyzRNMjj2J2do2Jr3Kym598JVdEksuzPQCnlFPW4ky9Q+iA+ma9BGm06XQBy8g==}
     engines: {node: '>= 0.6'}
@@ -8275,7 +8282,7 @@ packages:
     dev: false
 
   file:projects/credential-from-input-descriptor.tgz_af8b4b8ae8c13017e4035324bc9914ee:
-    resolution: {integrity: sha512-FCzeEnTe5fouJD3RMuc0xP+vg6HlpXWDEkqI6w2qmhaT3/UspX9HPsVGbZHgrLHClpN1Yyu4F/3UkWrMhx+K7A==, tarball: file:projects/credential-from-input-descriptor.tgz}
+    resolution: {integrity: sha512-SVzyUKkxdvA1C7TvHXcJD7WqrkwFAxMFS6bI1HHIkOYL8FtB39KqrWzdcShotoneN5i3k70hqCqdbOJJ5xw8Bw==, tarball: file:projects/credential-from-input-descriptor.tgz}
     id: file:projects/credential-from-input-descriptor.tgz
     name: '@rush-temp/credential-from-input-descriptor'
     version: 0.0.0
@@ -8310,6 +8317,7 @@ packages:
       ts-loader: 9.3.1_typescript@4.7.4
       ts-node: 10.8.1_841f2a74d64cdda652a10d589e346265
       tsconfig-paths: 4.0.0
+      type-fest: 2.16.0
       typescript: 4.7.4
     transitivePeerDependencies:
       - '@babel/core'
