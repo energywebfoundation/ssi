@@ -1,13 +1,20 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { INestApplication, Logger, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
+  const logger = new Logger('bootstrap', { timestamp: true });
+  logger.debug('starting');
+
   const app = await NestFactory.create(AppModule);
   setupApp(app);
   setupSwaggerDocument(app);
-  await app.listen(3000);
+
+  const port = parseInt(process.env.PORT) || 3000;
+  await app.listen(port);
+  logger.log(`listening on http://127.0.0.1:${port}`);
+  logger.log(`Swagger available on http://127.0.0.1:${port}/api`);
 }
 
 bootstrap();
