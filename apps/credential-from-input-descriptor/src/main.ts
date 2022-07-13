@@ -22,6 +22,7 @@ bootstrap();
 function setupApp(app: INestApplication) {
   app.enableCors({ origin: true });
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+  app.enableShutdownHooks(); // this is required for a docker container to shut down properly
 }
 
 function setupSwaggerDocument(app: INestApplication): OpenAPIObject {
