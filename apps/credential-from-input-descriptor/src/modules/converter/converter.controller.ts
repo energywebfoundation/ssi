@@ -10,6 +10,8 @@ export class ConverterController {
   async inputDescriptorToCredential(
     @Body() inputDesciptorToCredentialDto: InputDesciptorToCredentialDto
   ): Promise<InputDescriptorToCredentialResponseDto> {
-    return this.converterService.convertInputDescriptorToCredential(inputDesciptorToCredentialDto);
+    return new InputDescriptorToCredentialResponseDto(
+      await this.converterService.convertInputDescriptorToCredential(inputDesciptorToCredentialDto)
+    );
   }
 }
