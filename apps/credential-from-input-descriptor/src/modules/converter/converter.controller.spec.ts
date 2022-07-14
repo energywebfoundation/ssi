@@ -18,8 +18,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConverterController } from './converter.controller';
 import { ConverterService } from './converter.service';
+import { InputDesciptorToCredentialDto, InputDescriptorToCredentialResponseDto } from './dtos';
 
-const mockConverterService = {};
+const mockConverterService = {
+  convertInputDescriptorToCredential: jest.fn()
+};
 
 describe('ConverterController', () => {
   let controller: ConverterController;
@@ -36,9 +39,47 @@ describe('ConverterController', () => {
     }).compile();
 
     controller = module.get<ConverterController>(ConverterController);
+
+    mockConverterService.convertInputDescriptorToCredential.mockClear();
   });
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
+  });
+
+  describe('inputDescriptorToCredential', function () {
+    it('should be defined', function () {
+      expect(controller.inputDescriptorToCredential).toBeDefined();
+    });
+
+    describe('when called', function () {
+      const validPayload: InputDesciptorToCredentialDto = {
+        constraints: {
+          fields: [
+            {
+              path: '$.@context',
+              filter: {}
+            }
+          ]
+        }
+      };
+
+      it('should call ConverterService.convertInputDescriptorToCredential()', async function () {
+        const spy = jest.spyOn(mockConverterService, 'convertInputDescriptorToCredential');
+        await controller.inputDescriptorToCredential(validPayload);
+        expect(spy).toHaveBeenLastCalledWith(validPayload);
+      });
+
+      it('should return ConverterService.convertInputDescriptorToCredential() result', async function () {
+        const resultExpected: Partial<InputDescriptorToCredentialResponseDto> = {
+          '@context': ['foobar']
+        };
+        jest.spyOn(mockConverterService, 'convertInputDescriptorToCredential').mockImplementation(() => {
+          return resultExpected;
+        });
+        const result = await controller.inputDescriptorToCredential(validPayload);
+        expect(result).toEqual(resultExpected);
+      });
+    });
   });
 });
