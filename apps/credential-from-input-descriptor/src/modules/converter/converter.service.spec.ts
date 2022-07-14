@@ -75,6 +75,13 @@ describe('ConverterService', () => {
                   }
                 }
               }
+            },
+            {
+              path: '$.id',
+              filter: {
+                type: 'string',
+                const: 'foobar'
+              }
             }
           ]
         }
@@ -103,7 +110,8 @@ describe('ConverterService', () => {
                 consent: 'elia:consent',
                 elia: 'https://https://www.eliagroup.eu/ld-context-2022#'
               }
-            ]
+            ],
+            id: 'foobar'
           });
         });
       });
