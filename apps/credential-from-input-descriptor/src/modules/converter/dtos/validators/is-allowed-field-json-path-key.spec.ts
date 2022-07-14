@@ -15,8 +15,6 @@ describe(IsAllowedFieldJsonPathKeyConstraint.name, function () {
     expect(instance.validate('$.credentialSubject')).toBe(true);
     expect(instance.validate('$.id')).toBe(true);
     expect(instance.validate('$.issuanceDate')).toBe(true);
-    expect(instance.validate('$.issuer')).toBe(true);
-    expect(instance.validate('$.proof')).toBe(true);
     expect(instance.validate('$.type')).toBe(true);
   });
 
