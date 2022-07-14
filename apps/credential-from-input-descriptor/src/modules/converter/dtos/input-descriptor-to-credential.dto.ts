@@ -1,10 +1,10 @@
 import { IsNotEmpty, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
-import { ConstraintDto } from './constraint.dto';
+import { ConstraintsDto } from './constraints.dto';
 
 export class InputDesciptorToCredentialDto {
   @ValidateNested()
-  @Type(() => ConstraintDto)
+  @Type(() => ConstraintsDto)
   @IsNotEmpty()
-  constraints: ConstraintDto;
+  constraints: ConstraintsDto;
 }
