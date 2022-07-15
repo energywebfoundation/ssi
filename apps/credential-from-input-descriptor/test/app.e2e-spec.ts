@@ -16,7 +16,7 @@
  */
 
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import request from 'supertest';
 import { AppModule } from '../src/app.module';
 
@@ -29,10 +29,60 @@ describe('AppController (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
     await app.init();
   });
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer()).get('/').expect(404);
+  describe('http://localhost:3000/api/#/default/ConverterController_inputDescriptorToCredential (POST)', function () {
+    describe('when called with a valid payload', function () {
+      let result: request.Response;
+      beforeEach(async function () {
+        result = await request(app.getHttpServer())
+          .post('/converter/input-descriptor-to-credential')
+          .send({ constraints: { fields: [{ path: '$.id', filter: {} }] } });
+      });
+
+      it('should respond with 201 status code', async function () {
+        expect(result.status).toBe(201);
+      });
+
+      it('should respond with application/json Content-Type header', async function () {
+        expect(result.headers['content-type']).toMatch('application/json');
+      });
+
+      it('should respond with body containing data', async function () {
+        expect(result.body).toBeDefined();
+        expect(result.body).toEqual({ id: {} });
+      });
+    });
+
+    describe('when called with invalid payload', function () {
+      let result: request.Response;
+
+      beforeEach(async function () {
+        result = await request(app.getHttpServer())
+          .post('/converter/input-descriptor-to-credential')
+          .send({ constraints: { fields: [{ path: '$.foobar', filter: {} }] } });
+      });
+
+      it('should respond with 400 status code', async function () {
+        expect(result.status).toBe(400);
+      });
+
+      it('should respond with application/json Content-Type header', async function () {
+        expect(result.headers['content-type']).toMatch('application/json');
+      });
+
+      it('should respond with a body containing data', async function () {
+        expect(result.body).toBeDefined();
+        expect(result.body).toEqual({
+          error: 'Bad Request',
+          message: [
+            'constraints.fields.0.path property key name value must be one of the allowed string values: @context,credentialSubject,id,issuanceDate,type'
+          ],
+          statusCode: 400
+        });
+      });
+    });
   });
 });
