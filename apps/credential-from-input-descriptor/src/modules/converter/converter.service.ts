@@ -28,9 +28,7 @@ export class ConverterService {
     inputDesciptorToCredentialDto: InputDesciptorToCredentialDto
   ): Promise<unknown> {
     const intermediateResults: { path: string; result: JsonValue }[] = await Promise.all(
-      inputDesciptorToCredentialDto.constraints.fields.map(async (field) =>
-        ConverterService.convertField(field)
-      )
+      inputDesciptorToCredentialDto.constraints.fields.map(async (field) => this.convertField(field))
     );
 
     return intermediateResults.reduce((acc, resultItem) => {
@@ -38,7 +36,7 @@ export class ConverterService {
 
       this.logger.debug(`processing "${path}"`);
 
-      if (!ConverterService.pathIsValid(path)) {
+      if (!this.pathIsValid(path)) {
         this.logger.warn(`invalid path: ${path}`);
         throw new BadRequestException(`invalid path: ${path}`);
       }
@@ -51,7 +49,7 @@ export class ConverterService {
     }, {});
   }
 
-  private static async convertField(field: { path: string; filter: Schema }): Promise<{
+  private async convertField(field: { path: string; filter: Schema }): Promise<{
     path: string;
     result: JsonValue;
   }> {
@@ -61,7 +59,7 @@ export class ConverterService {
     };
   }
 
-  private static pathIsValid(path: string): boolean {
+  private pathIsValid(path: string): boolean {
     const elements = path.split('.');
     if (elements.length !== 2) {
       return false;
