@@ -17,9 +17,7 @@
 
 import { IsNotEmpty, IsObject, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsTopLevelFieldJsonPath } from './validators/is-top-level-field-json-path';
-import { IsAllowedFieldJsonPathKey } from './validators/is-allowed-field-json-path-key';
-import { IsValidJsonSchema } from './validators/is-valid-json-schema';
+import { IsAllowedFieldJsonPathKey, IsTopLevelFieldJsonPath, IsValidJsonSchema } from '../../../validators';
 
 const filterExample = {
   $schema: 'http://json-schema.org/draft-07/schema#',
