@@ -19,6 +19,7 @@ import { IsNotEmpty, IsObject, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsTopLevelFieldJsonPath } from './validators/is-top-level-field-json-path';
 import { IsAllowedFieldJsonPathKey } from './validators/is-allowed-field-json-path-key';
+import { IsValidJsonSchema } from './validators/is-valid-json-schema';
 
 const filterExample = {
   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -59,6 +60,7 @@ export class FieldDto {
   @ApiProperty({ example: '$.@context' })
   path: string;
 
+  @IsValidJsonSchema()
   @IsObject()
   @IsNotEmpty()
   @ApiProperty({ example: JSON.stringify(filterExample) })

@@ -27,21 +27,11 @@ export class ConverterService {
   public async convertInputDescriptorToCredential(
     inputDesciptorToCredentialDto: InputDesciptorToCredentialDto
   ): Promise<unknown> {
-    let intermediateResults: { path: string; result: JsonValue }[];
-
-    try {
-      intermediateResults = await Promise.all(
-        inputDesciptorToCredentialDto.constraints.fields.map(async (field) =>
-          ConverterService.convertField(field)
-        )
-      );
-    } catch (err) {
-      if (err.message.match('Error while resolving schema')) {
-        throw new BadRequestException(err.message);
-      } else {
-        throw err;
-      }
-    }
+    const intermediateResults: { path: string; result: JsonValue }[] = await Promise.all(
+      inputDesciptorToCredentialDto.constraints.fields.map(async (field) =>
+        ConverterService.convertField(field)
+      )
+    );
 
     return intermediateResults.reduce((acc, resultItem) => {
       const path: string = resultItem.path;
