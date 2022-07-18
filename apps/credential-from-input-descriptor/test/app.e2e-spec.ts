@@ -39,7 +39,15 @@ describe('AppController (e2e)', () => {
       beforeEach(async function () {
         result = await request(app.getHttpServer())
           .post('/converter/input-descriptor-to-credential')
-          .send({ constraints: { fields: [{ path: '$.id', filter: {} }] } });
+          .send({
+            constraints: {
+              fields: [
+                { path: '$.@context', filter: {} },
+                { path: '$.credentialSubject', filter: {} },
+                { path: '$.type', filter: {} }
+              ]
+            }
+          });
       });
 
       it('should respond with 201 status code', async function () {
@@ -52,7 +60,13 @@ describe('AppController (e2e)', () => {
 
       it('should respond with body containing data', async function () {
         expect(result.body).toBeDefined();
-        expect(result.body).toEqual({ credential: { id: {} } });
+        expect(result.body).toEqual({
+          credential: {
+            '@context': {},
+            credentialSubject: {},
+            type: {}
+          }
+        });
       });
     });
 
@@ -78,7 +92,8 @@ describe('AppController (e2e)', () => {
         expect(result.body).toEqual({
           error: 'Bad Request',
           message: [
-            'constraints.fields.0.path property key name value must be one of the allowed string values: @context,credentialSubject,id,issuanceDate,type'
+            'constraints.fields.0.path property key name value must be one of the allowed string values: @context,credentialSubject,id,issuanceDate,type',
+            'constraints.fields needs to be an array of objects with at least the following path field values: $.@context, $.credentialSubject, $.type'
           ],
           statusCode: 400
         });

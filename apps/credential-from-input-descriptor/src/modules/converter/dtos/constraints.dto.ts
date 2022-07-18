@@ -18,10 +18,12 @@
 import { FieldDto } from './field.dto';
 import { IsNotEmpty, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
+import { IsValidConstraintsFieldsPaths } from '../../../validators';
 
 export class ConstraintsDto {
   @ValidateNested()
   @Type(() => FieldDto)
+  @IsValidConstraintsFieldsPaths()
   @IsNotEmpty()
   fields: FieldDto[];
 }
