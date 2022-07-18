@@ -33,7 +33,7 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  describe('http://localhost:3000/api/#/default/ConverterController_inputDescriptorToCredential (POST)', function () {
+  describe('/converter/input-descriptor-to-credential (POST)', function () {
     describe('when called with a valid payload', function () {
       let result: request.Response;
       beforeEach(async function () {
