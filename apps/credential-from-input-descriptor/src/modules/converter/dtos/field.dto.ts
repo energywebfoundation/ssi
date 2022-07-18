@@ -38,7 +38,7 @@ const filterExample = {
       type: 'object',
       properties: {
         elia: {
-          const: 'https://https://www.eliagroup.eu/ld-context-2022#'
+          const: 'https://www.eliagroup.eu/ld-context-2022#'
         },
         consent: {
           const: 'elia:consent'
