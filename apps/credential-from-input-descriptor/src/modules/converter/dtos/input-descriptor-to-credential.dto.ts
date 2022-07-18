@@ -18,10 +18,21 @@
 import { IsNotEmpty, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ConstraintsDto } from './constraints.dto';
+import { ApiProperty } from '@nestjs/swagger';
+import { exampleFieldFilter } from './field.dto';
+
+const examplePayload = {
+  fields: [
+    { path: '$.@context', filter: exampleFieldFilter },
+    { path: '$.type', filter: exampleFieldFilter },
+    { path: '$.credentialSubject', filter: exampleFieldFilter }
+  ]
+};
 
 export class InputDesciptorToCredentialDto {
   @ValidateNested()
   @Type(() => ConstraintsDto)
   @IsNotEmpty()
+  @ApiProperty({ example: JSON.stringify(examplePayload) })
   constraints: ConstraintsDto;
 }
