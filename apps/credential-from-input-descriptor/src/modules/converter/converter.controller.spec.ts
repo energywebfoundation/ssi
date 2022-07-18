@@ -71,11 +71,11 @@ describe('ConverterController', () => {
       });
 
       it('should return ConverterService.convertInputDescriptorToCredential() result', async function () {
-        const resultExpected: Partial<InputDescriptorToCredentialResponseDto> = {
-          '@context': ['foobar']
+        const resultExpected: InputDescriptorToCredentialResponseDto = {
+          credential: { '@context': ['foobar'] }
         };
         jest.spyOn(mockConverterService, 'convertInputDescriptorToCredential').mockImplementation(() => {
-          return resultExpected;
+          return resultExpected.credential;
         });
         const result = await controller.inputDescriptorToCredential(validPayload);
         expect(result).toEqual(resultExpected);

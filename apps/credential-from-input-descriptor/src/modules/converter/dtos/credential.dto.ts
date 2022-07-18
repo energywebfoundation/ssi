@@ -15,16 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { CredentialDto } from './credential.dto';
-import { Type } from 'class-transformer';
-import { ValidateNested } from 'class-validator';
+export class CredentialDto {
+  '@context'?: (string | Record<string, unknown>)[];
+  credentialSubject?: (string | Record<string, unknown>)[];
+  id?: (string | Record<string, unknown>)[];
+  issuanceDate?: (string | Record<string, unknown>)[];
+  type?: (string | Record<string, unknown>)[];
 
-export class InputDescriptorToCredentialResponseDto {
-  @Type(() => CredentialDto)
-  @ValidateNested()
-  credential: CredentialDto;
-
-  constructor(props: Partial<InputDescriptorToCredentialResponseDto>) {
+  constructor(props?: Partial<CredentialDto>) {
     Object.assign(this, props);
   }
 }

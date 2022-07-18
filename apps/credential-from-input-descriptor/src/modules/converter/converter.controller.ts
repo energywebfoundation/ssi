@@ -18,6 +18,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { ConverterService } from './converter.service';
 import { InputDesciptorToCredentialDto, InputDescriptorToCredentialResponseDto } from './dtos';
+import { CredentialDto } from './dtos/credential.dto';
 
 @Controller('converter')
 export class ConverterController {
@@ -27,8 +28,10 @@ export class ConverterController {
   async inputDescriptorToCredential(
     @Body() inputDesciptorToCredentialDto: InputDesciptorToCredentialDto
   ): Promise<InputDescriptorToCredentialResponseDto> {
-    return new InputDescriptorToCredentialResponseDto(
-      await this.converterService.convertInputDescriptorToCredential(inputDesciptorToCredentialDto)
-    );
+    return new InputDescriptorToCredentialResponseDto({
+      credential: new CredentialDto(
+        await this.converterService.convertInputDescriptorToCredential(inputDesciptorToCredentialDto)
+      )
+    });
   }
 }

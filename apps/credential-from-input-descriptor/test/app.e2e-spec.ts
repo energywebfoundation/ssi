@@ -52,7 +52,7 @@ describe('AppController (e2e)', () => {
 
       it('should respond with body containing data', async function () {
         expect(result.body).toBeDefined();
-        expect(result.body).toEqual({ id: {} });
+        expect(result.body).toEqual({ credential: { id: {} } });
       });
     });
 

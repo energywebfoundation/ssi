@@ -19,6 +19,7 @@ import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InputDesciptorToCredentialDto } from './dtos';
 import jsf, { Schema } from 'json-schema-faker';
 import { JsonValue } from 'type-fest';
+import { CredentialDto } from './dtos/credential.dto';
 
 @Injectable()
 export class ConverterService {
@@ -26,7 +27,7 @@ export class ConverterService {
 
   public async convertInputDescriptorToCredential(
     inputDesciptorToCredentialDto: InputDesciptorToCredentialDto
-  ): Promise<unknown> {
+  ): Promise<CredentialDto> {
     const intermediateResults: { path: string; result: JsonValue }[] = await Promise.all(
       inputDesciptorToCredentialDto.constraints.fields.map(async (field) => this.convertField(field))
     );
