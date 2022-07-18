@@ -47,7 +47,7 @@ export class ConverterService {
       acc[key] = resultItem.result;
 
       return acc;
-    }, {});
+    }, {}) as CredentialDto;
   }
 
   private async convertField(field: { path: string; filter: Schema }): Promise<{

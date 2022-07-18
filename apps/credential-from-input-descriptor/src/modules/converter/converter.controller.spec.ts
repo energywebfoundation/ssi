@@ -18,7 +18,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConverterController } from './converter.controller';
 import { ConverterService } from './converter.service';
-import { InputDesciptorToCredentialDto, InputDescriptorToCredentialResponseDto } from './dtos';
+import { InputDesciptorToCredentialDto } from './dtos';
 
 const mockConverterService = {
   convertInputDescriptorToCredential: jest.fn()
@@ -71,7 +71,7 @@ describe('ConverterController', () => {
       });
 
       it('should return ConverterService.convertInputDescriptorToCredential() result', async function () {
-        const resultExpected: InputDescriptorToCredentialResponseDto = {
+        const resultExpected = {
           credential: { '@context': ['foobar'] }
         };
         jest.spyOn(mockConverterService, 'convertInputDescriptorToCredential').mockImplementation(() => {

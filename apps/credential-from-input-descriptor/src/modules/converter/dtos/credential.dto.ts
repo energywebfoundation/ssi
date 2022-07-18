@@ -15,12 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-export class CredentialDto {
+import { Credential } from '@ew-did-registry/credentials-interface';
+
+export class CredentialDto implements Credential<Record<string, unknown>> {
   '@context'?: (string | Record<string, unknown>)[];
-  credentialSubject?: (string | Record<string, unknown>)[];
-  id?: (string | Record<string, unknown>)[];
-  issuanceDate?: (string | Record<string, unknown>)[];
-  type?: (string | Record<string, unknown>)[];
+  credentialSubject: Record<string, unknown>;
+  id: string;
+  issuanceDate?: string;
+  type: string;
 
   constructor(props?: Partial<CredentialDto>) {
     Object.assign(this, props);
