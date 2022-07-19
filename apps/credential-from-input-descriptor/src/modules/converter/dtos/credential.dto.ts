@@ -22,7 +22,7 @@ export class CredentialDto implements Credential<Record<string, unknown>> {
   credentialSubject: Record<string, unknown>;
   id: string;
   issuanceDate?: string;
-  type: string;
+  type: string | [string];
 
   constructor(props?: Partial<CredentialDto>) {
     Object.assign(this, props);
