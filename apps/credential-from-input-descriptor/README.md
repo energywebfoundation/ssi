@@ -24,7 +24,7 @@ $ npm run start:prod
 
 ### Swagger/OpenAPI
 
-After starting the `vc-api` app, the Swagger/OpenAPI test page can be see at `{appURL}/api`
+After starting the `credential-from-input-descriptor app` app, the Swagger/OpenAPI test page can be see at `{appURL}/api`
 ([`http://localhost:3000/api`](http://localhost:3000/api)
 if running locally)
 
