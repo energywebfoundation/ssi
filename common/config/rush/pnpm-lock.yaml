@@ -1,6 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@ew-did-registry/credentials-interface': ~0.6.3-alpha.527.0
   '@nestjs/axios': ~0.0.8
   '@nestjs/cli': ^8.0.0
   '@nestjs/common': ^8.0.0
@@ -58,6 +59,7 @@ specifiers:
   uuid: ~8.3.0
 
 dependencies:
+  '@ew-did-registry/credentials-interface': 0.6.3-alpha.527.0
   '@nestjs/axios': 0.0.8_37c15d9aad112cee731c8d239db0c0af
   '@nestjs/cli': 8.2.8
   '@nestjs/common': 8.4.7_5199533202e21c7185c9d97f881e2827
@@ -69,7 +71,7 @@ dependencies:
   '@nestjs/swagger': 5.1.5_d698c50e080e28585857283d96ea096d
   '@nestjs/testing': 8.4.7_c1bddf0102e0d68dc342d4afcbe21907
   '@nestjs/typeorm': 8.0.4_4967a077601f378d566b47f3ee68696d
-  '@rush-temp/credential-from-input-descriptor': file:projects/credential-from-input-descriptor.tgz_af8b4b8ae8c13017e4035324bc9914ee
+  '@rush-temp/credential-from-input-descriptor': file:projects/credential-from-input-descriptor.tgz_babel-jest@26.6.3
   '@rush-temp/ssi-did': file:projects/ssi-did.tgz_ts-node@10.8.1
   '@rush-temp/ssi-vc-api': file:projects/ssi-vc-api.tgz_babel-jest@26.6.3
   '@rush-temp/w3c-ccg-webkms': file:projects/w3c-ccg-webkms.tgz
@@ -1752,6 +1754,32 @@ packages:
       '@nestjs/common': 8.4.7_5199533202e21c7185c9d97f881e2827
       '@nestjs/core': 8.4.7_2aa064eef171d5a7957432d22e4b3f20
       path-to-regexp: 0.1.7
+    dev: false
+
+  /@nestjs/swagger/5.1.5_ce4055f8a70424510229f2128b9d2f34:
+    resolution: {integrity: sha512-jvsgciVEFcYVVEuLdNAmgJDpFSQzIoukg+Ovz1vJ97OeCprx0sVhmocn13nCl/dEwIkwoM3eby9OiaccX0A+3A==}
+    peerDependencies:
+      '@nestjs/common': ^8.0.0
+      '@nestjs/core': ^8.0.0
+      fastify-swagger: '*'
+      reflect-metadata: ^0.1.12
+      swagger-ui-express: '*'
+    peerDependenciesMeta:
+      fastify-swagger:
+        optional: true
+      swagger-ui-express:
+        optional: true
+    dependencies:
+      '@nestjs/common': 8.4.7_5199533202e21c7185c9d97f881e2827
+      '@nestjs/core': 8.4.7_2aa064eef171d5a7957432d22e4b3f20
+      '@nestjs/mapped-types': 1.0.0_fe6df273c9388b4b76b6a58eed062952
+      lodash: 4.17.21
+      path-to-regexp: 3.2.0
+      reflect-metadata: 0.1.13
+      swagger-ui-express: 4.5.0
+    transitivePeerDependencies:
+      - class-transformer
+      - class-validator
     dev: false
 
   /@nestjs/swagger/5.1.5_d698c50e080e28585857283d96ea096d:
@@ -7441,6 +7469,15 @@ packages:
       swagger-ui-dist: 4.12.0
     dev: false
 
+  /swagger-ui-express/4.5.0:
+    resolution: {integrity: sha512-DHk3zFvsxrkcnurGvQlAcLuTDacAVN1JHKDgcba/gr2NFRE4HGwP1YeHIXMiGznkWR4AeS7X5vEblNn4QljuNA==}
+    engines: {node: '>= v0.10.32'}
+    peerDependencies:
+      express: '>=4.0.0'
+    dependencies:
+      swagger-ui-dist: 4.12.0
+    dev: false
+
   /symbol-observable/4.0.0:
     resolution: {integrity: sha512-b19dMThMV4HVFynSAM1++gBHAbk2Tc/osgLIBZMKsyqh34jb2e8Os7T6ZW/Bt3pJFdBTd2JwAnAAEQV7rSNvcQ==}
     engines: {node: '>=0.10'}
@@ -8304,8 +8341,8 @@ packages:
     resolution: {integrity: sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==}
     dev: false
 
-  file:projects/credential-from-input-descriptor.tgz_af8b4b8ae8c13017e4035324bc9914ee:
-    resolution: {integrity: sha512-ysk07Rjjy8X33sJ8j5BfF8fRKMYNcXsSEpyzNIJEQ/UBvG7uCjvkZisfCuov3UsdvTYKO0zI/5maUJHvWXvgpQ==, tarball: file:projects/credential-from-input-descriptor.tgz}
+  file:projects/credential-from-input-descriptor.tgz_babel-jest@26.6.3:
+    resolution: {integrity: sha512-YkQX6QTtPrKmeSvtIG93ersmGv6Aa9hGqw4ogRQ7BDPgl0ZfyCTPNM9qLCOaa7WkNwlSRIGQL6Np0mR+9G8b2Q==, tarball: file:projects/credential-from-input-descriptor.tgz}
     id: file:projects/credential-from-input-descriptor.tgz
     name: '@rush-temp/credential-from-input-descriptor'
     version: 0.0.0
@@ -8316,7 +8353,7 @@ packages:
       '@nestjs/core': 8.4.7_2aa064eef171d5a7957432d22e4b3f20
       '@nestjs/platform-express': 8.4.7_fce4c3b686c1225eb94686491d30b061
       '@nestjs/schematics': 8.0.11_typescript@4.7.4
-      '@nestjs/swagger': 5.1.5_d698c50e080e28585857283d96ea096d
+      '@nestjs/swagger': 5.1.5_ce4055f8a70424510229f2128b9d2f34
       '@nestjs/testing': 8.4.7_c1bddf0102e0d68dc342d4afcbe21907
       '@types/express': 4.17.13
       '@types/jest': 27.5.2
@@ -8337,6 +8374,7 @@ packages:
       rxjs: 7.5.5
       source-map-support: 0.5.21
       supertest: 6.2.3
+      swagger-ui-express: 4.5.0
       ts-jest: 27.1.5_d72aeffe33666a81c9d394a1de77d638
       ts-loader: 9.3.1_typescript@4.7.4
       ts-node: 10.8.1_841f2a74d64cdda652a10d589e346265
@@ -8357,10 +8395,10 @@ packages:
       - debug
       - encoding
       - esbuild
+      - express
       - fastify-swagger
       - node-notifier
       - supports-color
-      - swagger-ui-express
       - uglify-js
       - utf-8-validate
       - vue-template-compiler
@@ -8399,7 +8437,7 @@ packages:
     dev: false
 
   file:projects/ssi-vc-api.tgz_babel-jest@26.6.3:
-    resolution: {integrity: sha512-Y4x0AFdAUGagigA0889r7vQRkqPSCbaUuf6cY3oXaAR30i33DGI4E62gCwfSVfXtH/PC4O8bXlv3Nu7kkRZ7Rw==, tarball: file:projects/ssi-vc-api.tgz}
+    resolution: {integrity: sha512-Eg8JMtIHCR8YPo1MJA9Eyf6nt+XWytWhCV0M3aSYhTqj+DP0G69PkPt3jvYU9AFhUnS/oshjclWIrQWrX0innQ==, tarball: file:projects/ssi-vc-api.tgz}
     id: file:projects/ssi-vc-api.tgz
     name: '@rush-temp/ssi-vc-api'
     version: 0.0.0
@@ -8412,7 +8450,7 @@ packages:
       '@nestjs/platform-express': 8.4.7_fce4c3b686c1225eb94686491d30b061
       '@nestjs/schematics': 8.0.11_typescript@4.7.4
       '@nestjs/serve-static': 2.2.2_fce4c3b686c1225eb94686491d30b061
-      '@nestjs/swagger': 5.1.5_d698c50e080e28585857283d96ea096d
+      '@nestjs/swagger': 5.1.5_ce4055f8a70424510229f2128b9d2f34
       '@nestjs/testing': 8.4.7_c1bddf0102e0d68dc342d4afcbe21907
       '@nestjs/typeorm': 8.0.4_4967a077601f378d566b47f3ee68696d
       '@rushstack/eslint-config': 2.3.4_eslint@8.19.0+typescript@4.7.4
@@ -8440,7 +8478,7 @@ packages:
       rimraf: 3.0.2
       rxjs: 7.5.5
       supertest: 6.2.3
-      swagger-ui-express: 4.4.0
+      swagger-ui-express: 4.5.0
       ts-jest: 27.1.5_d72aeffe33666a81c9d394a1de77d638
       ts-loader: 9.3.1_typescript@4.7.4
       ts-node: 10.8.1_841f2a74d64cdda652a10d589e346265
