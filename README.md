@@ -41,6 +41,10 @@ const did = generateDID(key); // Code from ssi-did lib. Returns initial DID Docu
 
 ## Relationship to other EWF components
 
+### Switchboard
+
+
+
 ### iam-client-lib
 [iam-client-lib](https://github.com/energywebfoundation/iam-client-lib/) provides SSI related functions such as interaction with EWF's Switchboard role credential definitions, credential request and issuance and connection to the ssi-hub.
 It can be used as a client library to this vc-api (for example, to start an exchange).
@@ -66,9 +70,15 @@ The rational for DIDKit's use is that it:
 - Supports did:key, did:ethr, did:web
 - DIDKit (and its libraries) are open-source
 
-## Component Diagram
+## Container Diagram
 
-![architecture](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/energywebfoundation/ssi/master/vc-api.component.puml)
+The following is a C4 Container diagram of the apps within this repository as well as related apps such as [Switchboard](#switchboard). 
+
+The diagram shows that multiple apps (Switchboard, an Elia developed apps or other apps) could act as clients to VC-API.
+In addition, these same client app could work with other VC-API implementions.
+This interoperability is made possible through conformance to the VC-API specification.
+
+![c4 container diagram](./ssi.c4container.png)
 
 ## Installation
 This repository is a monorepo that uses [Rush](https://rushjs.io/) with the PNPM package manager.
