@@ -121,4 +121,112 @@ describe('E2E Suite', function () {
       });
     });
   });
+
+  describe('When having valid Input Descriptor and DID', function () {
+    let did;
+    const validInputDescriptor = {
+      constraints: {
+        fields: [
+          {
+            path: '$.@context',
+            filter: {
+              $schema: 'http://json-schema.org/draft-07/schema#',
+              type: 'array',
+              items: [
+                {
+                  const: 'https://www.w3.org/2018/credentials/v1'
+                },
+                {
+                  $ref: '#/definitions/eliaGroupContext'
+                }
+              ],
+              additionalItems: false,
+              minItems: 2,
+              maxItems: 2,
+              definitions: {
+                eliaGroupContext: {
+                  type: 'object',
+                  properties: {
+                    elia: {
+                      const: 'https://www.eliagroup.eu/ld-context-2022#'
+                    },
+                    consent: {
+                      const: 'elia:consent'
+                    }
+                  },
+                  additionalProperties: false,
+                  required: ['elia', 'consent']
+                }
+              }
+            }
+          },
+          {
+            path: '$.credentialSubject',
+            filter: {
+              type: 'object',
+              properties: {
+                id: { const: 'did:example:d23dd687a7dc6787646f2eb98d0' }
+              },
+              additionalProperties: false
+            }
+          },
+          {
+            path: '$.type',
+            filter: {
+              type: 'array',
+              items: [{ const: 'VerifiableCredential' }]
+            }
+          }
+        ]
+      }
+    };
+
+    beforeEach(async function () {
+      did = await getDid(vcApiAppInstance);
+    });
+
+    describe('after converting it to the credential to be signed', function () {
+      let credential;
+
+      beforeEach(async function () {
+        credential = (
+          await request(cidAppInstance.getHttpServer())
+            .post('/converter/input-descriptor-to-credential')
+            .send(validInputDescriptor)
+            .expect(201)
+        ).body.credential;
+      });
+
+      describe('VC-API when requested', function () {
+        let result: request.Response;
+
+        beforeEach(async function () {
+          result = await request(vcApiAppInstance.getHttpServer())
+            .post('/vc-api/credentials/issue')
+            .send({
+              credential: { ...credential, issuer: did.id, issuanceDate: '2020-08-19T21:41:50Z' },
+              options: {}
+            });
+        });
+        it('should accpted it', async function () {
+          expect(result.status).toBe(201);
+        });
+
+        it('should respond with response body', async function () {
+          expect(result.body).toBeDefined();
+        });
+      });
+    });
+  });
 });
+
+async function getDid(app: INestApplication) {
+  const response: request.Response = await request(app.getHttpServer()).post('/did').send({ method: 'key' });
+
+  expect(response.status).toBe(201);
+  expect(response.body).toHaveProperty('id');
+  expect(response.body).toHaveProperty('verificationMethod');
+  expect(response.body['verificationMethod']).toHaveLength(1);
+
+  return response.body;
+}
