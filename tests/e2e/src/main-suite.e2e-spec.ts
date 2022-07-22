@@ -208,7 +208,7 @@ describe('E2E Suite', function () {
               options: {}
             });
         });
-        it('should accpted it', async function () {
+        it('should accept it', async function () {
           expect(result.status).toBe(201);
         });
 
