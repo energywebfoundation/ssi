@@ -17,7 +17,17 @@ however the intention is that it can be used to enable more specific energy indu
 These SSI wallet components are a part of the [Energy Web Decentralized Operating System](#ew-dos).
 For more information about SSI at EWF, see the [EWF Gitbook page on SSI](https://energy-web-foundation.gitbook.io/energy-web/foundational-concepts/self-sovereign-identity).
 
-## Components
+## Architecture
+
+### Container Diagram
+
+The following is a C4 Container diagram of the apps within this repository as well as related apps such as [Switchboard](#switchboard). 
+
+The diagram shows that multiple apps (Switchboard, an Elia developed apps or other apps) could act as clients to [VC-API](#vc-api).
+In addition, these same client app could work with other VC-API implementions.
+This interoperability is made possible through conformance to the [VC-API specification](https://w3c-ccg.github.io/vc-api).
+
+![c4 container diagram](./ssi.c4container.png)
 
 ### Apps
 #### VC-API
@@ -39,11 +49,9 @@ const did = generateDID(key); // Code from ssi-did lib. Returns initial DID Docu
 
 #### KMS Interface
 
-## Relationship to other EWF components
+### Other apps/components
 
 ### Switchboard
-
-
 
 ### iam-client-lib
 [iam-client-lib](https://github.com/energywebfoundation/iam-client-lib/) provides SSI related functions such as interaction with EWF's Switchboard role credential definitions, credential request and issuance and connection to the ssi-hub.
@@ -69,16 +77,6 @@ The rational for DIDKit's use is that it:
 - Supports JSON-LD and JWT credential issuance and verification
 - Supports did:key, did:ethr, did:web
 - DIDKit (and its libraries) are open-source
-
-## Container Diagram
-
-The following is a C4 Container diagram of the apps within this repository as well as related apps such as [Switchboard](#switchboard). 
-
-The diagram shows that multiple apps (Switchboard, an Elia developed apps or other apps) could act as clients to VC-API.
-In addition, these same client app could work with other VC-API implementions.
-This interoperability is made possible through conformance to the VC-API specification.
-
-![c4 container diagram](./ssi.c4container.png)
 
 ## Installation
 This repository is a monorepo that uses [Rush](https://rushjs.io/) with the PNPM package manager.
