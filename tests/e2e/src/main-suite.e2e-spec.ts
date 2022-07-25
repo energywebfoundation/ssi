@@ -239,6 +239,40 @@ describe('E2E Suite', function () {
             })
           );
         });
+
+        describe('proof response property object', function () {
+          let proof;
+
+          beforeEach(async function () {
+            proof = result.body.proof;
+          });
+
+          it('should be defined', async function () {
+            expect(proof).toBeDefined();
+          });
+
+          it('should contain expected properties', async function () {
+            expect(Object.keys(proof)).toEqual([
+              'type',
+              'proofPurpose',
+              'verificationMethod',
+              'created',
+              'jws'
+            ]);
+          });
+
+          it('should contain expected properties types', async function () {
+            expect(proof).toEqual(
+              expect.objectContaining({
+                type: expect.any(String),
+                proofPurpose: expect.any(String),
+                verificationMethod: expect.any(String),
+                created: expect.any(String),
+                jws: expect.any(String)
+              })
+            );
+          });
+        });
       });
     });
   });
