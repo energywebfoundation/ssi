@@ -49,75 +49,77 @@ describe('E2E Suite', function () {
     await Promise.all([vcApiAppInstance.close(), cidAppInstance.close()]);
   });
 
-  describe('VC-API', function () {
-    it('should be defined', async function () {
-      expect(vcApiAppInstance).toBeDefined();
+  describe('Smoke test', function () {
+    describe('VC-API', function () {
+      it('should be defined', async function () {
+        expect(vcApiAppInstance).toBeDefined();
+      });
+
+      it('should generate a new did', async function () {
+        const response: request.Response = await request(vcApiAppInstance.getHttpServer())
+          .post('/did')
+          .send({ method: 'key' });
+
+        expect(response.status).toBe(201);
+        expect(response.body).toHaveProperty('id');
+        expect(response.body).toHaveProperty('verificationMethod');
+        expect(response.body['verificationMethod']).toHaveLength(1);
+      });
+
+      it('should issue a new credentials', async function () {
+        const didDoc = (await request(vcApiAppInstance.getHttpServer()).post('/did').send({ method: 'key' }))
+          .body;
+
+        const credential: CredentialDto = {
+          '@context': ['https://www.w3.org/2018/credentials/v1'],
+          id: 'http://example.org/credentials/3731',
+          type: ['VerifiableCredential'],
+          issuer: didDoc.id,
+          issuanceDate: '2020-08-19T21:41:50Z',
+          credentialSubject: {
+            id: 'did:example:d23dd687a7dc6787646f2eb98d0'
+          }
+        };
+
+        const options: IssueOptionsDto = {};
+
+        const response: request.Response = await request(vcApiAppInstance.getHttpServer())
+          .post('/vc-api/credentials/issue')
+          .send({ credential, options });
+
+        expect(response.status).toBe(201);
+      });
     });
 
-    it('should generate a new did', async function () {
-      const response: request.Response = await request(vcApiAppInstance.getHttpServer())
-        .post('/did')
-        .send({ method: 'key' });
-
-      expect(response.status).toBe(201);
-      expect(response.body).toHaveProperty('id');
-      expect(response.body).toHaveProperty('verificationMethod');
-      expect(response.body['verificationMethod']).toHaveLength(1);
-    });
-
-    it('should issue a new credentials', async function () {
-      const didDoc = (await request(vcApiAppInstance.getHttpServer()).post('/did').send({ method: 'key' }))
-        .body;
-
-      const credential: CredentialDto = {
-        '@context': ['https://www.w3.org/2018/credentials/v1'],
-        id: 'http://example.org/credentials/3731',
-        type: ['VerifiableCredential'],
-        issuer: didDoc.id,
-        issuanceDate: '2020-08-19T21:41:50Z',
-        credentialSubject: {
-          id: 'did:example:d23dd687a7dc6787646f2eb98d0'
+    describe('CREDENTIAL-FROM-INPUT-DESCRIPTOR', function () {
+      const validPayload = {
+        constraints: {
+          fields: [
+            { path: '$.@context', filter: {} },
+            { path: '$.credentialSubject', filter: {} },
+            { path: '$.type', filter: {} }
+          ]
         }
       };
 
-      const options: IssueOptionsDto = {};
+      it('should be defined', async function () {
+        expect(cidAppInstance).toBeDefined();
+      });
 
-      const response: request.Response = await request(vcApiAppInstance.getHttpServer())
-        .post('/vc-api/credentials/issue')
-        .send({ credential, options });
+      it('should convert input descriptor to credentials', async function () {
+        const result = await request(cidAppInstance.getHttpServer())
+          .post('/converter/input-descriptor-to-credential')
+          .send(validPayload)
+          .expect(201);
 
-      expect(response.status).toBe(201);
-    });
-  });
-
-  describe('CREDENTIAL-FROM-INPUT-DESCRIPTOR', function () {
-    const validPayload = {
-      constraints: {
-        fields: [
-          { path: '$.@context', filter: {} },
-          { path: '$.credentialSubject', filter: {} },
-          { path: '$.type', filter: {} }
-        ]
-      }
-    };
-
-    it('should be defined', async function () {
-      expect(cidAppInstance).toBeDefined();
-    });
-
-    it('should convert input descriptor to credentials', async function () {
-      const result = await request(cidAppInstance.getHttpServer())
-        .post('/converter/input-descriptor-to-credential')
-        .send(validPayload)
-        .expect(201);
-
-      expect(result.body).toBeDefined();
-      expect(result.body).toEqual({
-        credential: {
-          '@context': {},
-          credentialSubject: {},
-          type: {}
-        }
+        expect(result.body).toBeDefined();
+        expect(result.body).toEqual({
+          credential: {
+            '@context': {},
+            credentialSubject: {},
+            type: {}
+          }
+        });
       });
     });
   });
@@ -212,65 +214,72 @@ describe('E2E Suite', function () {
           expect(result.status).toBe(201);
         });
 
-        it('should respond with response body', async function () {
-          expect(result.body).toBeDefined();
-        });
-
-        it('should contain expected properties', async function () {
-          expect(Object.keys(result.body)).toEqual([
-            '@context',
-            'type',
-            'credentialSubject',
-            'issuer',
-            'issuanceDate',
-            'proof'
-          ]);
-        });
-
-        it('should contain expected properties types', async function () {
-          expect(result.body).toEqual(
-            expect.objectContaining({
-              '@context': expect.any(Object),
-              type: expect.any(Array),
-              credentialSubject: expect.any(Object),
-              issuer: expect.any(String),
-              issuanceDate: expect.any(String),
-              proof: expect.any(Object)
-            })
-          );
-        });
-
-        describe('proof response property object', function () {
-          let proof;
-
+        describe('and response body', function () {
+          let body;
           beforeEach(async function () {
-            proof = result.body.proof;
+            body = result.body;
           });
 
           it('should be defined', async function () {
-            expect(proof).toBeDefined();
+            expect(body).toBeDefined();
           });
 
           it('should contain expected properties', async function () {
-            expect(Object.keys(proof)).toEqual([
+            expect(Object.keys(body)).toEqual([
+              '@context',
               'type',
-              'proofPurpose',
-              'verificationMethod',
-              'created',
-              'jws'
+              'credentialSubject',
+              'issuer',
+              'issuanceDate',
+              'proof'
             ]);
           });
 
           it('should contain expected properties types', async function () {
-            expect(proof).toEqual(
+            expect(body).toEqual(
               expect.objectContaining({
-                type: expect.any(String),
-                proofPurpose: expect.any(String),
-                verificationMethod: expect.any(String),
-                created: expect.any(String),
-                jws: expect.any(String)
+                '@context': expect.any(Object),
+                type: expect.any(Array),
+                credentialSubject: expect.any(Object),
+                issuer: expect.any(String),
+                issuanceDate: expect.any(String),
+                proof: expect.any(Object)
               })
             );
+          });
+
+          describe('and proof response body property object', function () {
+            let proof;
+
+            beforeEach(async function () {
+              proof = body.proof;
+            });
+
+            it('should be defined', async function () {
+              expect(proof).toBeDefined();
+            });
+
+            it('should contain expected properties', async function () {
+              expect(Object.keys(proof)).toEqual([
+                'type',
+                'proofPurpose',
+                'verificationMethod',
+                'created',
+                'jws'
+              ]);
+            });
+
+            it('should contain expected properties types', async function () {
+              expect(proof).toEqual(
+                expect.objectContaining({
+                  type: expect.any(String),
+                  proofPurpose: expect.any(String),
+                  verificationMethod: expect.any(String),
+                  created: expect.any(String),
+                  jws: expect.any(String)
+                })
+              );
+            });
           });
         });
       });
