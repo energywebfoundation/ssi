@@ -58,7 +58,7 @@ const did = generateDID(key); // Code from ssi-did lib. Returns initial DID Docu
 
 ### Switchboard
 
-[Switchboard](https://github.com/energywebfoundation/switchboard-dapp) can be used a UI to initiate and continue a VC-API exchange.
+[Switchboard](https://github.com/energywebfoundation/switchboard-dapp) can be used as a UI to initiate and continue a VC-API exchange.
 It uses [iam-client-lib](#iam-client-lib) to accomplish this.
 
 ### iam-client-lib
