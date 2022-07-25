@@ -215,6 +215,30 @@ describe('E2E Suite', function () {
         it('should respond with response body', async function () {
           expect(result.body).toBeDefined();
         });
+
+        it('should contain expected properties', async function () {
+          expect(Object.keys(result.body)).toEqual([
+            '@context',
+            'type',
+            'credentialSubject',
+            'issuer',
+            'issuanceDate',
+            'proof'
+          ]);
+        });
+
+        it('should contain expected properties types', async function () {
+          expect(result.body).toEqual(
+            expect.objectContaining({
+              '@context': expect.any(Object),
+              type: expect.any(Array),
+              credentialSubject: expect.any(Object),
+              issuer: expect.any(String),
+              issuanceDate: expect.any(String),
+              proof: expect.any(Object)
+            })
+          );
+        });
       });
     });
   });
