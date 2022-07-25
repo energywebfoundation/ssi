@@ -21,7 +21,12 @@ For more information about SSI at EWF, see the [EWF Gitbook page on SSI](https:/
 
 ### Container Diagram
 
-The following is a C4 Container diagram of the apps within this repository as well as related apps such as [Switchboard](#switchboard). 
+The following is a C4 Container diagram of the apps within this repository as well as related apps such as [Switchboard](#switchboard).
+The diagram was generated used [EnergyWeb's IcePanel](https://s.icepanel.io/gODPIqAQio/-/-/q8qxi31rvqe/g5rxwbzt0c7/342.1/288.7/0.438). 
+
+Note that several of these apps (e.g. Switchboard, Web3 Wallet, SSI Wallet Client) are not in this repository.
+They are shown on the diagram for context on how the apps in this repository can be used.
+See the [other apps/components](#other-appscomponents) section for more details on some of these other apps. 
 
 The diagram shows that multiple apps (Switchboard, an Elia developed apps or other apps) could act as clients to [VC-API](#vc-api).
 In addition, these same client app could work with other VC-API implementions.
