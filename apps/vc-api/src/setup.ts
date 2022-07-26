@@ -21,7 +21,7 @@ import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 export const API_DEFAULT_VERSION_PREFIX: string = '/v1';
-const API_DEFAULT_VERSION: string = API_DEFAULT_VERSION_PREFIX.replace(/^\/v/, '');
+export const API_DEFAULT_VERSION: string = API_DEFAULT_VERSION_PREFIX.replace(/^\/v/, '');
 
 async function setupApp(): Promise<INestApplication> {
   const app = await NestFactory.create(AppModule);

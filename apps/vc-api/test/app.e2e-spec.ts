@@ -27,7 +27,7 @@ import { vcApiSuite } from './vc-api/credentials/vc-api.e2e-suite';
 import { keySuite } from './key/key.e2e-suite';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { ExchangeEntity } from '../src/vc-api/exchanges/entities/exchange.entity';
-import { API_DEFAULT_VERSION_PREFIX } from '../src/setup';
+import { API_DEFAULT_VERSION, API_DEFAULT_VERSION_PREFIX } from '../src/setup';
 
 // Increasing timeout for debugging
 // Should only affect this file https://jestjs.io/docs/jest-object#jestsettimeouttimeout
@@ -47,7 +47,7 @@ describe('App (e2e)', () => {
     app.useGlobalPipes(new ValidationPipe()); // https://github.com/nestjs/nest/issues/5264
     app.enableVersioning({
       type: VersioningType.URI,
-      defaultVersion: ['1']
+      defaultVersion: [API_DEFAULT_VERSION]
     });
     await app.init();
     walletClient = new WalletClient(app);
