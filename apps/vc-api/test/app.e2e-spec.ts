@@ -27,6 +27,7 @@ import { vcApiSuite } from './vc-api/credentials/vc-api.e2e-suite';
 import { keySuite } from './key/key.e2e-suite';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { ExchangeEntity } from '../src/vc-api/exchanges/entities/exchange.entity';
+import { API_DEFAULT_VERSION_PREFIX } from '../src/setup';
 
 // Increasing timeout for debugging
 // Should only affect this file https://jestjs.io/docs/jest-object#jestsettimeouttimeout
@@ -34,7 +35,7 @@ jest.setTimeout(300 * 1000);
 
 export let app: INestApplication;
 export let walletClient: WalletClient;
-export const vcApiBaseUrl = '/v1/vc-api';
+export const vcApiBaseUrl = `${API_DEFAULT_VERSION_PREFIX}/vc-api`;
 
 describe('App (e2e)', () => {
   beforeEach(async () => {
