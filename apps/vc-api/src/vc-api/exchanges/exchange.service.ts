@@ -76,7 +76,7 @@ export class ExchangeService {
         processingInProgress: false
       };
     }
-    const baseWithControllerPath = `${baseUrl}/vc-api`;
+    const baseWithControllerPath = `${baseUrl}/v1/vc-api`;
     const transaction = exchange.start(baseWithControllerPath);
     await this.transactionRepository.save(transaction);
     return {
