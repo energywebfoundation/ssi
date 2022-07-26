@@ -16,7 +16,7 @@
  */
 
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { INestApplication, ValidationPipe, VersioningType } from '@nestjs/common';
 import { AppModule } from '../src/app.module';
 import { WalletClient } from './wallet-client';
 import { didSuite } from './did/did.e2e-suite';
@@ -34,7 +34,7 @@ jest.setTimeout(300 * 1000);
 
 export let app: INestApplication;
 export let walletClient: WalletClient;
-export const vcApiBaseUrl = '/vc-api';
+export const vcApiBaseUrl = '/v1/vc-api';
 
 describe('App (e2e)', () => {
   beforeEach(async () => {
@@ -44,6 +44,10 @@ describe('App (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     app.useGlobalPipes(new ValidationPipe()); // https://github.com/nestjs/nest/issues/5264
+    app.enableVersioning({
+      type: VersioningType.URI,
+      defaultVersion: ['1']
+    });
     await app.init();
     walletClient = new WalletClient(app);
 

@@ -20,6 +20,8 @@ import { CredentialDto } from '../../../src/vc-api/credentials/dtos/credential.d
 import { IssueOptionsDto } from '../../../src/vc-api/credentials/dtos/issue-options.dto';
 import { app, walletClient } from '../../app.e2e-spec';
 
+const API_VERSION = 'v1';
+
 export const vcApiSuite = () => {
   it('should issue using a generated did:key', async () => {
     const didDoc = await walletClient.createDID('key');
@@ -35,7 +37,7 @@ export const vcApiSuite = () => {
     };
     const options: IssueOptionsDto = {};
     const postResponse = await request(app.getHttpServer())
-      .post('/vc-api/credentials/issue')
+      .post(`/${API_VERSION}/vc-api/credentials/issue`)
       .send({ credential, options })
       .expect(201);
     expect(postResponse.body).toBeDefined();
