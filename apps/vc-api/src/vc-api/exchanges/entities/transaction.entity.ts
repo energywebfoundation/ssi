@@ -26,6 +26,7 @@ import { VpRequestEntity } from './vp-request.entity';
 import { CallbackConfiguration } from '../types/callback-configuration';
 import { PresentationSubmissionEntity } from './presentation-submission.entity';
 import { SubmissionVerifier } from '../types/submission-verifier';
+import { ForbiddenException } from '@nestjs/common';
 
 /**
  * A TypeOrm entity representing an exchange transaction
@@ -115,6 +116,10 @@ export class TransactionEntity {
     presentation: VerifiablePresentation,
     verifier: SubmissionVerifier
   ): Promise<{ response: ExchangeResponseDto; callback: CallbackConfiguration[] }> {
+    if (this.presentationSubmission && this.presentationSubmission.vp.holder !== presentation.holder) {
+      throw new ForbiddenException('DID does not match the DID that initially submitted the presentation');
+    }
+
     const verificationResult = await verifier.verifyVpRequestSubmission(presentation, this.vpRequest);
     const errors = verificationResult.errors;
 
