@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ConflictException, ForbiddenException, Injectable, Logger } from '@nestjs/common';
+import { ConflictException, Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -25,7 +25,7 @@ import { ExchangeEntity } from './entities/exchange.entity';
 import { ExchangeResponseDto } from './dtos/exchange-response.dto';
 import { VpRequestDto } from './dtos/vp-request.dto';
 import { ExchangeDefinitionDto } from './dtos/exchange-definition.dto';
-import { TransactionDidForbiddenException, TransactionEntity } from './entities/transaction.entity';
+import { TransactionEntity } from './entities/transaction.entity';
 import { ConfigService } from '@nestjs/config';
 import { TransactionDto } from './dtos/transaction.dto';
 import { ReviewResult, SubmissionReviewDto } from './dtos/submission-review.dto';
@@ -107,15 +107,10 @@ export class ExchangeService {
     }
     const transaction = transactionQuery.transaction;
 
-    const { response, callback } = await transaction
-      .processPresentation(verifiablePresentation, this.vpSubmissionVerifierService)
-      .catch((err) => {
-        if (err instanceof TransactionDidForbiddenException) {
-          throw new ForbiddenException(err.message);
-        }
-
-        throw err;
-      });
+    const { response, callback } = await transaction.processPresentation(
+      verifiablePresentation,
+      this.vpSubmissionVerifierService
+    );
     await this.transactionRepository.save(transaction);
     const body = TransactionDto.toDto(transaction);
     // TODO: react to validation errors
