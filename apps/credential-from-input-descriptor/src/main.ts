@@ -19,6 +19,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
 import { setupApp, setupSwaggerDocument } from './setup';
+import { SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const logger = new Logger('bootstrap', { timestamp: true });
@@ -26,7 +27,7 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
   setupApp(app);
-  setupSwaggerDocument(app);
+  SwaggerModule.setup('api', app, setupSwaggerDocument(app));
 
   const port = parseInt(process.env.PORT) || 3000;
   await app.listen(port);
