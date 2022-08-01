@@ -56,7 +56,7 @@ export class FieldDto {
   @IsString()
   @IsNotEmpty()
   @ApiProperty({ example: '$.@context' })
-  path: string;
+  path: string[];
 
   @IsValidJsonSchema()
   @IsObject()
