@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { IsArray, IsNotEmpty, IsObject } from 'class-validator';
+import { ArrayMaxSize, ArrayMinSize, IsArray, IsNotEmpty, IsObject } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsAllowedFieldJsonPathKey, IsTopLevelFieldJsonPath, IsValidJsonSchema } from '../../../validators';
 
@@ -53,6 +53,8 @@ export const exampleFieldFilter = {
 export class FieldDto {
   @IsAllowedFieldJsonPathKey({ each: true })
   @IsTopLevelFieldJsonPath({ each: true })
+  @ArrayMaxSize(1)
+  @ArrayMinSize(1)
   @IsArray()
   @IsNotEmpty()
   @ApiProperty({ example: ['$.@context'] })
