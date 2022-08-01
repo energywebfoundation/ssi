@@ -69,7 +69,7 @@ To do this, navigate to the `Vc Api Controller create Exchange` under `vc-api/ex
 
 **Request URL**
 
-`{VC API base url}/vc-api/exchanges`
+`{VC API base url}/v1/vc-api/exchanges`
 
 **HTTP Verb**
 
@@ -109,7 +109,7 @@ Creating a new request bucket is to help you be sure that you are looking at the
                             "subject_is_issuer":"required",
                             "fields":[
                                 {
-                                  "path":"$.@context",
+                                  "path":["$.@context"],
                                   "filter":{
                                       "$schema":"http://json-schema.org/draft-07/schema#",
                                       "type":"array",
@@ -145,7 +145,7 @@ Creating a new request bucket is to help you be sure that you are looking at the
                                   }
                                 },
                                 {
-                                  "path":"$.credentialSubject",
+                                  "path":["$.credentialSubject"],
                                   "filter":{
                                       "type":"object",
                                       "properties":{
@@ -157,7 +157,7 @@ Creating a new request bucket is to help you be sure that you are looking at the
                                   }
                                   },
                                   {
-                                    "path":"$.type",
+                                    "path":["$.type"],
                                     "filter":{
                                         "type":"array",
                                         "items":[
