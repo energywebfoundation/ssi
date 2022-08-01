@@ -29,17 +29,17 @@ From a technical point of view, in this tutorial, we have access to the server A
 ### Technical workflows
 
 The technical workflow is as follows:
-- [1.1  [Consent-Requesting portal] Configure the consent exchange](#11-authority-portal-configure-the-credential-issuance-exchange)
-- [1.2  [Consent-Requesting portal] Provide an exchange invitation to the citizen](#12-authority-portal-provide-an-exchange-invitation-to-the-citizen)
+- [1.1  [Consent-Requesting portal] Configure the consent exchange](#11-consent-requesting-portal-configure-the-credential-issuance-exchange)
+- [1.2  [Consent-Requesting portal] Provide an exchange invitation to the consenter](#12-consent-requesting-portal-provide-an-exchange-invitation-to-the-consenter)
 - [1.3  [Consenter] Initiate exchange using the request URL](#13-consenter-initiate-issuance-exchange-using-the-request-url)
 - [1.4  [Consenter] Create a DID](#14-consenter-create-a-did)
 - [1.5  [Consenter] Create a DID authentication proof](#15-consenter-create-a-did-authentication-proof)
 - [1.6  [Consenter] Continue exchange by submitting the DID Auth proof](#16-consenter-continue-exchange-by-submitting-the-did-auth-proof)
-- [1.7  [Consent-Requesting portal] Check for notification of submitted presentation](#17-authority-portal-check-for-notification-of-submitted-presentation)
-- [1.8  [Consent-Requesting portal] Create issuer DID](#18-authority-portal-create-issuer-did)
-- [1.9  [Consent-Requesting portal] Issue "consenter card" credential](#19-authority-portal-issue-consenter-card-credential)
-- [1.10 [Consent-Requesting portal] Wrap the issued VC in a VP](#110-authority-portal-wrap-the-issued-vc-in-a-vp)
-- [1.11 [Consent-Requesting portal] Add a review to the exchange](#111-authority-portal-add-a-review-to-the-exchange)
+- [1.7  [Consent-Requesting portal] Check for notification of submitted presentation](#17-consent-requesting-portal-check-for-notification-of-submitted-presentation)
+- [1.8  [Consent-Requesting portal] Create issuer DID](#18-consent-requesting-portal-create-issuer-did)
+- [1.9  [Consent-Requesting portal] Issue "consenter card" credential](#19-consent-requesting-portal-issue-consenter-card-credential)
+- [1.10 [Consent-Requesting portal] Wrap the issued VC in a VP](#110-consent-requesting-portal-wrap-the-issued-vc-in-a-vp)
+- [1.11 [Consent-Requesting portal] Add a review to the exchange](#111-consent-requesting-portal-add-a-review-to-the-exchange)
 - [1.12 [Consenter] Continue the exchange and obtain the credentials](#112-consenter-continue-the-exchange-and-obtain-the-credentials)
 
 #### 2. Presentation workflow
@@ -62,11 +62,9 @@ First, download and install [Postman](https://www.postman.com/downloads/).
 
 Then, from the Postman app, import [the open-api json](../openapi.json) and [the environment](../vc-api.postman_environment.json) for the Nest.js wallet. Instructions on how to import into Postman can be found [here](https://learning.postman.com/docs/getting-started/importing-and-exporting-data/#importing-data-into-postman).
 
-### 1. Permanent Consenter Card issuance
+### 1 [Consent-Requesting portal] Configure the consent request exchange
 
-#### 1.1 [Consent-Requesting portal] Configure the credential issuance exchange
-
-The authority portal needs to configure the parameters of the permanent consenter card issuance exchange by sending an [Exchange Definition](../exchanges.md#exchange-definitions).
+The consent-requesting portal needs to configure the parameters of the consent exchange by sending an [Exchange Definition](../exchanges.md#exchange-definitions).
 To do this, navigate to the `Vc Api Controller create Exchange` under `vc-api/exchanges` and send the request described below.
 
 **Request URL**
@@ -98,13 +96,89 @@ Creating a new request bucket is to help you be sure that you are looking at the
     "exchangeId": "<FILL WITH SOME UNIQUE ID>",
     "query": [
       {
-        "type": "DIDAuth",
-        "credentialQuery": []
+         "type":"PresentationDefinition",
+         "credentialQuery":[
+            {
+               "presentationDefinition":{
+                    "id":"286bc1e0-f1bd-488a-a873-8d71be3c690e",
+                    "input_descriptors":[
+                        {
+                          "id": "consent_agreement",
+                          "name": "Consent Agreement",
+                          "constraints": {
+                            "subject_is_issuer":"required",
+                            "fields":[
+                                {
+                                  "path":"$.@context",
+                                  "filter":{
+                                      "$schema":"http://json-schema.org/draft-07/schema#",
+                                      "type":"array",
+                                      "items":[
+                                        {
+                                            "const":"https://www.w3.org/2018/credentials/v1"
+                                        },
+                                        {
+                                            "$ref":"#/definitions/eliaGroupContext"
+                                        }
+                                      ],
+                                      "additionalItems":false,
+                                      "minItems":2,
+                                      "maxItems":2,
+                                      "definitions":{
+                                        "eliaGroupContext":{
+                                            "type":"object",
+                                            "properties":{
+                                              "elia":{
+                                                  "const":"https://www.eliagroup.eu/ld-context-2022#"
+                                              },
+                                              "consent":{
+                                                  "const":"elia:consent"
+                                              }
+                                            },
+                                            "additionalProperties":false,
+                                            "required":[
+                                              "elia",
+                                              "consent"
+                                            ]
+                                        }
+                                      }
+                                  }
+                                },
+                                {
+                                  "path":"$.credentialSubject",
+                                  "filter":{
+                                      "type":"object",
+                                      "properties":{
+                                        "consent":{
+                                            "const":"I consent to such and such"
+                                        }
+                                      },
+                                      "additionalProperties":false
+                                  }
+                                  },
+                                  {
+                                    "path":"$.type",
+                                    "filter":{
+                                        "type":"array",
+                                        "items":[
+                                          {
+                                              "const":"VerifiableCredential"
+                                          }
+                                        ]
+                                    }
+                                  }
+                              ]
+                          }
+                        }
+                    ]
+                }
+            }
+         ]
       }
     ],
     "interactServices": [
       {
-        "type": "MediatedHttpPresentationService2021"
+        "type": "UnmediatedHttpPresentationService2021"
       }
     ],
     "callback": [
@@ -127,18 +201,17 @@ Creating a new request bucket is to help you be sure that you are looking at the
 
 `201 Created`
 
-#### 1.2 [Consent-Requesting portal] Provide an exchange invitation to the citizen
+#### 1.2 [Consent-Requesting portal] Provide an exchange invitation to the consenter
 
-The authority portal can communicate to the citizen that they can initiate request for a "PermanentConsenterCard" credential by
-filling the `exchange id` in the json template below and transmitting the json to the citizen.
-They can do this transmission by encoding the json in a QR code and displaying to the citizen for example.
+The consent-requesting portal can communicate to the consenter that they can initiate request for a "PermanentConsenterCard" credential by
+filling the `exchange id` in the json template below and transmitting the json to the consenter.
+They can do this transmission by encoding the json in a QR code and displaying to the consenter for example.
 
 ```json
 {
     "outOfBandInvitation": { 
         "type": "https://energyweb.org/out-of-band-invitation/vc-api-exchange",
         "body": { 
-            "credentialTypeAvailable": "PermanentConsenterCard",
             "url": "http://localhost:3000/vc-api/exchanges/{THE EXCHANGE ID FROM THE PREVIOUS STEP}" 
         }
     }
@@ -204,7 +277,7 @@ This is providing the location at which we can continue the credential exchange 
 
 #### 1.4 [Consenter] Create a DID
 
-Let's create a new DID for which the citizen can prove control.
+Let's create a new DID for which the consenter can prove control.
 This DID will be the Subject identifier of the Consenter Card credential.
 
 Navigate to the `DID Controller create` request under the `did` folder.
@@ -372,10 +445,10 @@ This response indicates that the client attempt to continue the exchange again (
 #### 1.7 [Consent-Requesting portal] Check for notification of submitted presentation
 
 Check the request bucket configured as the callback when configuring the exchange definition.
-There should be a notification of a submitted presentation for the authority portal to review.
+There should be a notification of a submitted presentation for the consent-requesting portal to review.
 
-The authority portal can rely on VC-API's verification of the credential proofs and conformance to the credential query.
-The authority portal can then proceed with reviewing the presentation and issuing the "consenter card" credential.
+The consent-requesting portal can rely on VC-API's verification of the credential proofs and conformance to the credential query.
+The consent-requesting portal can then proceed with reviewing the presentation and issuing the "consenter card" credential.
 
 An example of the expected POST body received in the request bucket is:
 
@@ -433,7 +506,7 @@ An example of the expected POST body received in the request bucket is:
 ```
 
 #### 1.8 [Consent-Requesting portal] Create issuer DID
-The authority portal needs a DID from which they can issue a credential.
+The consent-requesting portal needs a DID from which they can issue a credential.
 Again, navigate to the `DID Controller create` request under the `did` folder.
 Send the request as described below.
 
@@ -456,7 +529,7 @@ Send the request as described below.
 **Sample Expected Response Body**
 
 This should give a response similar to this one, with a different `did`.
-Note down the `id` property. This is the authority portals's DID.
+Note down the `id` property. This is the consent-requesting portals's DID.
 
 ```json
 {
@@ -483,7 +556,7 @@ Note down the `id` property. This is the authority portals's DID.
 
 #### 1.9 [Consent-Requesting portal] Issue "consenter card" credential
 
-After having created a new DID, the authority portal can then issue a credential to the consenter DID that was previously created.
+After having created a new DID, the consent-requesting portal can then issue a credential to the consenter DID that was previously created.
 Navigate to the `Vc Api Controller issue Credential` request under the `vc-api` folder.
 
 Send the request as described below.
@@ -498,14 +571,14 @@ Send the request as described below.
 
 **Request Body**
 
-Fill in, in the json below, the consenter DID as the `subject` id and the authority portal DID as the `issuer` from the DIDs that were generated in previous steps.
+Fill in, in the json below, the consenter DID as the `subject` id and the consent-requesting portal DID as the `issuer` from the DIDs that were generated in previous steps.
 
 ```json
 {
   "credential": {
       "@context":[
           "https://www.w3.org/2018/credentials/v1",
-          "https://w3id.org/citizenship/v1"
+          "https://w3id.org/consentership/v1"
       ],
       "id":"https://issuer.oidp.uscis.gov/credentials/83627465",
       "type":[
@@ -546,7 +619,7 @@ The resonse is an issued Verifiable Credential, similar to the one shown below.
 {
     "@context": [
         "https://www.w3.org/2018/credentials/v1",
-        "https://w3id.org/citizenship/v1"
+        "https://w3id.org/consentership/v1"
     ],
     "id": "https://issuer.oidp.uscis.gov/credentials/83627465",
     "type": [
@@ -585,7 +658,7 @@ The resonse is an issued Verifiable Credential, similar to the one shown below.
 
 #### 1.10 [Consent-Requesting portal] Wrap the issued VC in a VP
 
-The authority portal should then prove a presentation in order to present the credential to the consenter.
+The consent-requesting portal should then prove a presentation in order to present the credential to the consenter.
 Open the `Vc Api Controller prove Presentation` request under the `vc-api` folder.
 
 Send the request as described below.
@@ -629,7 +702,7 @@ For example, the body with the filled values would look like:
             {
                 "@context": [
                     "https://www.w3.org/2018/credentials/v1",
-                    "https://w3id.org/citizenship/v1"
+                    "https://w3id.org/consentership/v1"
                 ],
                 "id": "https://issuer.oidp.uscis.gov/credentials/83627465",
                 "type": [
@@ -687,7 +760,7 @@ The response body should return a verifiable presentation similar to this one:
         {
             "@context": [
                 "https://www.w3.org/2018/credentials/v1",
-                "https://w3id.org/citizenship/v1"
+                "https://w3id.org/consentership/v1"
             ],
             "id": "https://issuer.oidp.uscis.gov/credentials/83627465",
             "type": [
@@ -738,7 +811,7 @@ The response body should return a verifiable presentation similar to this one:
 
 #### 1.11 [Consent-Requesting portal] Add a review to the exchange
 
-With a verifiable presentation in hand, the authority portal can add a review to the in-progress exchange.
+With a verifiable presentation in hand, the consent-requesting portal can add a review to the in-progress exchange.
 Open the `Vc Api Controller add Submission Review` request under the `vc-api/exchanges/{exchange id}/{transaction id}` folder.
 
 Send the request as described below.
@@ -777,7 +850,7 @@ Fill the json below appropriately and send as the body:
             {
                 "@context": [
                     "https://www.w3.org/2018/credentials/v1",
-                    "https://w3id.org/citizenship/v1"
+                    "https://w3id.org/consentership/v1"
                 ],
                 "id": "https://issuer.oidp.uscis.gov/credentials/83627465",
                 "type": [
@@ -857,7 +930,7 @@ The response should be similar to the following, where the `vp` contains the iss
             {
                 "@context": [
                     "https://www.w3.org/2018/credentials/v1",
-                    "https://w3id.org/citizenship/v1"
+                    "https://w3id.org/consentership/v1"
                 ],
                 "id": "https://issuer.oidp.uscis.gov/credentials/83627465",
                 "type": [
@@ -1287,7 +1360,7 @@ For example, your filled json would look like:
             {
                 "@context": [
                     "https://www.w3.org/2018/credentials/v1",
-                    "https://w3id.org/citizenship/v1"
+                    "https://w3id.org/consentership/v1"
                 ],
                 "id": "https://issuer.oidp.uscis.gov/credentials/83627465",
                 "type": [
@@ -1349,7 +1422,7 @@ The response should be a verifiable presentation, similar to the one below.
         {
             "@context": [
                 "https://www.w3.org/2018/credentials/v1",
-                "https://w3id.org/citizenship/v1"
+                "https://w3id.org/consentership/v1"
             ],
             "id": "https://issuer.oidp.uscis.gov/credentials/83627465",
             "type": [
@@ -1437,7 +1510,7 @@ In the request body, copy the VP that was obtained from the previous step.
 #### 2.6 [Verifier] Act on Submitted Presentation
 
 In this presentation exchange (part 2) of this tutorial, no callback was configured in the exchange definition.
-This is because the Post Test Server (used [during the issuance exchange](#11-authority-portal-configure-the-credential-issuance-exchange)) has a Body Length of 1500 and so cannot accept the POST.
+This is because the Post Test Server (used [during the issuance exchange](#11-consent-requesting-portal-configure-the-credential-issuance-exchange)) has a Body Length of 1500 and so cannot accept the POST.
 However, typically a Verifier would configure a callback in order to be able to act on the submitted presentation.
 
 For reference, the callback notification that would have been receive in a configured callback for this presentation would be:
@@ -1505,7 +1578,7 @@ For reference, the callback notification that would have been receive in a confi
             {
                 "@context": [
                     "https://www.w3.org/2018/credentials/v1",
-                    "https://w3id.org/citizenship/v1"
+                    "https://w3id.org/consentership/v1"
                 ],
                 "id": "https://issuer.oidp.uscis.gov/credentials/83627465",
                 "type": [
