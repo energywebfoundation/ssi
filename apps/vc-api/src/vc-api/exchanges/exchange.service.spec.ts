@@ -170,7 +170,10 @@ describe('ExchangeService', () => {
   });
 
   describe('continueExchange', () => {
-    it('should send transaction dto if callback is configured', async () => {
+    let exchangeResponse;
+    let transactionId;
+
+    beforeEach(async function () {
       const exchangeDef: ExchangeDefinitionDto = {
         exchangeId: exchangeId,
         interactServices: [
@@ -186,10 +189,16 @@ describe('ExchangeService', () => {
           }
         ]
       };
+
+      mockHttpService.post.mockClear();
+
       await service.createExchange(exchangeDef);
-      const exchangeResponse = await service.startExchange(exchangeId);
-      const transactionId = exchangeResponse.vpRequest.interact.service[0].serviceEndpoint.split('/').pop();
+      exchangeResponse = await service.startExchange(exchangeId);
+      transactionId = exchangeResponse.vpRequest.interact.service[0].serviceEndpoint.split('/').pop();
       await service.continueExchange(vp, transactionId);
+    });
+
+    it('should send callback request', async () => {
       expect(mockHttpService.post.mock.calls).toHaveLength(1);
     });
   });
