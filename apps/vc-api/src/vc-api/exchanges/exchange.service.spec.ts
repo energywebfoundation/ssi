@@ -201,6 +201,144 @@ describe('ExchangeService', () => {
     it('should send callback request', async () => {
       expect(mockHttpService.post.mock.calls).toHaveLength(1);
     });
+
+    it('should send callback request to a correct url', async () => {
+      expect(mockHttpService.post).toHaveBeenCalledWith('http://example.com', expect.anything());
+    });
+
+    describe('and callback request body', function () {
+      it('should contain expected properties', async function () {
+        expect(mockHttpService.post).toHaveBeenCalledWith(
+          expect.anything(),
+          expect.objectContaining({
+            exchangeId: expect.anything(),
+            transactionId: expect.anything(),
+            presentationSubmission: expect.anything(),
+            vpRequest: expect.anything()
+          })
+        );
+      });
+
+      it('should contain correct exchangeId', async function () {
+        expect(mockHttpService.post).toHaveBeenCalledWith(
+          expect.anything(),
+          expect.objectContaining({ exchangeId: 'test-exchange' })
+        );
+      });
+
+      it('should contain correct transactionId', async function () {
+        expect(mockHttpService.post).toHaveBeenCalledWith(
+          expect.anything(),
+          expect.objectContaining({ transactionId })
+        );
+      });
+
+      it('should contain presentationSubmission', async function () {
+        expect(mockHttpService.post).toHaveBeenCalledWith(
+          expect.anything(),
+          expect.objectContaining({
+            presentationSubmission: expect.anything()
+          })
+        );
+      });
+
+      describe('and presentationSubmisstion', function () {
+        it('should contain expected properties', async function () {
+          expect(mockHttpService.post).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.objectContaining({
+              presentationSubmission: {
+                verificationResult: expect.anything(),
+                vp: expect.anything()
+              }
+            })
+          );
+        });
+
+        it('should contain correct verificationResult', async function () {
+          expect(mockHttpService.post).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.objectContaining({
+              presentationSubmission: expect.objectContaining({
+                verificationResult: { checks: ['proof'], errors: [], warnings: [] }
+              })
+            })
+          );
+        });
+
+        it('should contain correct vp', async function () {
+          expect(mockHttpService.post).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.objectContaining({
+              presentationSubmission: expect.objectContaining({ vp })
+            })
+          );
+        });
+      });
+
+      it('should contain vpRequest', async function () {
+        expect(mockHttpService.post).toHaveBeenCalledWith(
+          expect.anything(),
+          expect.objectContaining({
+            vpRequest: expect.anything()
+          })
+        );
+      });
+
+      describe('and vpRequest', function () {
+        it('should contain expected properties', async function () {
+          expect(mockHttpService.post).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.objectContaining({
+              vpRequest: expect.objectContaining({
+                challenge: expect.anything(),
+                interact: expect.anything()
+              })
+            })
+          );
+        });
+
+        it('should contain correct challenge property', async function () {
+          expect(mockHttpService.post).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.objectContaining({
+              vpRequest: expect.objectContaining({
+                challenge: exchangeResponse.vpRequest.challenge
+              })
+            })
+          );
+        });
+
+        it('should contain correct interact property', async function () {
+          expect(mockHttpService.post).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.objectContaining({
+              vpRequest: expect.objectContaining({
+                interact: {
+                  service: [
+                    {
+                      serviceEndpoint: exchangeResponse.vpRequest.interact.service[0].serviceEndpoint,
+                      type: 'UnmediatedHttpPresentationService2021'
+                    }
+                  ]
+                }
+              })
+            })
+          );
+        });
+
+        it('should contain correct query property', async function () {
+          expect(mockHttpService.post).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.objectContaining({
+              vpRequest: expect.objectContaining({
+                query: []
+              })
+            })
+          );
+        });
+      });
+    });
   });
 
   describe('addReview', () => {
