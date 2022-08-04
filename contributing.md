@@ -55,7 +55,7 @@ Don't forget to review your own code first. Does it make sense? Did you include 
 
 Our code review process is based on the following guidelines:
 * [Gitlab's Code Review Guidelines](https://gitlab.com/help/development/code_review.md)
-* [thoughtbot's Code Review Guidelines](https://github.com/thoughtbot/guides/tree/development/code-review)
+* [thoughtbot's Code Review Guidelines](https://github.com/thoughtbot/guides/tree/master/code-review)
 
 Especially pay attention to the ["Having your code reviewed"](https://gitlab.com/help/development/code_review.md#having-your-code-reviewed) section.
 
