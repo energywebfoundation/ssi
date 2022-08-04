@@ -27,7 +27,7 @@ import { VpRequestDto } from './dtos/vp-request.dto';
 import { ExchangeDefinitionDto } from './dtos/exchange-definition.dto';
 import { TransactionEntity } from './entities/transaction.entity';
 import { ConfigService } from '@nestjs/config';
-import { TransactionDto } from './dtos/transaction.dto';
+import { CallbackDto } from './dtos/callback.dto';
 import { ReviewResult, SubmissionReviewDto } from './dtos/submission-review.dto';
 import { VpSubmissionVerifierService } from './vp-submission-verifier.service';
 import { validate } from 'class-validator';
@@ -112,7 +112,7 @@ export class ExchangeService {
       this.vpSubmissionVerifierService
     );
     await this.transactionRepository.save(transaction);
-    const body = TransactionDto.toDto(transaction);
+    const body = CallbackDto.toDto(transaction);
     // TODO: react to validation errors
     const validationErrors = await validate(body, { whitelist: true, forbidUnknownValues: true });
     callback?.forEach((callback) => {
