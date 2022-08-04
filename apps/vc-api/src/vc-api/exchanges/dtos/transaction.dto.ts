@@ -18,7 +18,7 @@
 import { classToPlain, plainToClass, Type } from 'class-transformer';
 import { IsOptional, IsString, ValidateNested } from 'class-validator';
 import { TransactionEntity } from '../entities/transaction.entity';
-import { PresentationSubmissionDto } from './presentation-submission.dto';
+import { PresentationSubmissionSecureDto } from './presentation-submission-secure.dto';
 import { VpRequestDto } from './vp-request.dto';
 
 export class TransactionDto {
@@ -47,9 +47,9 @@ export class TransactionDto {
    * Is optional because submission may not have occured yet
    */
   @ValidateNested()
-  @Type(() => PresentationSubmissionDto)
+  @Type(() => PresentationSubmissionSecureDto)
   @IsOptional()
-  presentationSubmission?: PresentationSubmissionDto;
+  presentationSubmission?: PresentationSubmissionSecureDto;
 
   // TODO: make generic so that it can be used in all Dtos
   static toDto(transaction: TransactionEntity): TransactionDto {

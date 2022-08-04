@@ -23,18 +23,11 @@ import { Type } from 'class-transformer';
 /**
  * Presentation Submission Dto.
  */
-export class PresentationSubmissionDto {
+export class PresentationSubmissionSecureDto {
   /**
    * The result of the verification of the submitted VP
    */
   @ValidateNested()
   @Type(() => VerificationResultDto)
   verificationResult: VerificationResultDto;
-
-  /**
-   * The Verifiable Presentation submitted in response to the transaction's VP Request
-   */
-  @ValidateNested()
-  @Type(() => VerifiablePresentationDto)
-  vp: VerifiablePresentationDto;
 }
