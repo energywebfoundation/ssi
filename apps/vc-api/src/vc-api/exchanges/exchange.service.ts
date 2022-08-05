@@ -124,6 +124,11 @@ export class ExchangeService {
 
     // TODO: react to validation errors
     const validationErrors = await validate(body, { whitelist: true, forbidUnknownValues: true });
+
+    if (validationErrors.length > 0) {
+      throw new Error(validationErrors.toString());
+    }
+
     callback?.forEach((callback) => {
       this.httpService.post(callback.url, body).subscribe({
         next: (v) => Logger.log(inspect(v)), // inspect used to replace circular references https://stackoverflow.com/a/18354289
