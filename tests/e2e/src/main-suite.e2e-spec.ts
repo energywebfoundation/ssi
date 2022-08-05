@@ -130,6 +130,12 @@ describe('E2E Suite', function () {
       constraints: {
         fields: [
           {
+            path: ['$.id'],
+            filter: {
+              const: 'https://issuer.oidp.uscis.gov/credentials/83627465'
+            }
+          },
+          {
             path: ['$.@context'],
             filter: {
               $schema: 'http://json-schema.org/draft-07/schema#',
@@ -227,6 +233,7 @@ describe('E2E Suite', function () {
           it('should contain expected properties', async function () {
             expect(Object.keys(body)).toEqual([
               '@context',
+              'id',
               'type',
               'credentialSubject',
               'issuer',
