@@ -21,7 +21,8 @@ import { VerifiablePresentationDto } from '../../credentials/dtos/verifiable-pre
 import { Type } from 'class-transformer';
 
 /**
- * Presentation Submission Dto.
+ * Secure Presentation Submission Dto
+ * A representation of a presentation submission which does not have personal data associated with the submission
  */
 export class PresentationSubmissionSecureDto {
   /**

@@ -21,7 +21,8 @@ import { VerifiablePresentationDto } from '../../credentials/dtos/verifiable-pre
 import { Type } from 'class-transformer';
 
 /**
- * Presentation Submission Dto.
+ * Presentation Submission Full Dto.
+ * The complete presentation submission, including the submitted Verifiable Presentation
  */
 export class PresentationSubmissionFullDto {
   /**
