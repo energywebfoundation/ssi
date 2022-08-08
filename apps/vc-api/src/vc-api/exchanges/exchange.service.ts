@@ -122,7 +122,6 @@ export class ExchangeService {
       } as PresentationSubmissionEntity
     } as TransactionEntity);
 
-    // TODO: react to validation errors
     const validationErrors = await validate(body, { whitelist: true, forbidUnknownValues: true });
 
     if (validationErrors.length > 0) {
