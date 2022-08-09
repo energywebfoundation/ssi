@@ -132,7 +132,7 @@ describe('E2E Suite', function () {
           {
             path: ['$.id'],
             filter: {
-              const: 'https://issuer.oidp.uscis.gov/credentials/83627465'
+              const: 'urn:uuid:49f69fb8-f256-4b2e-b15d-c7ebec3a507e'
             }
           },
           {
