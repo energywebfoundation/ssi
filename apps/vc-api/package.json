@@ -72,7 +72,7 @@
     "typescript": "^4.0.0",
     "nock": "~13.2.0",
     "@sphereon/pex-models": "~1.1.0",
-    "@rushstack/eslint-config": "~2.6.0"
+    "@rushstack/eslint-config": "^3.0.0"
   },
   "jest": {
     "moduleFileExtensions": [
