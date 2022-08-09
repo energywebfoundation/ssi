@@ -36,6 +36,8 @@ import { PresentationSubmissionEntity } from './entities/presentation-submission
 
 @Injectable()
 export class ExchangeService {
+  private readonly logger = new Logger(ExchangeService.name, { timestamp: true });
+
   constructor(
     private vpSubmissionVerifierService: VpSubmissionVerifierService,
     @InjectRepository(TransactionEntity)
@@ -125,6 +127,7 @@ export class ExchangeService {
     const validationErrors = await validate(body, { whitelist: true, forbidUnknownValues: true });
 
     if (validationErrors.length > 0) {
+      this.logger.error('\n' + validationErrors.map((e) => e.toString()).join('\n\n'));
       throw new Error(validationErrors.toString());
     }
 
