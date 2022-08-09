@@ -124,7 +124,11 @@ export class ExchangeService {
       } as PresentationSubmissionEntity
     } as TransactionEntity);
 
-    const validationErrors = await validate(body, { whitelist: true, forbidUnknownValues: true });
+    const validationErrors = await validate(body, {
+      whitelist: true,
+      forbidUnknownValues: true,
+      forbidNonWhitelisted: false // here we want properties not defined in the CallbackDto to be just stripped out and not sent to a callback endpoint
+    });
 
     if (validationErrors.length > 0) {
       this.logger.error('\n' + validationErrors.map((e) => e.toString()).join('\n\n'));
