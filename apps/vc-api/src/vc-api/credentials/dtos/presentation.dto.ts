@@ -60,5 +60,6 @@ export class PresentationDto implements Presentation {
   @ValidateNested({ each: true })
   @Type(() => VerifiableCredentialDto)
   @IsArray()
-  verifiableCredential: VerifiableCredentialDto[];
+  @IsOptional()
+  verifiableCredential?: VerifiableCredentialDto[];
 }
