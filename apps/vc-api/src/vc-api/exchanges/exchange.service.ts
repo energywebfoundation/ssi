@@ -137,8 +137,8 @@ export class ExchangeService {
 
     callback?.forEach((callback) => {
       this.httpService.post(callback.url, body).subscribe({
-        next: (v) => Logger.log(inspect(v)), // inspect used to replace circular references https://stackoverflow.com/a/18354289
-        error: (e) => Logger.error(inspect(e))
+        next: (v) => this.logger.log(inspect(v)), // inspect used to replace circular references https://stackoverflow.com/a/18354289
+        error: (e) => this.logger.error(inspect(e))
       });
     });
 
