@@ -21,7 +21,7 @@
 The business objective of this tutorial is to demonstrate request signed consent from a DID in the form of a Verifiable Credential (VC).
 
 ### Business workflows
-TODO. See [business workflows from consenter-card tutorial](./consenter-card-tutorial.md#business-workflows)
+TODO. See [business workflows from resident-card tutorial](./resident-card-tutorial.md#business-workflows)
 
 ## Technical overview
 From a technical point of view, in this tutorial, we have access to the server API but no mobile wallet is available. So we will use the server API for both roles of the portal and the consent providers's mobile wallet.
@@ -29,38 +29,20 @@ From a technical point of view, in this tutorial, we have access to the server A
 ### Technical workflows
 
 The technical workflow is as follows:
-- [1.1  [Consent-Requesting portal] Configure the consent exchange](#11-consent-requesting-portal-configure-the-credential-issuance-exchange)
-- [1.2  [Consent-Requesting portal] Provide an exchange invitation to the consenter](#12-consent-requesting-portal-provide-an-exchange-invitation-to-the-consenter)
-- [1.3  [Consenter] Initiate exchange using the request URL](#13-consenter-initiate-issuance-exchange-using-the-request-url)
-- [1.4  [Consenter] Create a DID](#14-consenter-create-a-did)
-- [1.5  [Consenter] Create a DID authentication proof](#15-consenter-create-a-did-authentication-proof)
-- [1.6  [Consenter] Continue exchange by submitting the DID Auth proof](#16-consenter-continue-exchange-by-submitting-the-did-auth-proof)
-- [1.7  [Consent-Requesting portal] Check for notification of submitted presentation](#17-consent-requesting-portal-check-for-notification-of-submitted-presentation)
-- [1.8  [Consent-Requesting portal] Create issuer DID](#18-consent-requesting-portal-create-issuer-did)
-- [1.9  [Consent-Requesting portal] Issue "consenter card" credential](#19-consent-requesting-portal-issue-consenter-card-credential)
-- [1.10 [Consent-Requesting portal] Wrap the issued VC in a VP](#110-consent-requesting-portal-wrap-the-issued-vc-in-a-vp)
-- [1.11 [Consent-Requesting portal] Add a review to the exchange](#111-consent-requesting-portal-add-a-review-to-the-exchange)
-- [1.12 [Consenter] Continue the exchange and obtain the credentials](#112-consenter-continue-the-exchange-and-obtain-the-credentials)
-
-#### 2. Presentation workflow
-- [2.1  [Verifier] Configure Credential Exchange](#21-verifier-configure-credential-exchange)
-- [2.2  [Verifier] Provide an exchange invitation to the consenter](#22-verifier-provide-an-exchange-invitation-to-the-consenter)
-- [2.3  [Consenter] Initiate the presentation exchange](#23-consenter-initiate-the-presentation-exchange)
-- [2.4  [Consenter] Create the required presentation](#24-consenter-create-the-required-presentation)
-- [2.5  [Consenter] Continue the exchange](#25-consenter-continue-the-exchange)
-- [2.6 [Verifier] Act on Submitted Presentation](#26-verifier-act-on-submitted-presentation)
-
-## Overview and Objective
-
-The objective of this tutorial is walk through a simple credential issuance and presentation flow.
-A diagram of this flow is available in the [Exchanges Documentation](../exchanges.md).
+*TODO* fill in steps once written
 
 ## Steps
 ### 0. Setup the Postman Collection
 
 First, download and install [Postman](https://www.postman.com/downloads/).
 
-Then, from the Postman app, import [the open-api json](../openapi.json) and [the environment](../vc-api.postman_environment.json) for the Nest.js wallet. Instructions on how to import into Postman can be found [here](https://learning.postman.com/docs/getting-started/importing-and-exporting-data/#importing-data-into-postman).
+Then, from the Postman app, import the following API definitions:
+- [VC-API open-api json](../openapi.json)
+- [Input-descriptor-to-credential](../../../credential-from-input-descriptor/docs/openapi.json)
+
+Then, import [the environment](../vc-api.postman_environment.json) for VC-API.
+
+Instructions on how to import into Postman can be found [here](https://learning.postman.com/docs/getting-started/importing-and-exporting-data/#importing-data-into-postman).
 
 ### 1 [Consent-Requesting portal] Configure the consent request exchange
 
@@ -201,7 +183,7 @@ Creating a new request bucket is to help you be sure that you are looking at the
 
 `201 Created`
 
-#### 1.2 [Consent-Requesting portal] Provide an exchange invitation to the consenter
+#### 2 [Consent-Requesting portal] Provide an exchange invitation to the consenter
 
 The consent-requesting portal can communicate to the consenter that they can initiate request for a "PermanentConsenterCard" credential by
 filling the `exchange id` in the json template below and transmitting the json to the consenter.
@@ -218,7 +200,7 @@ They can do this transmission by encoding the json in a QR code and displaying t
 } 
 ```
 
-#### 1.3 [Consenter] Initiate issuance exchange using the request URL
+#### 3 [Consenter] Initiate issuance exchange using the request URL
 
 Initiate a request for a PermanentConsenterCard by POSTing to the `url` directly in Postman or by navigating to the `Vc Api Controller initiate Exchange` request in the collection.
 
@@ -227,7 +209,7 @@ Send the request as described below.
 **Request URL**
 
 If using the collection request, fill in the `exchangeid` param to be the exchange ID used in the first step.
-`{VC API base url}/vc-api/exchanges/{exchangeId}`
+`{VC API base url}/v1/vc-api/exchanges/{exchangeId}`
 
 **HTTP Verb**
 
@@ -240,8 +222,8 @@ If using the collection request, fill in the `exchangeid` param to be the exchan
 **Sample Expected Response Body**
 
 The response contains a VP Request, which is a specification defined here: https://w3c-ccg.github.io/vp-request-spec/.
-You can see that the VP Request's `query` section contains a `DIDAuth` query.
-This means that we must authenticate as our chosen DID in order to obtain the credential that we requested.
+You can see that the VP Request's `query` section contains a `PresentationDefinition` `credentialQuery`.
+This presentation definition requests a self-signed credential (via the `subject_is_issuer` property).
 
 The `challenge` value and the final fragment of the `serviceEndpoint`, which is the `transaction id`, should be different from the sample below.
 
@@ -252,22 +234,53 @@ This is providing the location at which we can continue the credential exchange 
 {
     "errors": [],
     "vpRequest": {
-        "challenge": "57ca126c-acbf-4da4-8f79-447150e93128",
+        "challenge": "360bd8e5-2778-4a99-98d8-b646df9f0f9b",
         "query": [
             {
-                "type": "DIDAuth",
-                "credentialQuery": []
+                "type": "PresentationDefinition",
+                "credentialQuery": [
+                    {
+                        "presentationDefinition": {
+                            "id": "286bc1e0-f1bd-488a-a873-8d71be3c690e",
+                            "input_descriptors": [
+                                {
+                                    "id": "consent_agreement",
+                                    "name": "Consent Agreement",
+                                    "constraints": {
+                                        "subject_is_issuer": "required",
+                                        "fields": [
+                                            {
+                                                "path": [
+                                                    "$.type"
+                                                ],
+                                                "filter": {
+                                                    "type": "array",
+                                                    "items": [
+                                                        {
+                                                            "const": "VerifiableCredential"
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
             }
         ],
         "interact": {
             "service": [
                 {
-                    "type": "MediatedHttpPresentationService2021",
-                    "serviceEndpoint": "http://localhost:3000/exchanges/consenter-card-issuance-82793/55fb5bc5-4f5f-40c8-aa8d-f3a1991637fc"
+                    "type": "UnmediatedHttpPresentationService2021",
+                    "serviceEndpoint": "https://vc-api-dev.energyweb.org/v1/vc-api/exchanges/consent-exchange-1/80462c03-a310-4c4b-a3af-ffba0d499ffc"
                 }
             ]
         }
-    }
+    },
+    "processingInProgress": false
 }
 ```
 
@@ -275,7 +288,7 @@ This is providing the location at which we can continue the credential exchange 
 
 `201 Created`
 
-#### 1.4 [Consenter] Create a DID
+#### 4 [Consenter] Create a DID
 
 Let's create a new DID for which the consenter can prove control.
 This DID will be the Subject identifier of the Consenter Card credential.
@@ -286,7 +299,7 @@ Send the request as described below.
 
 **Request URL**
 
-`{VC API base url}/did`
+`{VC API base url}/v1/did`
 
 **HTTP Verb**
 
@@ -305,17 +318,17 @@ Send the request as described below.
 Response body should be similar to the one below but with a different `did`.
 ```json
 {
-    "id": "did:key:z6MkvWkza1fMBWhKnYE3CgMgxHem62YkEw4JbdmEZeFTEZ7A",
+    "id": "did:key:z6MknGNm3sAwYNesSZ8MXmdJKkUr3L2rC7hbU1sr1c65XEDg",
     "verificationMethod": [
         {
-            "id": "did:key:z6MkvWkza1fMBWhKnYE3CgMgxHem62YkEw4JbdmEZeFTEZ7A#z6MkvWkza1fMBWhKnYE3CgMgxHem62YkEw4JbdmEZeFTEZ7A",
+            "id": "did:key:z6MknGNm3sAwYNesSZ8MXmdJKkUr3L2rC7hbU1sr1c65XEDg#z6MknGNm3sAwYNesSZ8MXmdJKkUr3L2rC7hbU1sr1c65XEDg",
             "type": "Ed25519VerificationKey2018",
-            "controller": "did:key:z6MkvWkza1fMBWhKnYE3CgMgxHem62YkEw4JbdmEZeFTEZ7A",
+            "controller": "did:key:z6MknGNm3sAwYNesSZ8MXmdJKkUr3L2rC7hbU1sr1c65XEDg",
             "publicKeyJwk": {
-                "crv": "Ed25519",
-                "x": "7qB2-hwO1ajv4CaLjfK7iB13JPUdGLObB8JGjy95KI0",
                 "kty": "OKP",
-                "kid": "i9CHqa1zwV23F8sxGszjXB53SnB-gKO7aL9hDcmA-ho"
+                "crv": "Ed25519",
+                "x": "dBOy77jOc7Q94IFTxdadAGCeHUv_9TTjHOyhdOEu9oM",
+                "kid": "Dwzx58ChKo-M2MoCvKjIY5R_h4esOJZvTEi7QVUPfuc"
             }
         }
     ]
@@ -326,17 +339,22 @@ Response body should be similar to the one below but with a different `did`.
 
 `201 Created`
 
-#### 1.5 [Consenter] Create a DID authentication proof
+#### 5 [Consenter] Convert the input descriptor to a credential
 
-In order to prove control over the DID created in the previous step, create a DID Authentication proof.
+In order to fulfil the consent request, the consenter can issue themselves a credential.
+However, the consent request is given as a JSON Schema which describes a credential, not a credential itself.
+The [Credential from Input Descriptor service](../../../credential-from-input-descriptor/) can be used to convert an input descriptor to a credential which can then be self-signed.
 
-Open the `Vc Api Controller prove Authentication Presentation` request under the `vc-api` folder.
+This can be done by providing the `constraints` object from the input descriptor received when initiating the exchange.
+
+Open the `Converter Controller input Descriptor To Credential` request in the "Input Descriptor to Credential" collection.
+**Change `{{baseUrl}}` to `{{idcUrl}}` in the request URL**, so that it matches the Postman environment.
 
 Send the request as described below.
 
 **Request URL**
 
-`{VC API base url}/vc-api/presentations/prove/authentication`
+`{Input-Descriptor-To-Credential base url}/converter/input-descriptor-to-credential`
 
 **HTTP Verb**
 
@@ -344,973 +362,182 @@ Send the request as described below.
 
 **Request Body**
 
-Fill the json below with your own values.
-The `challenge` should be value received from the VP Request in the previous step.
-
 ```json
 {
-    "did": "FILL YOUR DID HERE",
-    "options": {
-        "verificationMethod": "FILL YOUR VERIFICATION METHOD HERE",
-        "proofPurpose": "authentication",
-        "challenge": "FILL YOUR CHALLENGE HERE"
-    }
-}
-```
-
-An example filed body is shown below.
-```json
-{
-    "did": "did:key:z6MkvWkza1fMBWhKnYE3CgMgxHem62YkEw4JbdmEZeFTEZ7A",
-    "options": {
-        "verificationMethod": "did:key:z6MkvWkza1fMBWhKnYE3CgMgxHem62YkEw4JbdmEZeFTEZ7A#z6MkvWkza1fMBWhKnYE3CgMgxHem62YkEw4JbdmEZeFTEZ7A",
-        "proofPurpose": "authentication",
-        "challenge": "c2e806b4-35ed-409b-bc3a-b849d7c2b204"
-    }
-}
-```
-
-**Sample Expected Response Body**
-
-The response should be a verifiable presentation, similar to the one below.
-```json
-{
-    "@context": [
-        "https://www.w3.org/2018/credentials/v1"
-    ],
-    "type": "VerifiablePresentation",
-    "proof": {
-        "type": "Ed25519Signature2018",
-        "proofPurpose": "authentication",
-        "challenge": "c2e806b4-35ed-409b-bc3a-b849d7c2b204",
-        "verificationMethod": "did:key:z6MkvWkza1fMBWhKnYE3CgMgxHem62YkEw4JbdmEZeFTEZ7A#z6MkvWkza1fMBWhKnYE3CgMgxHem62YkEw4JbdmEZeFTEZ7A",
-        "created": "2022-04-29T09:25:55.969Z",
-        "jws": "eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..51vek0DLAcdL2DxMRQlOFfFz306Y-EDvqhWYzCInU9UYFT_HQZHW2udSeX2w35Nn-JO4ouhJFeiM8l3e2sEEBQ"
-    },
-    "holder": "did:key:z6MkvWkza1fMBWhKnYE3CgMgxHem62YkEw4JbdmEZeFTEZ7A"
-}
-```
-
-**Expected Response HTTP Status Code**
-
-`201 Created`
-
-#### 1.6 [Consenter] Continue exchange by submitting the DID Auth proof
-
-Continue the exchange using the DIDAuth presentation.
-To do this, open the `Vc Api Controller continue Exchange` request in the `vc-api/exchanges/{exchange id}/{transaction id}` folder.
-
-Send the request as described below.
-
-**Request URL**
-
-In the request params, use the `transactionId` from the `serviceEndpoint` in the VP Request and `exchangeId` as the unique exchange ID configued in the initial step.
-
-`{VC API base url}/vc-api/exchanges/{EXCHANGE ID}/{TRANSACTION ID}`
-
-**HTTP Verb**
-
-`PUT`
-
-**Request Body**
-
-In the request body, copy the VP that was obtained from the previous step.
-
-**Sample Expected Response Body**
-
-The response should be similar to as shown below.
-This response indicates that the client attempt to continue the exchange again (after some interval), using the service endpoint.
-```json
-{
-    "errors": [],
-    "vpRequest": {
-        "challenge": "08070970-638c-4b43-91bd-08325b08cc4a",
-        "query": [],
-        "interact": {
-            "service": [
-                {
-                    "type": "MediatedHttpPresentationService2021",
-                    "serviceEndpoint": "http://localhost:3000/vc-api/exchanges/{EXCHANGE ID}/27ce6175-bab7-4a1b-84b2-87cf87ad9163"
-                }
-            ]
-        }
-    }
-}
-```
-
-**Expected Response HTTP Status Code**
-
-`202 Accepted`
-
-#### 1.7 [Consent-Requesting portal] Check for notification of submitted presentation
-
-Check the request bucket configured as the callback when configuring the exchange definition.
-There should be a notification of a submitted presentation for the consent-requesting portal to review.
-
-The consent-requesting portal can rely on VC-API's verification of the credential proofs and conformance to the credential query.
-The consent-requesting portal can then proceed with reviewing the presentation and issuing the "consenter card" credential.
-
-An example of the expected POST body received in the request bucket is:
-
-```json
-{
-   "transactionId":"1b9995c6-17ed-4ec4-bbef-7b9ee986bc3c",
-   "exchangeId":"consenter-card-issuance-82793",
-   "vpRequest": {
-        "challenge": "57ca126c-acbf-4da4-8f79-447150e93128",
-        "query": [
-            {
-                "type": "DIDAuth",
-                "credentialQuery": []
+   "constraints":{
+      "subject_is_issuer":"required",
+      "fields":[
+         {
+            "path":[
+               "$.@context"
+            ],
+            "filter":{
+               "$schema":"http://json-schema.org/draft-07/schema#",
+               "type":"array",
+               "items":[
+                  {
+                     "const":"https://www.w3.org/2018/credentials/v1"
+                  },
+                  {
+                     "$ref":"#/definitions/eliaGroupContext"
+                  }
+               ],
+               "additionalItems":false,
+               "minItems":2,
+               "maxItems":2,
+               "definitions":{
+                  "eliaGroupContext":{
+                     "type":"object",
+                     "properties":{
+                        "elia":{
+                           "const":"https://www.eliagroup.eu/ld-context-2022#"
+                        },
+                        "consent":{
+                           "const":"elia:consent"
+                        }
+                     },
+                     "additionalProperties":false,
+                     "required":[
+                        "elia",
+                        "consent"
+                     ]
+                  }
+               }
             }
-        ],
-        "interact": {
-            "service": [
-                {
-                    "type": "MediatedHttpPresentationService2021",
-                    "serviceEndpoint": "http://localhost:3000/exchanges/consenter-card-issuance-82793/55fb5bc5-4f5f-40c8-aa8d-f3a1991637fc"
-                }
-            ]
-        }
-    },
-   "callback": [
-      {
-        "url": "http://ptsv2.com/t/ebitx-1652373826/post"
-      }
-   ],
-   "presentationSubmission":{
-      "vp":{
-          "@context": [
-              "https://www.w3.org/2018/credentials/v1"
-          ],
-          "type": "VerifiablePresentation",
-          "proof": {
-              "type": "Ed25519Signature2018",
-              "proofPurpose": "authentication",
-              "challenge": "c2e806b4-35ed-409b-bc3a-b849d7c2b204",
-              "verificationMethod": "did:key:z6MkvWkza1fMBWhKnYE3CgMgxHem62YkEw4JbdmEZeFTEZ7A#z6MkvWkza1fMBWhKnYE3CgMgxHem62YkEw4JbdmEZeFTEZ7A",
-              "created": "2022-04-29T09:25:55.969Z",
-              "jws": "eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..51vek0DLAcdL2DxMRQlOFfFz306Y-EDvqhWYzCInU9UYFT_HQZHW2udSeX2w35Nn-JO4ouhJFeiM8l3e2sEEBQ"
-          },
-          "holder": "did:key:z6MkvWkza1fMBWhKnYE3CgMgxHem62YkEw4JbdmEZeFTEZ7A"
-      },
-      "verificationResult":{
-         "errors":[],
-         "checks":[
-            "proof"
-         ],
-         "warnings":[]
-      }
+         },
+         {
+            "path":[
+               "$.credentialSubject"
+            ],
+            "filter":{
+               "type":"object",
+               "properties":{
+                  "consent":{
+                     "const":"I consent to such and such"
+                  }
+               },
+               "additionalProperties":false
+            }
+         },
+         {
+            "path":[
+               "$.type"
+            ],
+            "filter":{
+               "type":"array",
+               "items":[
+                  {
+                     "const":"VerifiableCredential"
+                  }
+               ]
+            }
+         }
+      ]
    }
 }
 ```
 
-#### 1.8 [Consent-Requesting portal] Create issuer DID
-The consent-requesting portal needs a DID from which they can issue a credential.
-Again, navigate to the `DID Controller create` request under the `did` folder.
-Send the request as described below.
-
-**Request URL**
-
-`{VC API base url}/did`
-
-**HTTP Verb**
-
-`POST`
-
-**Request Body**
-
-```json
-{
-    "method": "key"
-}
-```
-
 **Sample Expected Response Body**
 
-This should give a response similar to this one, with a different `did`.
-Note down the `id` property. This is the consent-requesting portals's DID.
-
 ```json
 {
-    "id": "did:key:z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL",
-    "verificationMethod": [
-        {
-            "id": "did:key:z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL#z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL",
-            "type": "Ed25519VerificationKey2018",
-            "controller": "did:key:z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL",
-            "publicKeyJwk": {
-                "crv": "Ed25519",
-                "x": "Rijl5w3coKZ2CThvbktmoyaUWxii1hwkfC2R2DrPlxE",
-                "kty": "OKP",
-                "kid": "vIkflusUjN5yuC5d5gr5GPCK3_reiT3SXhYMTMuuRFg"
+    "credential": {
+        "@context": [
+            "https://www.w3.org/2018/credentials/v1",
+            {
+                "elia": "https://www.eliagroup.eu/ld-context-2022#",
+                "consent": "elia:consent"
             }
-        }
-    ]
-}
-```
-
-**Expected Response HTTP Status Code**
-
-`201 Created`
-
-#### 1.9 [Consent-Requesting portal] Issue "consenter card" credential
-
-After having created a new DID, the consent-requesting portal can then issue a credential to the consenter DID that was previously created.
-Navigate to the `Vc Api Controller issue Credential` request under the `vc-api` folder.
-
-Send the request as described below.
-
-**Request URL**
-
-`{VC API base url}/credentials/issue`
-
-**HTTP Verb**
-
-`POST`
-
-**Request Body**
-
-Fill in, in the json below, the consenter DID as the `subject` id and the consent-requesting portal DID as the `issuer` from the DIDs that were generated in previous steps.
-
-```json
-{
-  "credential": {
-      "@context":[
-          "https://www.w3.org/2018/credentials/v1",
-          "https://w3id.org/consentership/v1"
-      ],
-      "id":"https://issuer.oidp.uscis.gov/credentials/83627465",
-      "type":[
-          "VerifiableCredential",
-          "PermanentConsenterCard"
-      ],
-      "issuer":"<FILL AUTHORITY DID>",
-      "issuanceDate":"2019-12-03T12:19:52Z",
-      "expirationDate":"2029-12-03T12:19:52Z",
-      "credentialSubject":{
-          "id":"<FILL RESIDENT DID>",
-          "type":[
-            "PermanentConsenter",
-            "Person"
-          ],
-          "givenName":"JOHN",
-          "familyName":"SMITH",
-          "gender":"Male",
-          "image":"data:image/png;base64,iVBORw0KGgo...kJggg==",
-          "consenterSince":"2015-01-01",
-          "lprCategory":"C09",
-          "lprNumber":"999-999-999",
-          "commuterClassification":"C1",
-          "birthCountry":"Bahamas",
-          "birthDate":"1958-07-17"
-      }
-    },
-    "options": {
+        ],
+        "credentialSubject": {
+            "consent": "I consent to such and such"
+        },
+        "type": [
+            "VerifiableCredential"
+        ]
     }
 }
 ```
+#### 6 [Consenter] Issue a self-signed credential
+
+The consenter can now sign the credential to create a self-signed verifiable credential.
+The consenter should add the following fields to the credential receive in the previous step:
+- `issuer`
+- `issuanceDate`
+
+Send the request as described below.
+
+**Request URL**
+
+`{VC API base url}/v1/vc-api/credentials/issue`
+
+**HTTP Verb**
+
+`POST`
+
+**Request Body**
+
+```json
+{
+    "credential": {
+        "@context": [
+            "https://www.w3.org/2018/credentials/v1",
+            {
+                "elia": "https://www.eliagroup.eu/ld-context-2022#",
+                "consent": "elia:consent"
+            }
+        ],
+        "credentialSubject": {
+            "consent": "I consent to such and such"
+        },
+        "type": [
+            "VerifiableCredential"
+        ],
+        "issuer": "did:key:z6MkrWiBRWRndUfwJnX9REiH9QHVY7NJRyWvfreMFdL42RwQ",
+        "issuanceDate":"2022-10-03T12:19:52Z"
+    },
+    "options": {}
+}
+```
 
 **Sample Expected Response Body**
-
-The resonse is an issued Verifiable Credential, similar to the one shown below.
 
 ```json
 {
     "@context": [
         "https://www.w3.org/2018/credentials/v1",
-        "https://w3id.org/consentership/v1"
+        {
+            "consent": "elia:consent",
+            "elia": "https://www.eliagroup.eu/ld-context-2022#"
+        }
     ],
-    "id": "https://issuer.oidp.uscis.gov/credentials/83627465",
     "type": [
-        "VerifiableCredential",
-        "PermanentConsenterCard"
+        "VerifiableCredential"
     ],
     "credentialSubject": {
-        "id": "did:key:z6MkvWkza1fMBWhKnYE3CgMgxHem62YkEw4JbdmEZeFTEZ7A",
-        "gender": "Male",
-        "commuterClassification": "C1",
-        "birthDate": "1958-07-17",
-        "image": "data:image/png;base64,iVBORw0KGgo...kJggg==",
-        "consenterSince": "2015-01-01",
-        "givenName": "JOHN",
-        "type": [
-            "PermanentConsenter",
-            "Person"
-        ],
-        "lprCategory": "C09",
-        "birthCountry": "Bahamas",
-        "lprNumber": "999-999-999",
-        "familyName": "SMITH"
+        "consent": "I consent to such and such"
     },
-    "issuer": "did:key:z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL",
+    "issuer": "did:key:z6MknGNm3sAwYNesSZ8MXmdJKkUr3L2rC7hbU1sr1c65XEDg",
     "issuanceDate": "2019-12-03T12:19:52Z",
     "proof": {
         "type": "Ed25519Signature2018",
         "proofPurpose": "assertionMethod",
-        "verificationMethod": "did:key:z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL#z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL",
-        "created": "2022-04-29T09:53:23.786Z",
-        "jws": "eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..slzsK4BoLyMHX18MtnVlwF9JqKj4BvVC46cjyVBPFPwrjpzGhbLLbAV3x_j-_B4ZUZuQBa5a-yq6CiW6sJ26AA"
-    },
-    "expirationDate": "2029-12-03T12:19:52Z"
+        "verificationMethod": "did:key:z6MknGNm3sAwYNesSZ8MXmdJKkUr3L2rC7hbU1sr1c65XEDg#z6MknGNm3sAwYNesSZ8MXmdJKkUr3L2rC7hbU1sr1c65XEDg",
+        "created": "2022-08-09T12:11:28.018Z",
+        "jws": "eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..IoCSSOIWVOrQYTan75wn7oZBZF_5m7Ka76BaaLkAIZQiQZRDfzPcOkPw3O2fT_FZV-e0KHHnsoI8Qp0gdtHTCw"
+    }
 }
 ```
 
-#### 1.10 [Consent-Requesting portal] Wrap the issued VC in a VP
+#### 6 [Consenter] Create a presentation with the self-signed credential
 
-The consent-requesting portal should then prove a presentation in order to present the credential to the consenter.
-Open the `Vc Api Controller prove Presentation` request under the `vc-api` folder.
+The consenter can now create a verifiable presentation for submission.
 
 Send the request as described below.
 
 **Request URL**
 
-`{VC API base url}/vc-api/presentations/prove`
-
-**HTTP Verb**
-
-`POST`
-
-**Request Body**
-
-Fill the body with json below, replacing the "FILL" values appropriately.
-
-```json
-{
-    "presentation": {
-        "@context": ["https://www.w3.org/2018/credentials/v1"],
-        "type": ["VerifiablePresentation"],
-        "verifiableCredential": ["<FILL WITH THE ISSUED CREDENTIAL>"]
-    },
-    "options": {
-        "verificationMethod": "<FILL WITH VERIFICATION METHOD ID OF AUTHORITY PORTAL>"
-    }
-}
-```
-
-For example, the body with the filled values would look like:
-```json
-{
-    "presentation": {
-        "@context": [
-            "https://www.w3.org/2018/credentials/v1"
-        ],
-        "type": [
-            "VerifiablePresentation"
-        ],
-        "verifiableCredential": [
-            {
-                "@context": [
-                    "https://www.w3.org/2018/credentials/v1",
-                    "https://w3id.org/consentership/v1"
-                ],
-                "id": "https://issuer.oidp.uscis.gov/credentials/83627465",
-                "type": [
-                    "VerifiableCredential",
-                    "PermanentConsenterCard"
-                ],
-                "credentialSubject": {
-                    "id": "did:key:z6MkvWkza1fMBWhKnYE3CgMgxHem62YkEw4JbdmEZeFTEZ7A",
-                    "gender": "Male",
-                    "commuterClassification": "C1",
-                    "birthDate": "1958-07-17",
-                    "image": "data:image/png;base64,iVBORw0KGgo...kJggg==",
-                    "consenterSince": "2015-01-01",
-                    "givenName": "JOHN",
-                    "type": [
-                        "PermanentConsenter",
-                        "Person"
-                    ],
-                    "lprCategory": "C09",
-                    "birthCountry": "Bahamas",
-                    "lprNumber": "999-999-999",
-                    "familyName": "SMITH"
-                },
-                "issuer": "did:key:z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL",
-                "issuanceDate": "2019-12-03T12:19:52Z",
-                "proof": {
-                    "type": "Ed25519Signature2018",
-                    "proofPurpose": "assertionMethod",
-                    "verificationMethod": "did:key:z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL#z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL",
-                    "created": "2022-04-29T09:53:23.786Z",
-                    "jws": "eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..slzsK4BoLyMHX18MtnVlwF9JqKj4BvVC46cjyVBPFPwrjpzGhbLLbAV3x_j-_B4ZUZuQBa5a-yq6CiW6sJ26AA"
-                },
-                "expirationDate": "2029-12-03T12:19:52Z"
-            }
-        ]
-    },
-    "options": {
-        "verificationMethod": "did:key:z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL#z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL"
-    }
-}
-```
-
-**Sample Expected Response Body**
-
-The response body should return a verifiable presentation similar to this one:
-```json
-{
-    "@context": [
-        "https://www.w3.org/2018/credentials/v1"
-    ],
-    "type": [
-        "VerifiablePresentation"
-    ],
-    "verifiableCredential": [
-        {
-            "@context": [
-                "https://www.w3.org/2018/credentials/v1",
-                "https://w3id.org/consentership/v1"
-            ],
-            "id": "https://issuer.oidp.uscis.gov/credentials/83627465",
-            "type": [
-                "VerifiableCredential",
-                "PermanentConsenterCard"
-            ],
-            "credentialSubject": {
-                "id": "did:key:z6MkvWkza1fMBWhKnYE3CgMgxHem62YkEw4JbdmEZeFTEZ7A",
-                "commuterClassification": "C1",
-                "birthDate": "1958-07-17",
-                "lprCategory": "C09",
-                "consenterSince": "2015-01-01",
-                "gender": "Male",
-                "image": "data:image/png;base64,iVBORw0KGgo...kJggg==",
-                "givenName": "JOHN",
-                "type": [
-                    "PermanentConsenter",
-                    "Person"
-                ],
-                "birthCountry": "Bahamas",
-                "lprNumber": "999-999-999",
-                "familyName": "SMITH"
-            },
-            "issuer": "did:key:z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL",
-            "issuanceDate": "2019-12-03T12:19:52Z",
-            "proof": {
-                "type": "Ed25519Signature2018",
-                "proofPurpose": "assertionMethod",
-                "verificationMethod": "did:key:z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL#z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL",
-                "created": "2022-04-29T09:53:23.786Z",
-                "jws": "eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..slzsK4BoLyMHX18MtnVlwF9JqKj4BvVC46cjyVBPFPwrjpzGhbLLbAV3x_j-_B4ZUZuQBa5a-yq6CiW6sJ26AA"
-            },
-            "expirationDate": "2029-12-03T12:19:52Z"
-        }
-    ],
-    "proof": {
-        "type": "Ed25519Signature2018",
-        "verificationMethod": "did:key:z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL#z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL",
-        "created": "2022-04-29T10:21:42.824Z",
-        "jws": "eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..FW8cPUUglFWbq61ve02LD-JmVQNr-TQ03rc3wlFeOccbapR0y5IsoNEMHF3wU54kdG9mAeLzJ5aXH6uUFA0iAA"
-    }
-}
-```
-
-**Expected Response HTTP Status Code**
-
-`201 Created`
-
-#### 1.11 [Consent-Requesting portal] Add a review to the exchange
-
-With a verifiable presentation in hand, the consent-requesting portal can add a review to the in-progress exchange.
-Open the `Vc Api Controller add Submission Review` request under the `vc-api/exchanges/{exchange id}/{transaction id}` folder.
-
-Send the request as described below.
-
-**Request URL**
-
-Use the same `exchangeId` and `transactionId` as the path variables as in the "Continue Exchange" step.
-
-`{VC API base url}/vc-api/exchanges/{exchange id}/{transaction id}/review`
-
-**HTTP Verb**
-
-`POST`
-
-**Request Body**
-
-Fill the json below appropriately and send as the body:
-```json
-{
-    "result": "approved",
-    "vp": "<COPY VP FROM PREVIOUS STEP HERE>"
-}
-```
-
-```json
-{
-    "result": "approved",
-    "vp": {
-        "@context": [
-            "https://www.w3.org/2018/credentials/v1"
-        ],
-        "type": [
-            "VerifiablePresentation"
-        ],
-        "verifiableCredential": [
-            {
-                "@context": [
-                    "https://www.w3.org/2018/credentials/v1",
-                    "https://w3id.org/consentership/v1"
-                ],
-                "id": "https://issuer.oidp.uscis.gov/credentials/83627465",
-                "type": [
-                    "VerifiableCredential",
-                    "PermanentConsenterCard"
-                ],
-                "credentialSubject": {
-                    "id": "did:key:z6MkvWkza1fMBWhKnYE3CgMgxHem62YkEw4JbdmEZeFTEZ7A",
-                    "commuterClassification": "C1",
-                    "birthDate": "1958-07-17",
-                    "lprCategory": "C09",
-                    "consenterSince": "2015-01-01",
-                    "gender": "Male",
-                    "image": "data:image/png;base64,iVBORw0KGgo...kJggg==",
-                    "givenName": "JOHN",
-                    "type": [
-                        "PermanentConsenter",
-                        "Person"
-                    ],
-                    "birthCountry": "Bahamas",
-                    "lprNumber": "999-999-999",
-                    "familyName": "SMITH"
-                },
-                "issuer": "did:key:z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL",
-                "issuanceDate": "2019-12-03T12:19:52Z",
-                "proof": {
-                    "type": "Ed25519Signature2018",
-                    "proofPurpose": "assertionMethod",
-                    "verificationMethod": "did:key:z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL#z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL",
-                    "created": "2022-04-29T09:53:23.786Z",
-                    "jws": "eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..slzsK4BoLyMHX18MtnVlwF9JqKj4BvVC46cjyVBPFPwrjpzGhbLLbAV3x_j-_B4ZUZuQBa5a-yq6CiW6sJ26AA"
-                },
-                "expirationDate": "2029-12-03T12:19:52Z"
-            }
-        ],
-        "proof": {
-            "type": "Ed25519Signature2018",
-            "verificationMethod": "did:key:z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL#z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL",
-            "created": "2022-04-29T10:21:42.824Z",
-            "jws": "eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..FW8cPUUglFWbq61ve02LD-JmVQNr-TQ03rc3wlFeOccbapR0y5IsoNEMHF3wU54kdG9mAeLzJ5aXH6uUFA0iAA"
-        }
-    }
-}
-```
-
-**Sample Expected Response Body**
-
-```json
-{
-    "errors": []
-}
-```
-
-**Expected Response HTTP Status Code**
-
-`201 Created`
-
-#### 1.12 [Consenter] Continue the exchange and obtain the credentials
-
-As the review is submitted, the consenter can continue the exchange to receive the credential.
-
-To do this, return to the `Vc Api Controller continue Exchange` request in the `vc-api/exchanges/{exchange id}/{transaction id}` folder.
-Resend the request.
-The response should be similar to the following, where the `vp` contains the issued credential.
-
-```json
-{
-    "errors": [],
-    "vp": {
-        "@context": [
-            "https://www.w3.org/2018/credentials/v1"
-        ],
-        "type": [
-            "VerifiablePresentation"
-        ],
-        "verifiableCredential": [
-            {
-                "@context": [
-                    "https://www.w3.org/2018/credentials/v1",
-                    "https://w3id.org/consentership/v1"
-                ],
-                "id": "https://issuer.oidp.uscis.gov/credentials/83627465",
-                "type": [
-                    "VerifiableCredential",
-                    "PermanentConsenterCard"
-                ],
-                "credentialSubject": {
-                    "id": "did:key:z6MkvWkza1fMBWhKnYE3CgMgxHem62YkEw4JbdmEZeFTEZ7A",
-                    "commuterClassification": "C1",
-                    "birthDate": "1958-07-17",
-                    "lprCategory": "C09",
-                    "consenterSince": "2015-01-01",
-                    "gender": "Male",
-                    "image": "data:image/png;base64,iVBORw0KGgo...kJggg==",
-                    "givenName": "JOHN",
-                    "type": [
-                        "PermanentConsenter",
-                        "Person"
-                    ],
-                    "birthCountry": "Bahamas",
-                    "lprNumber": "999-999-999",
-                    "familyName": "SMITH"
-                },
-                "issuer": "did:key:z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL",
-                "issuanceDate": "2019-12-03T12:19:52Z",
-                "proof": {
-                    "type": "Ed25519Signature2018",
-                    "proofPurpose": "assertionMethod",
-                    "verificationMethod": "did:key:z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL#z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL",
-                    "created": "2022-04-29T09:53:23.786Z",
-                    "jws": "eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..slzsK4BoLyMHX18MtnVlwF9JqKj4BvVC46cjyVBPFPwrjpzGhbLLbAV3x_j-_B4ZUZuQBa5a-yq6CiW6sJ26AA"
-                },
-                "expirationDate": "2029-12-03T12:19:52Z"
-            }
-        ],
-        "proof": {
-            "type": "Ed25519Signature2018",
-            "verificationMethod": "did:key:z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL#z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL",
-            "created": "2022-04-29T10:21:42.824Z",
-            "jws": "eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..FW8cPUUglFWbq61ve02LD-JmVQNr-TQ03rc3wlFeOccbapR0y5IsoNEMHF3wU54kdG9mAeLzJ5aXH6uUFA0iAA"
-        }
-    }
-}
-```
-
-### 2. Permanent Consenter Card verification
-
-#### 2.1 [Verifier] Configure Credential Exchange
-
-The Verifier needs to configure the parameters of the credential exchange by sending an [Exchange Definition](../exchanges.md#exchange-definitions).
-To do this, navigate to the `Vc Api Controller create Exchange` under `vc-api/exchanges` and send with the json below.
-
-Send the request as described below.
-
-**Request URL**
-
-`{VC API base url}/vc-api/exchanges`
-
-**HTTP Verb**
-
-`POST`
-
-**Request Body**
-
-Fill `exchangeId` in the json below.
-`exchangeId` should be an id unique to this exchange, for example a UUID.
-
-The exchange definition in the example below uses an exchange definition with two
- input descriptors in the [Presentation Definition](https://identity.foundation/presentation-exchange in order to request two credentials:
-1.  
-Note the constraint on the `$.type` path of the credential.
-This is used to require that the presented credential be of type "PermanentConsenterCard".
-For more information on credential constraints, see the [Presentation Exchange specification](https://identity.foundation/presentation-exchange).
-
-```json
-{
-   "exchangeId":"<SOME UNIQUE ID>",
-   "query":[
-      {
-         "type":"PresentationDefinition",
-         "credentialQuery":[
-            {
-               "presentationDefinition":{
-                    "id":"286bc1e0-f1bd-488a-a873-8d71be3c690e",
-                    "input_descriptors":[
-                        {
-                          "id":"permanent_consenter_card",
-                          "name":"Permanent Consenter Card",
-                          "constraints": {
-                            "fields":[
-                              {
-                                "path":[
-                                  "$.type"
-                                ],
-                                "filter":{
-                                  "type":"array",
-                                  "contains":{
-                                    "type":"string",
-                                    "const":"PermanentConsenterCard"
-                                  }
-                                }
-                              }
-                            ]
-                          }
-                        },
-                        {
-                          "id": "consent_agreement",
-                          "name": "Consent Agreement",
-                          "constraints": {
-                            "subject_is_issuer":"required",
-                            "fields":[
-                                {
-                                  "path":"$.@context",
-                                  "filter":{
-                                      "$schema":"http://json-schema.org/draft-07/schema#",
-                                      "type":"array",
-                                      "items":[
-                                        {
-                                            "const":"https://www.w3.org/2018/credentials/v1"
-                                        },
-                                        {
-                                            "$ref":"#/definitions/eliaGroupContext"
-                                        }
-                                      ],
-                                      "additionalItems":false,
-                                      "minItems":2,
-                                      "maxItems":2,
-                                      "definitions":{
-                                        "eliaGroupContext":{
-                                            "type":"object",
-                                            "properties":{
-                                              "elia":{
-                                                  "const":"https://www.eliagroup.eu/ld-context-2022#"
-                                              },
-                                              "consent":{
-                                                  "const":"elia:consent"
-                                              }
-                                            },
-                                            "additionalProperties":false,
-                                            "required":[
-                                              "elia",
-                                              "consent"
-                                            ]
-                                        }
-                                      }
-                                  }
-                                },
-                                {
-                                  "path":"$.credentialSubject",
-                                  "filter":{
-                                      "type":"object",
-                                      "properties":{
-                                        "consent":{
-                                            "const":"I consent to such and such"
-                                        }
-                                      },
-                                      "additionalProperties":false
-                                  }
-                                  },
-                                  {
-                                    "path":"$.type",
-                                    "filter":{
-                                        "type":"array",
-                                        "items":[
-                                          {
-                                              "const":"VerifiableCredential"
-                                          }
-                                        ]
-                                    }
-                                  }
-                              ]
-                          }
-                        }
-                    ]
-                }
-            }
-         ]
-      }
-   ],
-   "interactServices":[
-      {
-         "type":"UnmediatedHttpPresentationService2021"
-      }
-   ],
-   "isOneTime":true,
-   "callback":[]
-}
-```
-
-**Sample Expected Response Body**
-
-```json
-{
-    "errors": []
-}
-```
-
-**Expected Response HTTP Status Code**
-
-`201 Created`
-
-#### 2.2 [Verifier] Provide an exchange invitation to the consenter
-
-Having configured the exchange, the Verifier must then ask the consenter to present the required credentials.
-
-```json
-{
-  "outOfBandInvitation": {
-    "type": "https://example.com/out-of-band/vc-api-exchange",
-    "body": {
-      "url": "http://localhost:3000/vc-api/exchanges/<FILL WITH YOUR EXCHANGE ID>"
-    }
-  }
-}
-```
-
-#### 2.3 [Consenter] Initiate the presentation exchange
-
-Initiate the credential exchange by POSTing to the `url` directly in Postman or by navigating to the `Vc Api Controller initiate Exchange` request in the collection.
-Send the request as described below.
-
-**Request URL**
-
-If using the Postman collection request, fill in the `exchangeId` param to be the value used for the exchange Id by the Verifier.
-`{VC API base url}/vc-api/exchanges/{exchange id}`
-
-**HTTP Verb**
-
-`POST`
-
-**Request Body**
-
-*empty*
-
-**Sample Expected Response Body**
-
-A similar json should be returned in the response body:
-```json
-{
-   "errors":[
-      
-   ],
-   "vpRequest":{
-      "challenge":"7c66d573-4da6-4e13-b52f-9b5c844d6d52",
-      "query":[
-         {
-            "type":"PresentationDefinition",
-            "credentialQuery":[
-               {
-                  "presentationDefinition":{
-                     "id":"286bc1e0-f1bd-488a-a873-8d71be3c690e",
-                     "input_descriptors":[
-                        {
-                           "id":"PermanentConsenterCard",
-                           "name":"Permanent Consenter Card",
-                           "constraints":{
-                              "fields":[
-                                 {
-                                    "path":[
-                                       "$.type"
-                                    ],
-                                    "filter":{
-                                       "type":"array",
-                                       "contains":{
-                                          "type":"string",
-                                          "const":"PermanentConsenterCard"
-                                       }
-                                    }
-                                 }
-                              ]
-                           }
-                        },
-                        {
-                          "id": "consent_agreement",
-                          "name": "Consent Agreement",
-                          "constraints": {
-                            "subject_is_issuer":"required",
-                            "fields":[
-                                {
-                                  "path":"$.@context",
-                                  "filter":{
-                                      "$schema":"http://json-schema.org/draft-07/schema#",
-                                      "type":"array",
-                                      "items":[
-                                        {
-                                            "const":"https://www.w3.org/2018/credentials/v1"
-                                        },
-                                        {
-                                            "$ref":"#/definitions/eliaGroupContext"
-                                        }
-                                      ],
-                                      "additionalItems":false,
-                                      "minItems":2,
-                                      "maxItems":2,
-                                      "definitions":{
-                                        "eliaGroupContext":{
-                                            "type":"object",
-                                            "properties":{
-                                              "elia":{
-                                                  "const":"https://www.eliagroup.eu/ld-context-2022#"
-                                              },
-                                              "consent":{
-                                                  "const":"elia:consent"
-                                              }
-                                            },
-                                            "additionalProperties":false,
-                                            "required":[
-                                              "elia",
-                                              "consent"
-                                            ]
-                                        }
-                                      }
-                                  }
-                                },
-                                {
-                                  "path":"$.credentialSubject",
-                                  "filter":{
-                                      "type":"object",
-                                      "properties":{
-                                        "consent":{
-                                            "const":"I consent to such and such"
-                                        }
-                                      },
-                                      "additionalProperties":false
-                                  }
-                                  },
-                                  {
-                                    "path":"$.type",
-                                    "filter":{
-                                        "type":"array",
-                                        "items":[
-                                          {
-                                              "const":"VerifiableCredential"
-                                          }
-                                        ]
-                                    }
-                                  }
-                              ]
-                          }
-                        }
-                     ]
-                  }
-               }
-            ]
-         }
-      ],
-      "interact":{
-         "service":[
-            {
-               "type":"UnmediatedHttpPresentationService2021",
-               "serviceEndpoint":"https://vc-api-dev.energyweb.org/vc-api/exchanges/34712646/b38b7c65-f0d7-4d00-b026-f2704ff716cc"
-            }
-         ]
-      }
-   },
-   "processingInProgress":false
-}
-```
-The `challenge` value and the final fragment of the `serviceEndpoint`, which is the `transaction id`, should be different.
-
-The response contains a VP Request, which is a specification defined here: https://w3c-ccg.github.io/vp-request-spec/.
-You can see that the VP Request's `query` section contains a `PresentationDefinition` query.
-This means that the holder must provide credentials which satisfy the `presentationDefinition`.
-
-Also note the `service` in the `interact` section of the VP Request.
-This is providing the location at which we can continue the credential request flow once we have met the `query` requirements.
-
-**Expected Response HTTP Status Code**
-
-`201 Created`
-      
-#### 2.4 [Consenter] Create the required presentation
-
-Open the `Vc Api Controller prove Presentation` request under the `vc-api/presentations/prove` folder.
-
-Send the request as described below.
-
-**Request URL**
-
-`{VC API base url}/vc-api/presentations/prove`
+`{VC API base url}/v1/vc-api/credentials/issue`
 
 **HTTP Verb**
 
@@ -1319,7 +546,7 @@ Send the request as described below.
 **Request Body**
 
 In the request body, use the following json, filled with your own values.
-The `challenge` should be value received from the VP Request in the previous step.
+The `challenge` should be value received from the VP Request obtained when initiating the exchange.
 
 ```json
 {
@@ -1332,309 +559,43 @@ The `challenge` should be value received from the VP Request in the previous ste
             "VerifiablePresentation"
         ],
         "verifiableCredential":[
-            "<FILL WITH VC RECEIVED FROM AUTHORITY>"
+            "<FILL WITH VC ISSUED IN PREVIOUS STEP>"
         ],
-        "holder": "<FILL WITH RESIDENT DID>"
+        "holder": "<FILL WITH CONSENTER DID>"
     },
     "options": {
-        "verificationMethod": "<FILL WITH RESIDENT DID VERIFICATION METHOD",
+        "verificationMethod": "did:key:z6MknGNm3sAwYNesSZ8MXmdJKkUr3L2rC7hbU1sr1c65XEDg#z6MknGNm3sAwYNesSZ8MXmdJKkUr3L2rC7hbU1sr1c65XEDg",
         "proofPurpose": "authentication",
         "challenge": "<FILL WITH CHALLENGE FROM VP REQUEST>"
     }
 }
 ```
 
-For example, your filled json would look like:
-
-```json
-{
-    "presentation": {
-        "@context": [
-            "https://www.w3.org/2018/credentials/v1",
-            "https://www.w3.org/2018/credentials/examples/v1"
-        ],
-        "type": [
-            "VerifiablePresentation"
-        ],
-        "verifiableCredential": [
-            {
-                "@context": [
-                    "https://www.w3.org/2018/credentials/v1",
-                    "https://w3id.org/consentership/v1"
-                ],
-                "id": "https://issuer.oidp.uscis.gov/credentials/83627465",
-                "type": [
-                    "VerifiableCredential",
-                    "PermanentConsenterCard"
-                ],
-                "credentialSubject": {
-                    "id": "did:key:z6MkvWkza1fMBWhKnYE3CgMgxHem62YkEw4JbdmEZeFTEZ7A",
-                    "gender": "Male",
-                    "commuterClassification": "C1",
-                    "birthDate": "1958-07-17",
-                    "image": "data:image/png;base64,iVBORw0KGgo...kJggg==",
-                    "consenterSince": "2015-01-01",
-                    "givenName": "JOHN",
-                    "type": [
-                        "PermanentConsenter",
-                        "Person"
-                    ],
-                    "lprCategory": "C09",
-                    "birthCountry": "Bahamas",
-                    "lprNumber": "999-999-999",
-                    "familyName": "SMITH"
-                },
-                "issuer": "did:key:z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL",
-                "issuanceDate": "2019-12-03T12:19:52Z",
-                "proof": {
-                    "type": "Ed25519Signature2018",
-                    "proofPurpose": "assertionMethod",
-                    "verificationMethod": "did:key:z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL#z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL",
-                    "created": "2022-04-29T09:53:23.786Z",
-                    "jws": "eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..slzsK4BoLyMHX18MtnVlwF9JqKj4BvVC46cjyVBPFPwrjpzGhbLLbAV3x_j-_B4ZUZuQBa5a-yq6CiW6sJ26AA"
-                },
-                "expirationDate": "2029-12-03T12:19:52Z"
-            }
-        ],
-        "holder": "did:key:z6MkvWkza1fMBWhKnYE3CgMgxHem62YkEw4JbdmEZeFTEZ7A"
-    },
-    "options": {
-        "verificationMethod": "did:key:z6MkvWkza1fMBWhKnYE3CgMgxHem62YkEw4JbdmEZeFTEZ7A#z6MkvWkza1fMBWhKnYE3CgMgxHem62YkEw4JbdmEZeFTEZ7A",
-        "proofPurpose": "authentication",
-        "challenge": "7c66d573-4da6-4e13-b52f-9b5c844d6d52"
-    }
-}
-```
-
 **Sample Expected Response Body**
 
-The response should be a verifiable presentation, similar to the one below.
 ```json
 {
     "@context": [
         "https://www.w3.org/2018/credentials/v1",
-        "https://www.w3.org/2018/credentials/examples/v1"
-    ],
-    "type": [
-        "VerifiablePresentation"
-    ],
-    "verifiableCredential": [
         {
-            "@context": [
-                "https://www.w3.org/2018/credentials/v1",
-                "https://w3id.org/consentership/v1"
-            ],
-            "id": "https://issuer.oidp.uscis.gov/credentials/83627465",
-            "type": [
-                "VerifiableCredential",
-                "PermanentConsenterCard"
-            ],
-            "credentialSubject": {
-                "id": "did:key:z6MkvWkza1fMBWhKnYE3CgMgxHem62YkEw4JbdmEZeFTEZ7A",
-                "birthDate": "1958-07-17",
-                "image": "data:image/png;base64,iVBORw0KGgo...kJggg==",
-                "lprCategory": "C09",
-                "commuterClassification": "C1",
-                "birthCountry": "Bahamas",
-                "lprNumber": "999-999-999",
-                "consenterSince": "2015-01-01",
-                "type": [
-                    "PermanentConsenter",
-                    "Person"
-                ],
-                "gender": "Male",
-                "familyName": "SMITH",
-                "givenName": "JOHN"
-            },
-            "issuer": "did:key:z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL",
-            "issuanceDate": "2019-12-03T12:19:52Z",
-            "proof": {
-                "type": "Ed25519Signature2018",
-                "proofPurpose": "assertionMethod",
-                "verificationMethod": "did:key:z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL#z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL",
-                "created": "2022-04-29T09:53:23.786Z",
-                "jws": "eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..slzsK4BoLyMHX18MtnVlwF9JqKj4BvVC46cjyVBPFPwrjpzGhbLLbAV3x_j-_B4ZUZuQBa5a-yq6CiW6sJ26AA"
-            },
-            "expirationDate": "2029-12-03T12:19:52Z"
+            "consent": "elia:consent",
+            "elia": "https://www.eliagroup.eu/ld-context-2022#"
         }
     ],
+    "type": [
+        "VerifiableCredential"
+    ],
+    "credentialSubject": {
+        "consent": "I consent to such and such"
+    },
+    "issuer": "did:key:z6MknGNm3sAwYNesSZ8MXmdJKkUr3L2rC7hbU1sr1c65XEDg",
+    "issuanceDate": "2019-12-03T12:19:52Z",
     "proof": {
         "type": "Ed25519Signature2018",
-        "proofPurpose": "authentication",
-        "challenge": "7c66d573-4da6-4e13-b52f-9b5c844d6d52",
-        "verificationMethod": "did:key:z6MkvWkza1fMBWhKnYE3CgMgxHem62YkEw4JbdmEZeFTEZ7A#z6MkvWkza1fMBWhKnYE3CgMgxHem62YkEw4JbdmEZeFTEZ7A",
-        "created": "2022-04-29T10:56:09.336Z",
-        "jws": "eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..Sqpo8ostkoK7_69TxvHMzzRLuebdZ8IaXj2z6p1-M30FSZdIXMPXBg4kyukoKZ4Jls7eXyJ0FgaSKirGO-reCA"
-    },
-    "holder": "did:key:z6MkvWkza1fMBWhKnYE3CgMgxHem62YkEw4JbdmEZeFTEZ7A"
-}
-```
-
-**Expected Response HTTP Status Code**
-
-`201 Created`
-
-#### 2.5 [Consenter] Continue the exchange
-
-Continue the exchange by sending the VP in response to the VP Request that was previously received.
-Open the `Vc Api Controller continue Exchange` request in the `vc-api/exchanges/{exchange Id}` folder.
-
-Send the request as described below.
-
-**Request URL**
-
-In the request params, use the `transactionId` and `exchangeId` from the `serviceEndpoint` in the VP Request.
-
-`{VC API base url}/vc-api/exchanges/{exchangeId}/{transactionId}`
-
-**HTTP Verb**
-
-`PUT`
-
-**Request Body**
-
-In the request body, copy the VP that was obtained from the previous step.
-
-**Sample Expected Response Body**
-
-```json
-{
-    "errors": []
-}
-```
-
-**Expected Response HTTP Status Code**
-
-`200 OK`
-
-#### 2.6 [Verifier] Act on Submitted Presentation
-
-In this presentation exchange (part 2) of this tutorial, no callback was configured in the exchange definition.
-This is because the Post Test Server (used [during the issuance exchange](#11-consent-requesting-portal-configure-the-credential-issuance-exchange)) has a Body Length of 1500 and so cannot accept the POST.
-However, typically a Verifier would configure a callback in order to be able to act on the submitted presentation.
-
-For reference, the callback notification that would have been receive in a configured callback for this presentation would be:
-
-```json
-{
-   "transactionId":"b38b7c65-f0d7-4d00-b026-f2704ff716cc",
-   "exchangeId":"34712646",
-   "vpRequest":{
-      "challenge":"7c66d573-4da6-4e13-b52f-9b5c844d6d52",
-      "query":[
-         {
-            "type":"PresentationDefinition",
-            "credentialQuery":[
-               {
-                  "presentationDefinition":{
-                     "id":"286bc1e0-f1bd-488a-a873-8d71be3c690e",
-                     "input_descriptors":[
-                        {
-                           "id":"PermanentConsenterCard",
-                           "name":"PermanentConsenterCard",
-                           "purpose":"PermanentConsenterCard",
-                           "constraints":{
-                              "fields":[
-                                 {
-                                    "path":[
-                                       "$.type"
-                                    ],
-                                    "filter":{
-                                       "type":"array",
-                                       "contains":{
-                                          "type":"string",
-                                          "const":"PermanentConsenterCard"
-                                       }
-                                    }
-                                 }
-                              ]
-                           }
-                        }
-                     ]
-                  }
-               }
-            ]
-         }
-      ],
-      "interact":{
-         "service":[
-            {
-               "type":"UnmediatedHttpPresentationService2021",
-               "serviceEndpoint":"https://vc-api-dev.energyweb.org/vc-api/exchanges/34712646/b38b7c65-f0d7-4d00-b026-f2704ff716cc"
-            }
-         ]
-      }
-   },
-   "presentationSubmission":{
-      "vp":{
-        "@context": [
-            "https://www.w3.org/2018/credentials/v1",
-            "https://www.w3.org/2018/credentials/examples/v1"
-        ],
-        "type": [
-            "VerifiablePresentation"
-        ],
-        "verifiableCredential": [
-            {
-                "@context": [
-                    "https://www.w3.org/2018/credentials/v1",
-                    "https://w3id.org/consentership/v1"
-                ],
-                "id": "https://issuer.oidp.uscis.gov/credentials/83627465",
-                "type": [
-                    "VerifiableCredential",
-                    "PermanentConsenterCard"
-                ],
-                "credentialSubject": {
-                    "id": "did:key:z6MkvWkza1fMBWhKnYE3CgMgxHem62YkEw4JbdmEZeFTEZ7A",
-                    "birthDate": "1958-07-17",
-                    "image": "data:image/png;base64,iVBORw0KGgo...kJggg==",
-                    "lprCategory": "C09",
-                    "commuterClassification": "C1",
-                    "birthCountry": "Bahamas",
-                    "lprNumber": "999-999-999",
-                    "consenterSince": "2015-01-01",
-                    "type": [
-                        "PermanentConsenter",
-                        "Person"
-                    ],
-                    "gender": "Male",
-                    "familyName": "SMITH",
-                    "givenName": "JOHN"
-                },
-                "issuer": "did:key:z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL",
-                "issuanceDate": "2019-12-03T12:19:52Z",
-                "proof": {
-                    "type": "Ed25519Signature2018",
-                    "proofPurpose": "assertionMethod",
-                    "verificationMethod": "did:key:z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL#z6MkjB8kjJee3JoJ9WmzTG2vXhWJ9KtwPtWLtEec17iFNiEL",
-                    "created": "2022-04-29T09:53:23.786Z",
-                    "jws": "eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..slzsK4BoLyMHX18MtnVlwF9JqKj4BvVC46cjyVBPFPwrjpzGhbLLbAV3x_j-_B4ZUZuQBa5a-yq6CiW6sJ26AA"
-                },
-                "expirationDate": "2029-12-03T12:19:52Z"
-            }
-        ],
-        "proof": {
-            "type": "Ed25519Signature2018",
-            "proofPurpose": "authentication",
-            "challenge": "7c66d573-4da6-4e13-b52f-9b5c844d6d52",
-            "verificationMethod": "did:key:z6MkvWkza1fMBWhKnYE3CgMgxHem62YkEw4JbdmEZeFTEZ7A#z6MkvWkza1fMBWhKnYE3CgMgxHem62YkEw4JbdmEZeFTEZ7A",
-            "created": "2022-04-29T10:56:09.336Z",
-            "jws": "eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..Sqpo8ostkoK7_69TxvHMzzRLuebdZ8IaXj2z6p1-M30FSZdIXMPXBg4kyukoKZ4Jls7eXyJ0FgaSKirGO-reCA"
-        },
-        "holder": "did:key:z6MkvWkza1fMBWhKnYE3CgMgxHem62YkEw4JbdmEZeFTEZ7A"
-      },
-      "verificationResult":{
-         "errors":[
-            
-         ],
-         "checks":[
-            "proof"
-         ],
-         "warnings":[
-            
-         ]
-      }
-   }
+        "proofPurpose": "assertionMethod",
+        "verificationMethod": "did:key:z6MknGNm3sAwYNesSZ8MXmdJKkUr3L2rC7hbU1sr1c65XEDg#z6MknGNm3sAwYNesSZ8MXmdJKkUr3L2rC7hbU1sr1c65XEDg",
+        "created": "2022-08-09T12:11:28.018Z",
+        "jws": "eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..IoCSSOIWVOrQYTan75wn7oZBZF_5m7Ka76BaaLkAIZQiQZRDfzPcOkPw3O2fT_FZV-e0KHHnsoI8Qp0gdtHTCw"
+    }
 }
 ```
