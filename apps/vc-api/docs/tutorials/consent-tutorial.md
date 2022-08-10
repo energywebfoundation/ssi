@@ -91,6 +91,12 @@ Creating a new request bucket is to help you be sure that you are looking at the
                             "subject_is_issuer":"required",
                             "fields":[
                                 {
+                                  "path":["$.id"],
+                                  "filter":{
+                                    "const":"urn:uuid:49f69fb8-f256-4b2e-b15d-c7ebec3a507e"
+                                  }
+                                },
+                                {
                                   "path":["$.@context"],
                                   "filter":{
                                       "$schema":"http://json-schema.org/draft-07/schema#",
@@ -234,7 +240,7 @@ This is providing the location at which we can continue the credential exchange 
 {
     "errors": [],
     "vpRequest": {
-        "challenge": "360bd8e5-2778-4a99-98d8-b646df9f0f9b",
+        "challenge": "67ee0200-6130-4539-94b5-a5726d2fa4af",
         "query": [
             {
                 "type": "PresentationDefinition",
@@ -249,6 +255,66 @@ This is providing the location at which we can continue the credential exchange 
                                     "constraints": {
                                         "subject_is_issuer": "required",
                                         "fields": [
+                                            {
+                                                "path": [
+                                                    "$.id"
+                                                ],
+                                                "filter": {
+                                                    "const": "urn:uuid:49f69fb8-f256-4b2e-b15d-c7ebec3a507e"
+                                                }
+                                            },
+                                            {
+                                                "path": [
+                                                    "$.@context"
+                                                ],
+                                                "filter": {
+                                                    "$schema": "http://json-schema.org/draft-07/schema#",
+                                                    "type": "array",
+                                                    "items": [
+                                                        {
+                                                            "const": "https://www.w3.org/2018/credentials/v1"
+                                                        },
+                                                        {
+                                                            "$ref": "#/definitions/eliaGroupContext"
+                                                        }
+                                                    ],
+                                                    "additionalItems": false,
+                                                    "minItems": 2,
+                                                    "maxItems": 2,
+                                                    "definitions": {
+                                                        "eliaGroupContext": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "elia": {
+                                                                    "const": "https://www.eliagroup.eu/ld-context-2022#"
+                                                                },
+                                                                "consent": {
+                                                                    "const": "elia:consent"
+                                                                }
+                                                            },
+                                                            "additionalProperties": false,
+                                                            "required": [
+                                                                "elia",
+                                                                "consent"
+                                                            ]
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "path": [
+                                                    "$.credentialSubject"
+                                                ],
+                                                "filter": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "consent": {
+                                                            "const": "I consent to such and such"
+                                                        }
+                                                    },
+                                                    "additionalProperties": false
+                                                }
+                                            },
                                             {
                                                 "path": [
                                                     "$.type"
@@ -275,7 +341,7 @@ This is providing the location at which we can continue the credential exchange 
             "service": [
                 {
                     "type": "UnmediatedHttpPresentationService2021",
-                    "serviceEndpoint": "https://vc-api-dev.energyweb.org/v1/vc-api/exchanges/consent-exchange-1/80462c03-a310-4c4b-a3af-ffba0d499ffc"
+                    "serviceEndpoint": "https://vc-api-dev.energyweb.org/v1/vc-api/exchanges/consent-exchange-0/2e31b7fc-35ba-48a9-9bd9-276dc444783c"
                 }
             ]
         }
@@ -364,76 +430,84 @@ Send the request as described below.
 
 ```json
 {
-   "constraints":{
-      "subject_is_issuer":"required",
-      "fields":[
-         {
-            "path":[
-               "$.@context"
-            ],
-            "filter":{
-               "$schema":"http://json-schema.org/draft-07/schema#",
-               "type":"array",
-               "items":[
-                  {
-                     "const":"https://www.w3.org/2018/credentials/v1"
+   "constraints": {
+      "subject_is_issuer": "required",
+      "fields": [
+          {
+              "path": [
+                  "$.id"
+              ],
+              "filter": {
+                  "const": "urn:uuid:49f69fb8-f256-4b2e-b15d-c7ebec3a507e"
+              }
+          },
+          {
+              "path": [
+                  "$.@context"
+              ],
+              "filter": {
+                  "$schema": "http://json-schema.org/draft-07/schema#",
+                  "type": "array",
+                  "items": [
+                      {
+                          "const": "https://www.w3.org/2018/credentials/v1"
+                      },
+                      {
+                          "$ref": "#/definitions/eliaGroupContext"
+                      }
+                  ],
+                  "additionalItems": false,
+                  "minItems": 2,
+                  "maxItems": 2,
+                  "definitions": {
+                      "eliaGroupContext": {
+                          "type": "object",
+                          "properties": {
+                              "elia": {
+                                  "const": "https://www.eliagroup.eu/ld-context-2022#"
+                              },
+                              "consent": {
+                                  "const": "elia:consent"
+                              }
+                          },
+                          "additionalProperties": false,
+                          "required": [
+                              "elia",
+                              "consent"
+                          ]
+                      }
+                  }
+              }
+          },
+          {
+              "path": [
+                  "$.credentialSubject"
+              ],
+              "filter": {
+                  "type": "object",
+                  "properties": {
+                      "consent": {
+                          "const": "I consent to such and such"
+                      }
                   },
-                  {
-                     "$ref":"#/definitions/eliaGroupContext"
-                  }
-               ],
-               "additionalItems":false,
-               "minItems":2,
-               "maxItems":2,
-               "definitions":{
-                  "eliaGroupContext":{
-                     "type":"object",
-                     "properties":{
-                        "elia":{
-                           "const":"https://www.eliagroup.eu/ld-context-2022#"
-                        },
-                        "consent":{
-                           "const":"elia:consent"
-                        }
-                     },
-                     "additionalProperties":false,
-                     "required":[
-                        "elia",
-                        "consent"
-                     ]
-                  }
-               }
-            }
-         },
-         {
-            "path":[
-               "$.credentialSubject"
-            ],
-            "filter":{
-               "type":"object",
-               "properties":{
-                  "consent":{
-                     "const":"I consent to such and such"
-                  }
-               },
-               "additionalProperties":false
-            }
-         },
-         {
-            "path":[
-               "$.type"
-            ],
-            "filter":{
-               "type":"array",
-               "items":[
-                  {
-                     "const":"VerifiableCredential"
-                  }
-               ]
-            }
-         }
+                  "additionalProperties": false
+              }
+          },
+          {
+              "path": [
+                  "$.type"
+              ],
+              "filter": {
+                  "type": "array",
+                  "items": [
+                      {
+                          "const": "VerifiableCredential"
+                      }
+                  ]
+              }
+          }
       ]
-   }
+  }
 }
 ```
 
@@ -442,6 +516,7 @@ Send the request as described below.
 ```json
 {
     "credential": {
+        "id": "urn:uuid:49f69fb8-f256-4b2e-b15d-c7ebec3a507e",
         "@context": [
             "https://www.w3.org/2018/credentials/v1",
             {
@@ -458,6 +533,11 @@ Send the request as described below.
     }
 }
 ```
+
+**Expected Response HTTP Status Code**
+
+`201 Created`
+
 #### 6 [Consenter] Issue a self-signed credential
 
 The consenter can now sign the credential to create a self-signed verifiable credential.
@@ -507,29 +587,34 @@ Send the request as described below.
     "@context": [
         "https://www.w3.org/2018/credentials/v1",
         {
-            "consent": "elia:consent",
-            "elia": "https://www.eliagroup.eu/ld-context-2022#"
+            "elia": "https://www.eliagroup.eu/ld-context-2022#",
+            "consent": "elia:consent"
         }
     ],
+    "id": "urn:uuid:49f69fb8-f256-4b2e-b15d-c7ebec3a507e",
     "type": [
         "VerifiableCredential"
     ],
     "credentialSubject": {
         "consent": "I consent to such and such"
     },
-    "issuer": "did:key:z6MknGNm3sAwYNesSZ8MXmdJKkUr3L2rC7hbU1sr1c65XEDg",
-    "issuanceDate": "2019-12-03T12:19:52Z",
+    "issuer": "did:key:z6MkrWiBRWRndUfwJnX9REiH9QHVY7NJRyWvfreMFdL42RwQ",
+    "issuanceDate": "2022-10-03T12:19:52Z",
     "proof": {
         "type": "Ed25519Signature2018",
         "proofPurpose": "assertionMethod",
-        "verificationMethod": "did:key:z6MknGNm3sAwYNesSZ8MXmdJKkUr3L2rC7hbU1sr1c65XEDg#z6MknGNm3sAwYNesSZ8MXmdJKkUr3L2rC7hbU1sr1c65XEDg",
-        "created": "2022-08-09T12:11:28.018Z",
-        "jws": "eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..IoCSSOIWVOrQYTan75wn7oZBZF_5m7Ka76BaaLkAIZQiQZRDfzPcOkPw3O2fT_FZV-e0KHHnsoI8Qp0gdtHTCw"
+        "verificationMethod": "did:key:z6MkrWiBRWRndUfwJnX9REiH9QHVY7NJRyWvfreMFdL42RwQ#z6MkrWiBRWRndUfwJnX9REiH9QHVY7NJRyWvfreMFdL42RwQ",
+        "created": "2022-08-10T14:23:20.331Z",
+        "jws": "eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..dsY6e9_KAlma8XxNkGS8uT48Gx9ZnC-iYt0L058WWPFqCeS6qgJ_k_EofM-MLZNi_AX1un1Epj64gcdqVpEpBA"
     }
 }
 ```
 
-#### 6 [Consenter] Create a presentation with the self-signed credential
+**Expected Response HTTP Status Code**
+
+`201 Created`
+
+#### 7 [Consenter] Create a presentation with the self-signed credential
 
 The consenter can now create a verifiable presentation for submission.
 
@@ -537,7 +622,7 @@ Send the request as described below.
 
 **Request URL**
 
-`{VC API base url}/v1/vc-api/credentials/issue`
+`{VC API base url}/v1/vc-api/presentations/prove`
 
 **HTTP Verb**
 
@@ -564,7 +649,7 @@ The `challenge` should be value received from the VP Request obtained when initi
         "holder": "<FILL WITH CONSENTER DID>"
     },
     "options": {
-        "verificationMethod": "did:key:z6MknGNm3sAwYNesSZ8MXmdJKkUr3L2rC7hbU1sr1c65XEDg#z6MknGNm3sAwYNesSZ8MXmdJKkUr3L2rC7hbU1sr1c65XEDg",
+        "verificationMethod": "<FILL WITH CONSENTER VERIFICATIONMETHOD ID>",
         "proofPurpose": "authentication",
         "challenge": "<FILL WITH CHALLENGE FROM VP REQUEST>"
     }
@@ -577,25 +662,50 @@ The `challenge` should be value received from the VP Request obtained when initi
 {
     "@context": [
         "https://www.w3.org/2018/credentials/v1",
-        {
-            "consent": "elia:consent",
-            "elia": "https://www.eliagroup.eu/ld-context-2022#"
-        }
+        "https://www.w3.org/2018/credentials/examples/v1"
     ],
     "type": [
-        "VerifiableCredential"
+        "VerifiablePresentation"
     ],
-    "credentialSubject": {
-        "consent": "I consent to such and such"
-    },
-    "issuer": "did:key:z6MknGNm3sAwYNesSZ8MXmdJKkUr3L2rC7hbU1sr1c65XEDg",
-    "issuanceDate": "2019-12-03T12:19:52Z",
+    "verifiableCredential": [
+        {
+            "@context": [
+                "https://www.w3.org/2018/credentials/v1",
+                {
+                    "consent": "elia:consent",
+                    "elia": "https://www.eliagroup.eu/ld-context-2022#"
+                }
+            ],
+            "id": "urn:uuid:49f69fb8-f256-4b2e-b15d-c7ebec3a507e",
+            "type": [
+                "VerifiableCredential"
+            ],
+            "credentialSubject": {
+                "consent": "I consent to such and such"
+            },
+            "issuer": "did:key:z6MkrWiBRWRndUfwJnX9REiH9QHVY7NJRyWvfreMFdL42RwQ",
+            "issuanceDate": "2022-10-03T12:19:52Z",
+            "proof": {
+                "type": "Ed25519Signature2018",
+                "proofPurpose": "assertionMethod",
+                "verificationMethod": "did:key:z6MkrWiBRWRndUfwJnX9REiH9QHVY7NJRyWvfreMFdL42RwQ#z6MkrWiBRWRndUfwJnX9REiH9QHVY7NJRyWvfreMFdL42RwQ",
+                "created": "2022-08-10T14:23:20.331Z",
+                "jws": "eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..dsY6e9_KAlma8XxNkGS8uT48Gx9ZnC-iYt0L058WWPFqCeS6qgJ_k_EofM-MLZNi_AX1un1Epj64gcdqVpEpBA"
+            }
+        }
+    ],
     "proof": {
         "type": "Ed25519Signature2018",
-        "proofPurpose": "assertionMethod",
-        "verificationMethod": "did:key:z6MknGNm3sAwYNesSZ8MXmdJKkUr3L2rC7hbU1sr1c65XEDg#z6MknGNm3sAwYNesSZ8MXmdJKkUr3L2rC7hbU1sr1c65XEDg",
-        "created": "2022-08-09T12:11:28.018Z",
-        "jws": "eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..IoCSSOIWVOrQYTan75wn7oZBZF_5m7Ka76BaaLkAIZQiQZRDfzPcOkPw3O2fT_FZV-e0KHHnsoI8Qp0gdtHTCw"
-    }
+        "proofPurpose": "authentication",
+        "challenge": "67ee0200-6130-4539-94b5-a5726d2fa4af",
+        "verificationMethod": "did:key:z6MkrWiBRWRndUfwJnX9REiH9QHVY7NJRyWvfreMFdL42RwQ#z6MkrWiBRWRndUfwJnX9REiH9QHVY7NJRyWvfreMFdL42RwQ",
+        "created": "2022-08-10T14:30:02.589Z",
+        "jws": "eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..L1qUcxByZUeFyWqwyB4iD5Wgw8iL79_NxQjeQ1Hk2GQ6rgXjUtyNm1g5OaCRP7tfw0807WNIA5_NDLkWxbPPAA"
+    },
+    "holder": "did:key:z6MkrWiBRWRndUfwJnX9REiH9QHVY7NJRyWvfreMFdL42RwQ"
 }
 ```
+
+**Expected Response HTTP Status Code**
+
+`201 Created`
