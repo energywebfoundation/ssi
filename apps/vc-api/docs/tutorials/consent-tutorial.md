@@ -709,3 +709,36 @@ The `challenge` should be value received from the VP Request obtained when initi
 **Expected Response HTTP Status Code**
 
 `201 Created`
+
+#### 8 [Consenter] Continue exchange by submitting the presentation
+
+Continue the exchange by sending the VP in response to the VP Request that was previously received.
+Open the `Vc Api Controller continue Exchange` request in the `vc-api/exchanges/{exchange Id}` folder.
+
+Send the request as described below.
+
+**Request URL**
+
+In the request params, use the `transactionId` and `exchangeId` from the `serviceEndpoint` in the VP Request.
+
+`{VC API base url}/vc-api/exchanges/{exchangeId}/{transactionId}`
+
+**HTTP Verb**
+
+`PUT`
+
+**Request Body**
+
+In the request body, copy the VP that was obtained from the previous step.
+
+**Sample Expected Response Body**
+
+```json
+{
+    "errors": []
+}
+```
+
+**Expected Response HTTP Status Code**
+
+`200 OK`
