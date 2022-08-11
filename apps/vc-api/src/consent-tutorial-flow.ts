@@ -23,10 +23,10 @@ const axiosInstanceIDCApi: Axios = axios.create({
 
 (async () => {
   const exchangeId = uuidv4();
-  await createExchange(exchangeId);
-  const exchangeInitResponse = await initiateIssuanceExchange(exchangeId);
   const didDoc = await generateDid();
-  const credential = await convertInputDescriptorToCredential();
+  await createExchange(exchangeId, didDoc.id);
+  const exchangeInitResponse = await initiateIssuanceExchange(exchangeId);
+  const credential = await convertInputDescriptorToCredential(didDoc.id);
   const selfSignedCredential = await issueSelfSignedCredential(credential, didDoc.id);
 
   const presentation = await createPresentationWithSSCredential(
@@ -50,11 +50,86 @@ const axiosInstanceIDCApi: Axios = axios.create({
   }
 });
 
+function createConstraints(issuerDid: string) {
+  return {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    subject_is_issuer: 'required',
+    fields: [
+      {
+        path: ['$.id'],
+        filter: {
+          const: 'urn:uuid:49f69fb8-f256-4b2e-b15d-c7ebec3a507e'
+        }
+      },
+      {
+        path: ['$.@context'],
+        filter: {
+          $schema: 'http://json-schema.org/draft-07/schema#',
+          type: 'array',
+          items: [
+            {
+              const: 'https://www.w3.org/2018/credentials/v1'
+            },
+            {
+              $ref: '#/definitions/eliaGroupContext'
+            }
+          ],
+          additionalItems: false,
+          minItems: 2,
+          maxItems: 2,
+          definitions: {
+            eliaGroupContext: {
+              type: 'object',
+              properties: {
+                elia: {
+                  const: 'https://www.eliagroup.eu/ld-context-2022#'
+                },
+                consent: {
+                  const: 'elia:consent'
+                }
+              },
+              additionalProperties: false,
+              required: ['elia', 'consent']
+            }
+          }
+        }
+      },
+      {
+        path: ['$.credentialSubject'],
+        filter: {
+          type: 'object',
+          required: ['id', 'consent'],
+          properties: {
+            id: {
+              const: issuerDid
+            },
+            consent: {
+              const: 'I consent to such and such'
+            }
+          },
+          additionalProperties: false
+        }
+      },
+      {
+        path: ['$.type'],
+        filter: {
+          type: 'array',
+          items: [
+            {
+              const: 'VerifiableCredential'
+            }
+          ]
+        }
+      }
+    ]
+  };
+}
+
 /**
  * Step 1
  * {@link https://github.com/energywebfoundation/ssi/blob/docs/IVA-37/add-self-signed-cred-to-tut/apps/vc-api/docs/tutorials/consent-tutorial.md#1-consent-requesting-portal-configure-the-consent-request-exchange}
  */
-async function createExchange(exchangeId: string): Promise<{ errors: unknown[] }> {
+async function createExchange(exchangeId: string, issuerDid: string): Promise<{ errors: unknown[] }> {
   log('creating exchange');
   const { data } = await axiosInstanceVcApi.post('/v1/vc-api/exchanges', {
     exchangeId,
@@ -69,73 +144,7 @@ async function createExchange(exchangeId: string): Promise<{ errors: unknown[] }
                 {
                   id: 'consent_agreement',
                   name: 'Consent Agreement',
-                  constraints: {
-                    subject_is_issuer: 'required',
-                    fields: [
-                      {
-                        path: ['$.id'],
-                        filter: {
-                          const: 'urn:uuid:49f69fb8-f256-4b2e-b15d-c7ebec3a507e'
-                        }
-                      },
-                      {
-                        path: ['$.@context'],
-                        filter: {
-                          $schema: 'http://json-schema.org/draft-07/schema#',
-                          type: 'array',
-                          items: [
-                            {
-                              const: 'https://www.w3.org/2018/credentials/v1'
-                            },
-                            {
-                              $ref: '#/definitions/eliaGroupContext'
-                            }
-                          ],
-                          additionalItems: false,
-                          minItems: 2,
-                          maxItems: 2,
-                          definitions: {
-                            eliaGroupContext: {
-                              type: 'object',
-                              properties: {
-                                elia: {
-                                  const: 'https://www.eliagroup.eu/ld-context-2022#'
-                                },
-                                consent: {
-                                  const: 'elia:consent'
-                                }
-                              },
-                              additionalProperties: false,
-                              required: ['elia', 'consent']
-                            }
-                          }
-                        }
-                      },
-                      {
-                        path: ['$.credentialSubject'],
-                        filter: {
-                          type: 'object',
-                          properties: {
-                            consent: {
-                              const: 'I consent to such and such'
-                            }
-                          },
-                          additionalProperties: false
-                        }
-                      },
-                      {
-                        path: ['$.type'],
-                        filter: {
-                          type: 'array',
-                          items: [
-                            {
-                              const: 'VerifiableCredential'
-                            }
-                          ]
-                        }
-                      }
-                    ]
-                  }
+                  constraints: createConstraints(issuerDid)
                 }
               ]
             }
@@ -192,76 +201,10 @@ async function generateDid(): Promise<DIDDocument> {
  * Step 5
  * {@link https://github.com/energywebfoundation/ssi/blob/docs/IVA-37/add-self-signed-cred-to-tut/apps/vc-api/docs/tutorials/consent-tutorial.md#5-consenter-convert-the-input-descriptor-to-a-credential}
  */
-async function convertInputDescriptorToCredential(): Promise<Record<string, any>> {
+async function convertInputDescriptorToCredential(issuerDid: string): Promise<Record<string, any>> {
   log('converting ID to credential');
   const inputDescriptor = {
-    constraints: {
-      subject_is_issuer: 'required',
-      fields: [
-        {
-          path: ['$.id'],
-          filter: {
-            const: 'urn:uuid:49f69fb8-f256-4b2e-b15d-c7ebec3a507e'
-          }
-        },
-        {
-          path: ['$.@context'],
-          filter: {
-            $schema: 'http://json-schema.org/draft-07/schema#',
-            type: 'array',
-            items: [
-              {
-                const: 'https://www.w3.org/2018/credentials/v1'
-              },
-              {
-                $ref: '#/definitions/eliaGroupContext'
-              }
-            ],
-            additionalItems: false,
-            minItems: 2,
-            maxItems: 2,
-            definitions: {
-              eliaGroupContext: {
-                type: 'object',
-                properties: {
-                  elia: {
-                    const: 'https://www.eliagroup.eu/ld-context-2022#'
-                  },
-                  consent: {
-                    const: 'elia:consent'
-                  }
-                },
-                additionalProperties: false,
-                required: ['elia', 'consent']
-              }
-            }
-          }
-        },
-        {
-          path: ['$.credentialSubject'],
-          filter: {
-            type: 'object',
-            properties: {
-              consent: {
-                const: 'I consent to such and such'
-              }
-            },
-            additionalProperties: false
-          }
-        },
-        {
-          path: ['$.type'],
-          filter: {
-            type: 'array',
-            items: [
-              {
-                const: 'VerifiableCredential'
-              }
-            ]
-          }
-        }
-      ]
-    }
+    constraints: createConstraints(issuerDid)
   };
 
   const { data } = await axiosInstanceIDCApi.post(
