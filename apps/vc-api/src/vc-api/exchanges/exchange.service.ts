@@ -142,7 +142,7 @@ export class ExchangeService {
 
     callback?.forEach((callback) => {
       this.httpService.post(callback.url, body).subscribe({
-        next: (v) => this.logger.log(inspect(v)), // inspect used to replace circular references https://stackoverflow.com/a/18354289
+        next: (v) => this.logger.log(`callback submitted to ${callback.url}, status: ${v.statusText}`), // inspect used to replace circular references https://stackoverflow.com/a/18354289
         error: (e) => this.logger.error(inspect(e))
       });
     });
