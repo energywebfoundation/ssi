@@ -141,7 +141,7 @@ Creating a new request bucket is to help you be sure that you are looking at the
                                             "const":"I consent to such and such"
                                         }
                                       },
-                                      "additionalProperties":false
+                                      "additionalProperties":true
                                   }
                                   },
                                   {
@@ -312,7 +312,7 @@ This is providing the location at which we can continue the credential exchange 
                                                             "const": "I consent to such and such"
                                                         }
                                                     },
-                                                    "additionalProperties": false
+                                                    "additionalProperties": true
                                                 }
                                             },
                                             {
@@ -490,7 +490,7 @@ Send the request as described below.
                           "const": "I consent to such and such"
                       }
                   },
-                  "additionalProperties": false
+                  "additionalProperties": true
               }
           },
           {
@@ -541,9 +541,10 @@ Send the request as described below.
 #### 6 [Consenter] Issue a self-signed credential
 
 The consenter can now sign the credential to create a self-signed verifiable credential.
-The consenter should add the following fields to the credential receive in the previous step:
-- `issuer`
-- `issuanceDate`
+The consenter should add the following fields to the credential received in the previous step:
+- `issuer`: This should be the DID generated in a previous step
+- `credential.credentialSubject.id`: This should be the DID generated in a previous step
+- `issuanceDate`: This should be the date at which the credential is being issued
 
 Send the request as described below.
 
@@ -568,7 +569,8 @@ Send the request as described below.
             }
         ],
         "credentialSubject": {
-            "consent": "I consent to such and such"
+            "consent": "I consent to such and such",
+            "id": "did:key:z6MkrWiBRWRndUfwJnX9REiH9QHVY7NJRyWvfreMFdL42RwQ"
         },
         "type": [
             "VerifiableCredential"
