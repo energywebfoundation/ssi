@@ -240,7 +240,7 @@ This is providing the location at which we can continue the credential exchange 
 {
     "errors": [],
     "vpRequest": {
-        "challenge": "67ee0200-6130-4539-94b5-a5726d2fa4af",
+        "challenge": "4fe8b3e2-fd6d-4862-8476-09e3377046dc",
         "query": [
             {
                 "type": "PresentationDefinition",
@@ -384,17 +384,17 @@ Send the request as described below.
 Response body should be similar to the one below but with a different `did`.
 ```json
 {
-    "id": "did:key:z6MknGNm3sAwYNesSZ8MXmdJKkUr3L2rC7hbU1sr1c65XEDg",
+    "id": "did:key:z6MksYhSPw2gUFQTr9YtLMSHRAVdXjLTyTwaRyxPprWLyZyd",
     "verificationMethod": [
         {
-            "id": "did:key:z6MknGNm3sAwYNesSZ8MXmdJKkUr3L2rC7hbU1sr1c65XEDg#z6MknGNm3sAwYNesSZ8MXmdJKkUr3L2rC7hbU1sr1c65XEDg",
+            "id": "did:key:z6MksYhSPw2gUFQTr9YtLMSHRAVdXjLTyTwaRyxPprWLyZyd#z6MksYhSPw2gUFQTr9YtLMSHRAVdXjLTyTwaRyxPprWLyZyd",
             "type": "Ed25519VerificationKey2018",
-            "controller": "did:key:z6MknGNm3sAwYNesSZ8MXmdJKkUr3L2rC7hbU1sr1c65XEDg",
+            "controller": "did:key:z6MksYhSPw2gUFQTr9YtLMSHRAVdXjLTyTwaRyxPprWLyZyd",
             "publicKeyJwk": {
                 "kty": "OKP",
                 "crv": "Ed25519",
-                "x": "dBOy77jOc7Q94IFTxdadAGCeHUv_9TTjHOyhdOEu9oM",
-                "kid": "Dwzx58ChKo-M2MoCvKjIY5R_h4esOJZvTEi7QVUPfuc"
+                "x": "woyL14p-2u3lXjnFVU681TkDCrOnwahlXhRtkIlh8SQ",
+                "kid": "tkG3yuAS2ODpDrNnfmuxu4sCYFJfrU83b9LEiH9ScdU"
             }
         }
     ]
@@ -568,14 +568,15 @@ Send the request as described below.
                 "consent": "elia:consent"
             }
         ],
-        "credentialSubject": {
-            "consent": "I consent to such and such",
-            "id": "did:key:z6MkrWiBRWRndUfwJnX9REiH9QHVY7NJRyWvfreMFdL42RwQ"
-        },
+        "id": "urn:uuid:49f69fb8-f256-4b2e-b15d-c7ebec3a507e",
         "type": [
             "VerifiableCredential"
         ],
-        "issuer": "did:key:z6MkrWiBRWRndUfwJnX9REiH9QHVY7NJRyWvfreMFdL42RwQ",
+        "credentialSubject": {
+            "consent": "I consent to such and such",
+            "id": "did:key:z6MksYhSPw2gUFQTr9YtLMSHRAVdXjLTyTwaRyxPprWLyZyd"
+        },
+        "issuer": "did:key:z6MksYhSPw2gUFQTr9YtLMSHRAVdXjLTyTwaRyxPprWLyZyd",
         "issuanceDate":"2022-10-03T12:19:52Z"
     },
     "options": {}
@@ -598,16 +599,17 @@ Send the request as described below.
         "VerifiableCredential"
     ],
     "credentialSubject": {
+        "id": "did:key:z6MksYhSPw2gUFQTr9YtLMSHRAVdXjLTyTwaRyxPprWLyZyd",
         "consent": "I consent to such and such"
     },
-    "issuer": "did:key:z6MkrWiBRWRndUfwJnX9REiH9QHVY7NJRyWvfreMFdL42RwQ",
+    "issuer": "did:key:z6MksYhSPw2gUFQTr9YtLMSHRAVdXjLTyTwaRyxPprWLyZyd",
     "issuanceDate": "2022-10-03T12:19:52Z",
     "proof": {
         "type": "Ed25519Signature2018",
         "proofPurpose": "assertionMethod",
-        "verificationMethod": "did:key:z6MkrWiBRWRndUfwJnX9REiH9QHVY7NJRyWvfreMFdL42RwQ#z6MkrWiBRWRndUfwJnX9REiH9QHVY7NJRyWvfreMFdL42RwQ",
-        "created": "2022-08-10T14:23:20.331Z",
-        "jws": "eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..dsY6e9_KAlma8XxNkGS8uT48Gx9ZnC-iYt0L058WWPFqCeS6qgJ_k_EofM-MLZNi_AX1un1Epj64gcdqVpEpBA"
+        "verificationMethod": "did:key:z6MksYhSPw2gUFQTr9YtLMSHRAVdXjLTyTwaRyxPprWLyZyd#z6MksYhSPw2gUFQTr9YtLMSHRAVdXjLTyTwaRyxPprWLyZyd",
+        "created": "2022-08-19T13:06:33.005Z",
+        "jws": "eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..6r3J6qIohC6NRdXiWYWdJz0igFV2f6WSnDIvqUDnM5Qy7vU8UugdlGJiJ4SleiiNs7Hk-jiRprDXaazKpSrbCw"
     }
 }
 ```
@@ -737,7 +739,8 @@ In the request body, copy the VP that was obtained from the previous step.
 
 ```json
 {
-    "errors": []
+    "errors": [],
+    "processingInProgress": false
 }
 ```
 
