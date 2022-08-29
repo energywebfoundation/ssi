@@ -63,7 +63,7 @@ describe('ExchangeService', () => {
     })
   }));
 
-  const repositoryMockFactory = jest.fn(() => {
+  const exchangeRepositoryMockFactory = jest.fn(() => {
     let exchange: ExchangeEntity;
 
     return {
@@ -105,7 +105,7 @@ describe('ExchangeService', () => {
           }
         },
         { provide: getRepositoryToken(TransactionEntity), useFactory: transactionRepositoryMockFactory },
-        { provide: getRepositoryToken(ExchangeEntity), useFactory: repositoryMockFactory }
+        { provide: getRepositoryToken(ExchangeEntity), useFactory: exchangeRepositoryMockFactory }
       ]
     }).compile();
 
