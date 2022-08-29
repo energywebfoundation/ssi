@@ -28,6 +28,7 @@ import { ConfigService } from '@nestjs/config';
 import { ReviewResult, SubmissionReviewDto } from './dtos/submission-review.dto';
 import { VpSubmissionVerifierService } from './vp-submission-verifier.service';
 import { SubmissionVerifier } from './types/submission-verifier';
+import { BadRequestException } from '@nestjs/common';
 
 const baseUrl = 'https://test-exchange.com';
 const exchangeId = 'test-exchange';
@@ -295,6 +296,42 @@ describe('ExchangeService', () => {
             expect(vpRequest.query).toEqual([]);
           });
         });
+      });
+    });
+
+    describe('when unsuccessful VP submission', function () {
+      let exceptionThrown: Error;
+
+      beforeEach(async function () {
+        jest.spyOn(mockSubmissionVerifier, 'verifyVpRequestSubmission').mockResolvedValue({
+          checks: [],
+          warnings: [],
+          errors: ['error 1', 'error 2', 'error 3']
+        });
+
+        try {
+          await service.continueExchange(vp, transactionId);
+        } catch (err) {
+          exceptionThrown = err;
+        }
+      });
+
+      it('should throw exception', async function () {
+        expect(exceptionThrown).toBeDefined();
+      });
+
+      describe('and exception thrown', function () {
+        it('should be a BadRequestException', async function () {
+          expect(exceptionThrown).toBeInstanceOf(BadRequestException);
+        });
+
+        it('should contain errors details', async function () {
+          expect(exceptionThrown['response'].message).toEqual(['error 1', 'error 2', 'error 3']);
+        });
+      });
+
+      it('should make no callback requests', async function () {
+        expect(mockHttpService.post.mock.calls.length).toBe(0);
       });
     });
   });
