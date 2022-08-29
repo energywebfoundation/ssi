@@ -19,7 +19,7 @@ RUN node common/scripts/install-run-rush.js install
 COPY . .
 
 RUN node common/scripts/install-run-rush.js build
-RUN node common/scripts/install-run-rush.js deploy -s credential-from-input-descriptor
+RUN node common/scripts/install-run-rush.js deploy -s input-descriptor-to-credential
 
 RUN cp -R ./apps/input-descriptor-to-credential/dist ./common/deploy/apps/input-descriptor-to-credential
 
