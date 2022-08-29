@@ -46,7 +46,7 @@ const submissionVerificationResult = {
 };
 
 const mockSubmissionVerifier: SubmissionVerifier = {
-  verifyVpRequestSubmission: jest.fn().mockResolvedValue(submissionVerificationResult)
+  verifyVpRequestSubmission: jest.fn()
 };
 
 describe('ExchangeService', () => {
@@ -108,6 +108,10 @@ describe('ExchangeService', () => {
         { provide: getRepositoryToken(ExchangeEntity), useFactory: repositoryMockFactory }
       ]
     }).compile();
+
+    jest
+      .spyOn(mockSubmissionVerifier, 'verifyVpRequestSubmission')
+      .mockResolvedValue(submissionVerificationResult);
 
     service = module.get<ExchangeService>(ExchangeService);
   });
