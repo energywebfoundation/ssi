@@ -91,7 +91,7 @@ describe('E2E Suite', function () {
       });
     });
 
-    describe('CREDENTIAL-FROM-INPUT-DESCRIPTOR', function () {
+    describe('INPUT-DESCRIPTOR-TO-CREDENTIAL', function () {
       const validPayload = {
         constraints: {
           fields: [
