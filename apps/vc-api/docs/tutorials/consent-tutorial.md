@@ -29,7 +29,6 @@ From a technical point of view, in this tutorial, we have access to the server A
 ### Technical workflows
 
 The technical workflow is as follows:
-*TODO* fill in steps once written
 - [1 [Consent-Requesting portal] Configure the consent request exchange](#1-consent-requesting-portal-configure-the-consent-request-exchange)
 - [2 [Consent-Requesting portal] Provide an exchange invitation to the consenter](#2-consent-requesting-portal-provide-an-exchange-invitation-to-the-consenter)
 - [3 [Consenter] Initiate issuance exchange using the request URL](#3-consenter-initiate-issuance-exchange-using-the-request-url)
@@ -69,8 +68,8 @@ To do this, navigate to the `Vc Api Controller create Exchange` under `vc-api/ex
 
 Fill in the `exchangeId` with a unique id, such as a [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier).
 
-Note the `interactService` `type` of `MediatedHttpPresentationService2021`.
-See the [exchanges documentation](../exchanges.md#mediated-exchange-interactions) for information about mediated exchanges.
+Note the `interactService` `type` of `UnmediatedHttpPresentationService2021`.
+See the [exchanges documentation](../exchanges.md#unmediated-exchange-interactions) for information about mediated exchanges.
 
 In order to test the notification functionality, you can use the "[Post Test Server](http://ptsv2.com/)".
 This is a free website which allows you to view sent HTTP POST requests.
@@ -80,6 +79,8 @@ Please only use this service for this tutorial (or other non-production applicat
 To use the "Post Test Server" service with this tutorial, create a new request bucket from the website home page.
 Then, in the resulting page, copy the POST URL, including the domain, into the exchange definition below.
 Creating a new request bucket is to help you be sure that you are looking at the requests you (and not others) have created.
+
+For further documentation regarding the `presentationDefinition`, can be seen [here](../exchanges.md#presentation-definition-queries)
 
 ```json
 {
