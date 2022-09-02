@@ -35,7 +35,7 @@ export function IsStringOrStringArray(validationOptions?: ValidationOptions) {
       constraints: [],
       options: validationOptions,
       validator: {
-        validate(value: any, args: ValidationArguments) {
+        validate(value: unknown) {
           return typeof value === 'string' || Array.isArray(value);
         }
       }

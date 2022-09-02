@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { IsString, IsArray, IsOptional, ValidateNested, IsJSON } from 'class-validator';
+import { IsString, IsArray, IsOptional, ValidateNested } from 'class-validator';
 import { VerifiableCredentialDto } from './verifiable-credential.dto';
 import { IsStringOrStringArray } from './custom-class-validator/is-string-or-string-array';
 import { Presentation } from '../../exchanges/types/presentation';
