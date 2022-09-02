@@ -27,7 +27,7 @@ import { registerDecorator, ValidationOptions, ValidationArguments } from 'class
  * @returns
  */
 export function IsStringOrStringArray(validationOptions?: ValidationOptions) {
-  return function (object: Object, propertyName: string) {
+  return function (object: unknown, propertyName: string) {
     registerDecorator({
       name: 'isStringOrStringArray',
       target: object.constructor,
