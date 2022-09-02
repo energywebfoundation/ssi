@@ -30,7 +30,7 @@ export class PresentationDto implements Presentation {
    * The JSON-LD context of the presentation.
    */
   @IsArray()
-  '@context': Array<string | Record<string, any>>;
+  '@context': Array<string | Record<string, unknown>>;
 
   /**
    * The ID of the presentation.

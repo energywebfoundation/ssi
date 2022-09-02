@@ -30,7 +30,7 @@ export function IsPresentationDefinitionCredentialQuery(validationOptions?: Vali
       constraints: [],
       options: validationOptions,
       validator: {
-        validate(value: IPresentationDefinition, args: ValidationArguments) {
+        validate(value: IPresentationDefinition) {
           const pex = new PEX();
           try {
             const validated = pex.validateDefinition(value);
