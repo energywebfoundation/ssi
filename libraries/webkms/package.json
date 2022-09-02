@@ -21,7 +21,6 @@
     "jose": "^4.0.0"
   },
   "devDependencies": {
-    "@rushstack/eslint-config": "^3.0.0",
     "eslint": "^8.0.0",
     "typescript": "^4.0.0"
   },
