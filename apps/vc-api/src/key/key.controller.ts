@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BadRequestException, Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, NotFoundException, Param, Post } from '@nestjs/common';
 import { ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { validate } from 'class-validator';
 import { KeyDescriptionDto } from './dtos/key-description.dto';
@@ -50,6 +50,12 @@ export class KeyController {
     } catch (error) {
       throw new BadRequestException(error);
     }
-    return await this.keyService.exportKey(keyDescription);
+    const key = await this.keyService.exportKey(keyDescription);
+
+    if (!key) {
+      throw new NotFoundException(`keyId=${keyId} not found`);
+    }
+
+    return key;
   }
 }
