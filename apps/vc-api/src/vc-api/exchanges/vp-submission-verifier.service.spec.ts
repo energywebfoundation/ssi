@@ -308,7 +308,7 @@ describe('VpSubmissionVerifierService', () => {
           }
         ];
 
-        it('should throw an error when subject is not equal to the issuer and subject_is_issuer==true', async function () {
+        it('should throw an error when subject is not equal to the issuer', async function () {
           const vp = {
             '@context': [],
             type: [],
