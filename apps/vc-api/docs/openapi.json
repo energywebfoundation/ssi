@@ -31,7 +31,14 @@
             "application/json": { "schema": { "$ref": "#/components/schemas/CreateDidOptionsDto" } }
           }
         },
-        "responses": { "201": { "description": "" } },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/CreateDidResponseDto" } }
+            }
+          }
+        },
         "tags": ["did"]
       }
     },
@@ -211,6 +218,44 @@
           "keyId": { "type": "string" }
         },
         "required": ["method"]
+      },
+      "JsonWebKeyDto": {
+        "type": "object",
+        "properties": {
+          "alg": { "type": "string" },
+          "crv": { "type": "string" },
+          "e": { "type": "string" },
+          "ext": { "type": "boolean" },
+          "key_ops": { "type": "array", "items": { "type": "string" } },
+          "kid": { "type": "string" },
+          "kty": { "type": "string" },
+          "n": { "type": "string" },
+          "use": { "type": "string" },
+          "x": { "type": "string" },
+          "y": { "type": "string" }
+        },
+        "required": ["kty"]
+      },
+      "VerificationMethodDto": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "type": { "type": "string" },
+          "controller": { "type": "string" },
+          "publicKeyJwk": { "$ref": "#/components/schemas/JsonWebKeyDto" }
+        },
+        "required": ["id", "type", "controller"]
+      },
+      "CreateDidResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "verificationMethod": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/VerificationMethodDto" }
+          }
+        },
+        "required": ["id"]
       },
       "IssueCredentialDto": { "type": "object", "properties": {} },
       "VerifyCredentialDto": { "type": "object", "properties": {} },
