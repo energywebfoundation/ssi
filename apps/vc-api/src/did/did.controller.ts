@@ -17,8 +17,7 @@
 
 import { BadRequestException, Body, Controller, Get, NotFoundException, Param, Post } from '@nestjs/common';
 import { DIDService } from './did.service';
-import { DIDDocument } from 'did-resolver';
-import { ApiBody, ApiCreatedResponse, ApiNotFoundResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { CreateDidOptionsDto } from './dto/create-did-options.dto';
 import { DidMethod } from './types/did-method';
 import { CreateDidResponseDto } from './dto/create-did-response.dto';
@@ -50,14 +49,15 @@ export class DIDController {
   }
 
   @Get('/:did')
+  @ApiOkResponse({ type: CreateDidResponseDto })
   @ApiNotFoundResponse()
-  async getByDID(@Param('did') did: string): Promise<DIDDocument> {
+  async getByDID(@Param('did') did: string): Promise<CreateDidResponseDto> {
     const didDoc = await this.didService.getDID(did);
 
     if (!didDoc) {
       throw new NotFoundException(`${did} not found`);
     }
 
-    return didDoc;
+    return new CreateDidResponseDto(didDoc);
   }
 }
