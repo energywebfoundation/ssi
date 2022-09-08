@@ -17,7 +17,14 @@
 
 import { BadRequestException, Body, Controller, Get, NotFoundException, Param, Post } from '@nestjs/common';
 import { DIDService } from './did.service';
-import { ApiBody, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiCreatedResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags
+} from '@nestjs/swagger';
 import { CreateDidOptionsDto } from './dto/create-did-options.dto';
 import { DidMethod } from './types/did-method';
 import { CreateDidResponseDto } from './dto/create-did-response.dto';
@@ -27,14 +34,10 @@ import { CreateDidResponseDto } from './dto/create-did-response.dto';
 export class DIDController {
   constructor(private didService: DIDService) {}
 
-  /**
-   * Generate a new DID
-   * @param body options for DID creation
-   * @returns DIDDocument of new DID
-   */
   @Post()
   @ApiBody({ type: CreateDidOptionsDto })
   @ApiCreatedResponse({ type: CreateDidResponseDto })
+  @ApiOperation({ description: 'Generate a new DID' })
   async create(@Body() body: CreateDidOptionsDto): Promise<CreateDidResponseDto> {
     if (body.method === DidMethod.ethr) {
       return new CreateDidResponseDto(await this.didService.generateEthrDID());
@@ -51,6 +54,7 @@ export class DIDController {
   @Get('/:did')
   @ApiOkResponse({ type: CreateDidResponseDto })
   @ApiNotFoundResponse()
+  @ApiOperation({ description: 'Retrieve exisiting DID' })
   async getByDID(@Param('did') did: string): Promise<CreateDidResponseDto> {
     const didDoc = await this.didService.getDID(did);
 

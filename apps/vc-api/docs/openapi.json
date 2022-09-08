@@ -24,6 +24,8 @@
     "/v1/did": {
       "post": {
         "operationId": "DIDController_create",
+        "summary": "",
+        "description": "Generate a new DID",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -45,6 +47,8 @@
     "/v1/did/{did}": {
       "get": {
         "operationId": "DIDController_getByDID",
+        "summary": "",
+        "description": "Retrieve exisiting DID",
         "parameters": [{ "name": "did", "required": true, "in": "path", "schema": { "type": "string" } }],
         "responses": {
           "200": {
