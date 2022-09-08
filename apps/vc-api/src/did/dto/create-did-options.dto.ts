@@ -17,6 +17,7 @@
 
 import { IsEnum, IsOptional, IsString } from 'class-validator';
 import { DidMethod } from '../types/did-method';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 /**
  * Create DID options
@@ -27,6 +28,7 @@ export class CreateDidOptionsDto {
    * Must be one of "key" or "ethr"
    */
   @IsEnum(DidMethod)
+  @ApiProperty({ enum: DidMethod, enumName: 'DidMethod' })
   method: DidMethod;
 
   /**
@@ -37,5 +39,6 @@ export class CreateDidOptionsDto {
    */
   @IsString()
   @IsOptional()
+  @ApiPropertyOptional()
   keyId?: string;
 }

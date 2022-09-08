@@ -18,7 +18,7 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { DIDService } from './did.service';
 import { DIDDocument } from 'did-resolver';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { CreateDidOptionsDto } from './dto/create-did-options.dto';
 import { DidMethod } from './types/did-method';
 
@@ -33,6 +33,7 @@ export class DIDController {
    * @returns DIDDocument of new DID
    */
   @Post()
+  @ApiBody({ type: CreateDidOptionsDto })
   async create(@Body() body: CreateDidOptionsDto): Promise<DIDDocument> {
     if (body.method === DidMethod.ethr) {
       return await this.didService.generateEthrDID();

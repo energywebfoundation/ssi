@@ -203,7 +203,15 @@
   "components": {
     "schemas": {
       "KeyPairDto": { "type": "object", "properties": {} },
-      "CreateDidOptionsDto": { "type": "object", "properties": {} },
+      "DidMethod": { "type": "string", "enum": ["key", "ethr"] },
+      "CreateDidOptionsDto": {
+        "type": "object",
+        "properties": {
+          "method": { "$ref": "#/components/schemas/DidMethod" },
+          "keyId": { "type": "string" }
+        },
+        "required": ["method"]
+      },
       "IssueCredentialDto": { "type": "object", "properties": {} },
       "VerifyCredentialDto": { "type": "object", "properties": {} },
       "AuthenticateDto": { "type": "object", "properties": {} },
