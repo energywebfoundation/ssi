@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { DIDService } from './did.service';
 import { DIDDocument } from 'did-resolver';
 import { ApiBody, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
@@ -46,7 +46,7 @@ export class DIDController {
       }
       return new CreateDidResponseDto(await this.didService.generateKeyDID());
     }
-    throw new Error('Requested DID method not supported');
+    throw new BadRequestException('Requested DID method not supported');
   }
 
   @Get('/:did')
