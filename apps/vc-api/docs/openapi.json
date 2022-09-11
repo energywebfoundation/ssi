@@ -235,7 +235,14 @@
   "servers": [],
   "components": {
     "schemas": {
-      "KeyPairDto": { "type": "object", "properties": {} },
+      "KeyPairDto": {
+        "type": "object",
+        "properties": {
+          "privateKey": { "type": "object", "description": "private key JWK" },
+          "publicKey": { "type": "object", "description": "public key JWK" }
+        },
+        "required": ["privateKey", "publicKey"]
+      },
       "KeyDescriptionDto": {
         "type": "object",
         "properties": {

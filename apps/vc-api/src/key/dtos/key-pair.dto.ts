@@ -17,20 +17,17 @@
 
 import { IsObject } from 'class-validator';
 import { JWK } from 'jose';
+import { ApiProperty } from '@nestjs/swagger';
 
 /**
  * KeyPair
  */
 export class KeyPairDto {
-  /**
-   * private key JWK
-   */
   @IsObject()
+  @ApiProperty({ description: 'private key JWK' })
   public privateKey: JWK;
 
-  /**
-   * public key JWK
-   */
   @IsObject()
+  @ApiProperty({ description: 'public key JWK' })
   public publicKey: JWK;
 }
