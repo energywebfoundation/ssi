@@ -236,7 +236,13 @@
   "components": {
     "schemas": {
       "KeyPairDto": { "type": "object", "properties": {} },
-      "KeyDescriptionDto": { "type": "object", "properties": {} },
+      "KeyDescriptionDto": {
+        "type": "object",
+        "properties": {
+          "keyId": { "type": "string", "description": "id of key (for example, JWK thumbprint)" }
+        },
+        "required": ["keyId"]
+      },
       "DidMethod": { "type": "string", "enum": ["key", "ethr"] },
       "CreateDidOptionsDto": {
         "type": "object",
