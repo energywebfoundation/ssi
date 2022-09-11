@@ -19,26 +19,23 @@ import { IsEnum, IsOptional, IsString } from 'class-validator';
 import { DidMethod } from '../types/did-method';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-/**
- * Create DID options
- */
 export class CreateDidOptionsDto {
-  /**
-   * DID Method to create.
-   * Must be one of "key" or "ethr"
-   */
   @IsEnum(DidMethod)
-  @ApiProperty({ enum: DidMethod, enumName: 'DidMethod' })
+  @ApiProperty({
+    enum: DidMethod,
+    enumName: 'DidMethod',
+    description: 'DID Method to create. Must be one of "key" or "ethr"'
+  })
   method: DidMethod;
 
-  /**
-   * id of key (for example, JWK thumbprint).
-   * This key must be known to the server already.
-   * If provided, DID will be created using this key.
-   * Currently only supported for did:key.
-   */
   @IsString()
   @IsOptional()
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({
+    description:
+      'id of key (for example, JWK thumbprint).\n' +
+      'This key must be known to the server already.\n' +
+      'If provided, DID will be created using this key.\n' +
+      'Currently only supported for did:key.'
+  })
   keyId?: string;
 }

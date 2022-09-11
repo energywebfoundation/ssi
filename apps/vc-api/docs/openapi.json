@@ -226,8 +226,14 @@
       "CreateDidOptionsDto": {
         "type": "object",
         "properties": {
-          "method": { "$ref": "#/components/schemas/DidMethod" },
-          "keyId": { "type": "string" }
+          "method": {
+            "description": "DID Method to create. Must be one of \"key\" or \"ethr\"",
+            "$ref": "#/components/schemas/DidMethod"
+          },
+          "keyId": {
+            "type": "string",
+            "description": "id of key (for example, JWK thumbprint).\nThis key must be known to the server already.\nIf provided, DID will be created using this key.\nCurrently only supported for did:key."
+          }
         },
         "required": ["method"]
       },
