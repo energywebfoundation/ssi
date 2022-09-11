@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { IsObject } from 'class-validator';
+import { IsNotEmptyObject } from 'class-validator';
 import { JWK } from 'jose';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -23,11 +23,11 @@ import { ApiProperty } from '@nestjs/swagger';
  * KeyPair
  */
 export class KeyPairDto {
-  @IsObject()
+  @IsNotEmptyObject()
   @ApiProperty({ description: 'private key JWK' })
   public privateKey: JWK;
 
-  @IsObject()
+  @IsNotEmptyObject()
   @ApiProperty({ description: 'public key JWK' })
   public publicKey: JWK;
 }
