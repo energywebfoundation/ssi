@@ -4,12 +4,21 @@
     "/v1/key": {
       "post": {
         "operationId": "KeyController_import",
+        "summary": "",
+        "description": "Import a key",
         "parameters": [],
         "requestBody": {
           "required": true,
           "content": { "application/json": { "schema": { "$ref": "#/components/schemas/KeyPairDto" } } }
         },
-        "responses": { "201": { "description": "" } },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/KeyDescriptionDto" } }
+            }
+          }
+        },
         "tags": ["key"]
       }
     },
@@ -17,7 +26,12 @@
       "get": {
         "operationId": "KeyController_export",
         "parameters": [{ "name": "keyId", "required": true, "in": "path", "schema": { "type": "string" } }],
-        "responses": { "200": { "description": "" } },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/KeyPairDto" } } }
+          }
+        },
         "tags": ["key"]
       }
     },
@@ -222,6 +236,7 @@
   "components": {
     "schemas": {
       "KeyPairDto": { "type": "object", "properties": {} },
+      "KeyDescriptionDto": { "type": "object", "properties": {} },
       "DidMethod": { "type": "string", "enum": ["key", "ethr"] },
       "CreateDidOptionsDto": {
         "type": "object",
