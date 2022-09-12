@@ -50,13 +50,4 @@ export class DIDController {
   async getByDID(@Param('did') did: string): Promise<DIDDocument> {
     return await this.didService.getDID(did);
   }
-
-  /**
-   * Retrieves a verification method
-   * @param id
-   */
-  @Get('/verification-method/:id')
-  async getVerificationMethods(@Param('id') id: string): Promise<VerificationMethod> {
-    throw new Error('Not implemented');
-  }
 }
