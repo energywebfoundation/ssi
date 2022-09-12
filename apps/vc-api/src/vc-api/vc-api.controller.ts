@@ -15,8 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Body, Controller, Get, Param, Post, Put, HttpCode, Res } from '@nestjs/common';
-import { ApiTags, ApiResponse } from '@nestjs/swagger';
+import { Body, Controller, Get, HttpCode, Param, Post, Put, Res } from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { IPresentationDefinition } from '@sphereon/pex';
 import { CredentialsService } from './credentials/credentials.service';
@@ -50,6 +50,11 @@ export class VcApiController {
    * @returns a verifiable credential
    */
   @Post('credentials/issue')
+  @ApiOperation({
+    description:
+      'Issues a credential and returns it in the response body. ' +
+      'Conforms to https://w3c-ccg.github.io/vc-api/issuer.html'
+  })
   async issueCredential(@Body() issueDto: IssueCredentialDto): Promise<VerifiableCredentialDto> {
     return await this.vcApiService.issueCredential(issueDto);
   }
@@ -59,6 +64,9 @@ export class VcApiController {
    * @returns verification results: checks, warnings, errors
    */
   @Post('/credentials/verify')
+  @ApiOperation({
+    description: 'Verify a credential. Conforms to https://w3c-ccg.github.io/vc-api/#verify-credential'
+  })
   @HttpCode(200)
   @ApiResponse({ status: 200, description: 'Verifiable Credential successfully verified' })
   @ApiResponse({ status: 400, description: 'Invalid input' })
@@ -83,6 +91,9 @@ export class VcApiController {
    * @returns a verifiable presentation
    */
   @Post('presentations/prove/authentication')
+  @ApiOperation({
+    description: 'NON-STANDARD endpoint. Issue a DIDAuth presentation that authenticates a DID.'
+  })
   async proveAuthenticationPresentation(
     @Body() authenticateDto: AuthenticateDto
   ): Promise<VerifiablePresentationDto> {
@@ -94,6 +105,10 @@ export class VcApiController {
    * The presentation contains the [presentation submission](https://identity.foundation/presentation-exchange/#presentation-submission) data that the verifier can use.
    */
   @Post('presentations/from')
+  @ApiOperation({
+    description:
+      'Creates a Presentation without Proof by passing in the Presentation Definition, selected Verifiable Credentials'
+  })
   async presentationFrom(
     @Body()
     {
@@ -119,6 +134,10 @@ export class VcApiController {
    * @returns verification results: checks, warnings, errors
    */
   @Post('presentations/verify')
+  @ApiOperation({
+    description:
+      'Verify a presentation. ' + 'Conforms to https://w3c-ccg.github.io/vc-api/#verify-presentation'
+  })
   @HttpCode(200)
   @ApiResponse({ status: 200, description: 'Verifiable Presentation successfully verified!' })
   @ApiResponse({ status: 400, description: 'Invalid or malformed input' })
@@ -139,6 +158,12 @@ export class VcApiController {
    * @returns
    */
   @Post('/exchanges')
+  @ApiOperation({
+    description:
+      'NON-STANDARD endpoint. ' +
+      'Allows the creation of a new exchange by providing the credential query and interaction endpoints. ' +
+      'Similar to https://gataca-io.github.io/vui-core/#/Presentations/post_api_v2_presentations'
+  })
   async createExchange(@Body() exchangeDefinitionDto: ExchangeDefinitionDto) {
     return this.exchangeService.createExchange(exchangeDefinitionDto);
   }
@@ -151,6 +176,9 @@ export class VcApiController {
    * @returns
    */
   @Post('/exchanges/:exchangeId')
+  @ApiOperation({
+    description: 'Initiates an exchange of information. https://w3c-ccg.github.io/vc-api/#initiate-exchange'
+  })
   async initiateExchange(@Param('exchangeId') exchangeId: string): Promise<ExchangeResponseDto> {
     return this.exchangeService.startExchange(exchangeId);
   }
@@ -165,6 +193,11 @@ export class VcApiController {
    * @returns
    */
   @Put('/exchanges/:exchangeId/:transactionId')
+  @ApiOperation({
+    description:
+      'Receives information related to an existing exchange. ' +
+      'https://w3c-ccg.github.io/vc-api/#continue-exchange'
+  })
   @ApiResponse({ status: 200, description: 'Verifiable Presentation successfully submitted and verified' })
   @ApiResponse({
     status: 202,
@@ -197,6 +230,11 @@ export class VcApiController {
    * @returns
    */
   @Get('/exchanges/:exchangeId/:transactionId')
+  @ApiOperation({
+    description:
+      'NON-STANDARD endpoint. Get exchange transaction by id. ' +
+      'Similar to https://identitycache.energyweb.org/api/#/Claims/ClaimController_getByIssuerDid'
+  })
   async getTransaction(
     @Param('exchangeId') exchangeId: string,
     @Param('transactionId') transactionId: string
@@ -224,6 +262,12 @@ export class VcApiController {
    * @returns
    */
   @Post('/exchanges/:exchangeId/:transactionId/review')
+  @ApiOperation({
+    description:
+      'NON-STANDARD endpoint. ' +
+      'Update a transaction review. ' +
+      'Similar to https://github.com/energywebfoundation/ssi-hub/blob/8b860e7cdae4e1b1aa75afeab8b9df7ab26befbb/src/modules/claim/claim.controller.ts#L80'
+  })
   async addSubmissionReview(
     @Param('transactionId') transactionId: string,
     @Body() submissionReview: SubmissionReviewDto

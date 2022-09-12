@@ -79,6 +79,8 @@
     "/v1/vc-api/credentials/issue": {
       "post": {
         "operationId": "VcApiController_issueCredential",
+        "summary": "",
+        "description": "Issues a credential and returns it in the response body. Conforms to https://w3c-ccg.github.io/vc-api/issuer.html",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -93,6 +95,8 @@
     "/v1/vc-api/credentials/verify": {
       "post": {
         "operationId": "VcApiController_verifyCredential",
+        "summary": "",
+        "description": "Verify a credential. Conforms to https://w3c-ccg.github.io/vc-api/#verify-credential",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -110,6 +114,8 @@
     "/v1/vc-api/presentations/prove/authentication": {
       "post": {
         "operationId": "VcApiController_proveAuthenticationPresentation",
+        "summary": "",
+        "description": "NON-STANDARD endpoint. Issue a DIDAuth presentation that authenticates a DID.",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -122,6 +128,8 @@
     "/v1/vc-api/presentations/from": {
       "post": {
         "operationId": "VcApiController_presentationFrom",
+        "summary": "",
+        "description": "Creates a Presentation without Proof by passing in the Presentation Definition, selected Verifiable Credentials",
         "parameters": [],
         "responses": { "201": { "description": "" } },
         "tags": ["vc-api"]
@@ -144,6 +152,8 @@
     "/v1/vc-api/presentations/verify": {
       "post": {
         "operationId": "VcApiController_verifyPresentation",
+        "summary": "",
+        "description": "Verify a presentation. Conforms to https://w3c-ccg.github.io/vc-api/#verify-presentation",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -161,6 +171,8 @@
     "/v1/vc-api/exchanges": {
       "post": {
         "operationId": "VcApiController_createExchange",
+        "summary": "",
+        "description": "NON-STANDARD endpoint. Allows the creation of a new exchange by providing the credential query and interaction endpoints. Similar to https://gataca-io.github.io/vui-core/#/Presentations/post_api_v2_presentations",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -175,6 +187,8 @@
     "/v1/vc-api/exchanges/{exchangeId}": {
       "post": {
         "operationId": "VcApiController_initiateExchange",
+        "summary": "",
+        "description": "Initiates an exchange of information. https://w3c-ccg.github.io/vc-api/#initiate-exchange",
         "parameters": [
           { "name": "exchangeId", "required": true, "in": "path", "schema": { "type": "string" } }
         ],
@@ -185,6 +199,8 @@
     "/v1/vc-api/exchanges/{exchangeId}/{transactionId}": {
       "put": {
         "operationId": "VcApiController_continueExchange",
+        "summary": "",
+        "description": "Receives information related to an existing exchange. https://w3c-ccg.github.io/vc-api/#continue-exchange",
         "parameters": [
           { "name": "exchangeId", "required": true, "in": "path", "schema": { "type": "string" } },
           { "name": "transactionId", "required": true, "in": "path", "schema": { "type": "string" } }
@@ -205,6 +221,8 @@
       },
       "get": {
         "operationId": "VcApiController_getTransaction",
+        "summary": "",
+        "description": "NON-STANDARD endpoint. Get exchange transaction by id. Similar to https://identitycache.energyweb.org/api/#/Claims/ClaimController_getByIssuerDid",
         "parameters": [
           { "name": "exchangeId", "required": true, "in": "path", "schema": { "type": "string" } },
           { "name": "transactionId", "required": true, "in": "path", "schema": { "type": "string" } }
@@ -216,6 +234,8 @@
     "/v1/vc-api/exchanges/{exchangeId}/{transactionId}/review": {
       "post": {
         "operationId": "VcApiController_addSubmissionReview",
+        "summary": "",
+        "description": "NON-STANDARD endpoint. Update a transaction review. Similar to https://github.com/energywebfoundation/ssi-hub/blob/8b860e7cdae4e1b1aa75afeab8b9df7ab26befbb/src/modules/claim/claim.controller.ts#L80",
         "parameters": [
           { "name": "transactionId", "required": true, "in": "path", "schema": { "type": "string" } }
         ],
