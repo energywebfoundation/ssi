@@ -51,14 +51,6 @@
         "tags": ["did"]
       }
     },
-    "/v1/did/label/{did}": {
-      "post": {
-        "operationId": "DIDController_label",
-        "parameters": [],
-        "responses": { "201": { "description": "" } },
-        "tags": ["did"]
-      }
-    },
     "/v1/vc-api/credentials/issue": {
       "post": {
         "operationId": "VcApiController_issueCredential",
