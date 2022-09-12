@@ -16,7 +16,16 @@
  */
 
 import { Body, Controller, Get, HttpCode, Param, Post, Put, Res } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiAcceptedResponse,
+  ApiBadRequestResponse,
+  ApiBody,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiResponse,
+  ApiTags
+} from '@nestjs/swagger';
 import { Response } from 'express';
 import { IPresentationDefinition } from '@sphereon/pex';
 import { CredentialsService } from './credentials/credentials.service';
@@ -35,6 +44,7 @@ import { SubmissionReviewDto } from './exchanges/dtos/submission-review.dto';
 import { PresentationDto } from './credentials/dtos/presentation.dto';
 import { VerificationResultDto } from './credentials/dtos/verification-result.dto';
 import { VerifyPresentationDto } from './credentials/dtos/verify-presentation.dto';
+
 /**
  * VcApi API conforms to W3C vc-api
  * https://github.com/w3c-ccg/vc-api
@@ -55,6 +65,8 @@ export class VcApiController {
       'Issues a credential and returns it in the response body. ' +
       'Conforms to https://w3c-ccg.github.io/vc-api/issuer.html'
   })
+  @ApiBody({ type: IssueCredentialDto })
+  @ApiCreatedResponse({ type: VerifiableCredentialDto })
   async issueCredential(@Body() issueDto: IssueCredentialDto): Promise<VerifiableCredentialDto> {
     return await this.vcApiService.issueCredential(issueDto);
   }
@@ -67,9 +79,10 @@ export class VcApiController {
   @ApiOperation({
     description: 'Verify a credential. Conforms to https://w3c-ccg.github.io/vc-api/#verify-credential'
   })
+  @ApiBody({ type: VerifyCredentialDto })
   @HttpCode(200)
-  @ApiResponse({ status: 200, description: 'Verifiable Credential successfully verified' })
-  @ApiResponse({ status: 400, description: 'Invalid input' })
+  @ApiOkResponse({ description: 'Verifiable Credential successfully verified', type: VerificationResultDto })
+  @ApiBadRequestResponse({ description: 'Invalid input' })
   async verifyCredential(
     @Body()
     verifyCredentialDto: VerifyCredentialDto
@@ -94,6 +107,8 @@ export class VcApiController {
   @ApiOperation({
     description: 'NON-STANDARD endpoint. Issue a DIDAuth presentation that authenticates a DID.'
   })
+  @ApiBody({ type: AuthenticateDto })
+  @ApiCreatedResponse({ type: VerifiablePresentationDto })
   async proveAuthenticationPresentation(
     @Body() authenticateDto: AuthenticateDto
   ): Promise<VerifiablePresentationDto> {
@@ -109,6 +124,8 @@ export class VcApiController {
     description:
       'Creates a Presentation without Proof by passing in the Presentation Definition, selected Verifiable Credentials'
   })
+  //TODO: define request body DTO class
+  @ApiCreatedResponse({ type: PresentationDto })
   async presentationFrom(
     @Body()
     {
@@ -123,6 +140,8 @@ export class VcApiController {
   }
 
   @Post('presentations/prove')
+  @ApiBody({ type: ProvePresentationDto })
+  @ApiCreatedResponse({ type: VerifiablePresentationDto })
   async provePresentation(
     @Body() provePresentationDto: ProvePresentationDto
   ): Promise<VerifiablePresentationDto> {
@@ -138,8 +157,13 @@ export class VcApiController {
     description:
       'Verify a presentation. ' + 'Conforms to https://w3c-ccg.github.io/vc-api/#verify-presentation'
   })
+  @ApiBody({ type: VerifyPresentationDto })
   @HttpCode(200)
-  @ApiResponse({ status: 200, description: 'Verifiable Presentation successfully verified!' })
+  @ApiResponse({
+    status: 200,
+    description: 'Verifiable Presentation successfully verified!',
+    type: VerificationResultDto
+  })
   @ApiResponse({ status: 400, description: 'Invalid or malformed input' })
   async verifyPresentation(
     @Body() verifyPresentation: VerifyPresentationDto
@@ -164,6 +188,8 @@ export class VcApiController {
       'Allows the creation of a new exchange by providing the credential query and interaction endpoints. ' +
       'Similar to https://gataca-io.github.io/vui-core/#/Presentations/post_api_v2_presentations'
   })
+  @ApiBody({ type: ExchangeDefinitionDto })
+  @ApiCreatedResponse() // TODO: define response DTO
   async createExchange(@Body() exchangeDefinitionDto: ExchangeDefinitionDto) {
     return this.exchangeService.createExchange(exchangeDefinitionDto);
   }
@@ -179,6 +205,7 @@ export class VcApiController {
   @ApiOperation({
     description: 'Initiates an exchange of information. https://w3c-ccg.github.io/vc-api/#initiate-exchange'
   })
+  @ApiCreatedResponse({ type: ExchangeResponseDto })
   async initiateExchange(@Param('exchangeId') exchangeId: string): Promise<ExchangeResponseDto> {
     return this.exchangeService.startExchange(exchangeId);
   }
@@ -198,9 +225,12 @@ export class VcApiController {
       'Receives information related to an existing exchange. ' +
       'https://w3c-ccg.github.io/vc-api/#continue-exchange'
   })
-  @ApiResponse({ status: 200, description: 'Verifiable Presentation successfully submitted and verified' })
-  @ApiResponse({
-    status: 202,
+  @ApiBody({ type: VerifiablePresentationDto })
+  @ApiOkResponse({
+    description: 'Verifiable Presentation successfully submitted and verified',
+    type: ExchangeResponseDto
+  })
+  @ApiAcceptedResponse({
     description: 'Verifiable Presentation successfully submitted. Further review in progress.'
   })
   async continueExchange(
@@ -235,10 +265,11 @@ export class VcApiController {
       'NON-STANDARD endpoint. Get exchange transaction by id. ' +
       'Similar to https://identitycache.energyweb.org/api/#/Claims/ClaimController_getByIssuerDid'
   })
+  @ApiOkResponse({ type: GetTransactionDto })
   async getTransaction(
     @Param('exchangeId') exchangeId: string,
     @Param('transactionId') transactionId: string
-  ) {
+  ): Promise<GetTransactionDto> {
     const queryResult = await this.exchangeService.getExchangeTransaction(transactionId);
     const transactionDto = queryResult.transaction
       ? TransactionDto.toDto(queryResult.transaction)
@@ -268,6 +299,8 @@ export class VcApiController {
       'Update a transaction review. ' +
       'Similar to https://github.com/energywebfoundation/ssi-hub/blob/8b860e7cdae4e1b1aa75afeab8b9df7ab26befbb/src/modules/claim/claim.controller.ts#L80'
   })
+  @ApiBody({ type: SubmissionReviewDto })
+  // TODO: define response DTO
   async addSubmissionReview(
     @Param('transactionId') transactionId: string,
     @Body() submissionReview: SubmissionReviewDto

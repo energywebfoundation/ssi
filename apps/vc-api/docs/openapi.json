@@ -88,7 +88,14 @@
             "application/json": { "schema": { "$ref": "#/components/schemas/IssueCredentialDto" } }
           }
         },
-        "responses": { "201": { "description": "" } },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/VerifiableCredentialDto" } }
+            }
+          }
+        },
         "tags": ["vc-api"]
       }
     },
@@ -105,7 +112,12 @@
           }
         },
         "responses": {
-          "200": { "description": "Verifiable Credential successfully verified" },
+          "200": {
+            "description": "Verifiable Credential successfully verified",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/VerificationResultDto" } }
+            }
+          },
           "400": { "description": "Invalid input" }
         },
         "tags": ["vc-api"]
@@ -121,7 +133,14 @@
           "required": true,
           "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AuthenticateDto" } } }
         },
-        "responses": { "201": { "description": "" } },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/VerifiablePresentationDto" } }
+            }
+          }
+        },
         "tags": ["vc-api"]
       }
     },
@@ -131,7 +150,14 @@
         "summary": "",
         "description": "Creates a Presentation without Proof by passing in the Presentation Definition, selected Verifiable Credentials",
         "parameters": [],
-        "responses": { "201": { "description": "" } },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/PresentationDto" } }
+            }
+          }
+        },
         "tags": ["vc-api"]
       }
     },
@@ -145,7 +171,14 @@
             "application/json": { "schema": { "$ref": "#/components/schemas/ProvePresentationDto" } }
           }
         },
-        "responses": { "201": { "description": "" } },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/VerifiablePresentationDto" } }
+            }
+          }
+        },
         "tags": ["vc-api"]
       }
     },
@@ -162,7 +195,12 @@
           }
         },
         "responses": {
-          "200": { "description": "Verifiable Presentation successfully verified!" },
+          "200": {
+            "description": "Verifiable Presentation successfully verified!",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/VerificationResultDto" } }
+            }
+          },
           "400": { "description": "Invalid or malformed input" }
         },
         "tags": ["vc-api"]
@@ -192,7 +230,14 @@
         "parameters": [
           { "name": "exchangeId", "required": true, "in": "path", "schema": { "type": "string" } }
         ],
-        "responses": { "201": { "description": "" } },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/ExchangeResponseDto" } }
+            }
+          }
+        },
         "tags": ["vc-api"]
       }
     },
@@ -212,7 +257,12 @@
           }
         },
         "responses": {
-          "200": { "description": "Verifiable Presentation successfully submitted and verified" },
+          "200": {
+            "description": "Verifiable Presentation successfully submitted and verified",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/ExchangeResponseDto" } }
+            }
+          },
           "202": {
             "description": "Verifiable Presentation successfully submitted. Further review in progress."
           }
@@ -227,7 +277,14 @@
           { "name": "exchangeId", "required": true, "in": "path", "schema": { "type": "string" } },
           { "name": "transactionId", "required": true, "in": "path", "schema": { "type": "string" } }
         ],
-        "responses": { "200": { "description": "" } },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/GetTransactionDto" } }
+            }
+          }
+        },
         "tags": ["vc-api"]
       }
     },
@@ -324,12 +381,17 @@
         "required": ["id"]
       },
       "IssueCredentialDto": { "type": "object", "properties": {} },
+      "VerifiableCredentialDto": { "type": "object", "properties": {} },
       "VerifyCredentialDto": { "type": "object", "properties": {} },
+      "VerificationResultDto": { "type": "object", "properties": {} },
       "AuthenticateDto": { "type": "object", "properties": {} },
+      "VerifiablePresentationDto": { "type": "object", "properties": {} },
+      "PresentationDto": { "type": "object", "properties": {} },
       "ProvePresentationDto": { "type": "object", "properties": {} },
       "VerifyPresentationDto": { "type": "object", "properties": {} },
       "ExchangeDefinitionDto": { "type": "object", "properties": {} },
-      "VerifiablePresentationDto": { "type": "object", "properties": {} },
+      "ExchangeResponseDto": { "type": "object", "properties": {} },
+      "GetTransactionDto": { "type": "object", "properties": {} },
       "SubmissionReviewDto": { "type": "object", "properties": {} }
     }
   }
