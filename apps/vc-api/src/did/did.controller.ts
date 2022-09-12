@@ -17,7 +17,7 @@
 
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { DIDService } from './did.service';
-import { DIDDocument, VerificationMethod } from 'did-resolver';
+import { DIDDocument } from 'did-resolver';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateDidOptionsDto } from './dto/create-did-options.dto';
 import { DidMethod } from './types/did-method';
