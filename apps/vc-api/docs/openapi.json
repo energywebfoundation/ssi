@@ -327,13 +327,13 @@
         },
         "required": ["keyId"]
       },
-      "DidMethod": { "type": "string", "enum": ["key", "ethr"] },
       "CreateDidOptionsDto": {
         "type": "object",
         "properties": {
           "method": {
-            "description": "DID Method to create. Must be one of \"key\" or \"ethr\"",
-            "$ref": "#/components/schemas/DidMethod"
+            "type": "string",
+            "description": "DID Method to create.\nMust be one of \"key\" or \"ethr\"",
+            "enum": ["key", "ethr"]
           },
           "keyId": {
             "type": "string",

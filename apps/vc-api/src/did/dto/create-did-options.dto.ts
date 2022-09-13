@@ -22,9 +22,9 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 export class CreateDidOptionsDto {
   @IsEnum(DidMethod)
   @ApiProperty({
-    enum: DidMethod,
-    enumName: 'DidMethod',
-    description: 'DID Method to create. Must be one of "key" or "ethr"'
+    description: 'DID Method to create.\nMust be one of "key" or "ethr"',
+    enum: DidMethod
+    // enumName: 'DidMethod',
   })
   method: DidMethod;
 
