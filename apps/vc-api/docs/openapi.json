@@ -650,7 +650,22 @@
         },
         "required": ["type"]
       },
-      "VpRequestQueryDto": { "type": "object", "properties": {} },
+      "VpRequestQueryDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Query types as listed in the VP Request spec.\nhttps://w3c-ccg.github.io/vp-request-spec/#query-and-response-types\n\nThe \"PresentationDefinition\" type is proposed here: https://github.com/w3c-ccg/vp-request-spec/issues/7",
+            "enum": ["DIDAuth", "PresentationDefinition"]
+          },
+          "credentialQuery": {
+            "description": "The credential query.\nIt should correspond to the query type.",
+            "type": "array",
+            "items": { "type": "object" }
+          }
+        },
+        "required": ["type", "credentialQuery"]
+      },
       "CallbackConfigurationDto": { "type": "object", "properties": {} },
       "ExchangeDefinitionDto": {
         "type": "object",
