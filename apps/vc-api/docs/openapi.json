@@ -666,7 +666,16 @@
         },
         "required": ["type", "credentialQuery"]
       },
-      "CallbackConfigurationDto": { "type": "object", "properties": {} },
+      "CallbackConfigurationDto": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "URL at a callback notification will be sent:\n- when a VP is submitted to a \"mediated\" exchange\n- after the exchange has completed"
+          }
+        },
+        "required": ["url"]
+      },
       "ExchangeDefinitionDto": {
         "type": "object",
         "properties": {
