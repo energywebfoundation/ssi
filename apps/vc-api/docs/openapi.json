@@ -380,7 +380,27 @@
         },
         "required": ["id"]
       },
-      "CredentialDto": { "type": "object", "properties": {} },
+      "CredentialDto": {
+        "type": "object",
+        "properties": {
+          "@context": {
+            "description": "The JSON-LD context of the credential.",
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "id": { "type": "string", "description": "The ID of the credential." },
+          "type": {
+            "description": "The JSON-LD type of the credential.",
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "issuer": { "type": "string", "description": "A JSON-LD Verifiable Credential Issuer." },
+          "issuanceDate": { "type": "string", "description": "The issuanceDate" },
+          "expirationDate": { "type": "string", "description": "The expirationDate" },
+          "credentialSubject": { "type": "object", "description": "The subject" }
+        },
+        "required": ["@context", "id", "type", "issuer", "issuanceDate", "credentialSubject"]
+      },
       "IssueOptionsDto": { "type": "object", "properties": {} },
       "IssueCredentialDto": {
         "type": "object",
@@ -390,7 +410,27 @@
         },
         "required": ["credential", "options"]
       },
-      "VerifiableCredentialDto": { "type": "object", "properties": {} },
+      "VerifiableCredentialDto": {
+        "type": "object",
+        "properties": {
+          "@context": {
+            "description": "The JSON-LD context of the credential.",
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "id": { "type": "string", "description": "The ID of the credential." },
+          "type": {
+            "description": "The JSON-LD type of the credential.",
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "issuer": { "type": "string", "description": "A JSON-LD Verifiable Credential Issuer." },
+          "issuanceDate": { "type": "string", "description": "The issuanceDate" },
+          "expirationDate": { "type": "string", "description": "The expirationDate" },
+          "credentialSubject": { "type": "object", "description": "The subject" }
+        },
+        "required": ["@context", "id", "type", "issuer", "issuanceDate", "credentialSubject"]
+      },
       "VerifyCredentialDto": { "type": "object", "properties": {} },
       "VerificationResultDto": { "type": "object", "properties": {} },
       "AuthenticateDto": { "type": "object", "properties": {} },
