@@ -380,7 +380,16 @@
         },
         "required": ["id"]
       },
-      "IssueCredentialDto": { "type": "object", "properties": {} },
+      "CredentialDto": { "type": "object", "properties": {} },
+      "IssueOptionsDto": { "type": "object", "properties": {} },
+      "IssueCredentialDto": {
+        "type": "object",
+        "properties": {
+          "credential": { "$ref": "#/components/schemas/CredentialDto" },
+          "options": { "$ref": "#/components/schemas/IssueOptionsDto" }
+        },
+        "required": ["credential", "options"]
+      },
       "VerifiableCredentialDto": { "type": "object", "properties": {} },
       "VerifyCredentialDto": { "type": "object", "properties": {} },
       "VerificationResultDto": { "type": "object", "properties": {} },
