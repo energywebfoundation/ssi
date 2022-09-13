@@ -705,7 +705,17 @@
         },
         "required": ["exchangeId", "interactServices", "query", "isOneTime", "callback"]
       },
-      "VpRequestInteractDto": { "type": "object", "properties": {} },
+      "VpRequestInteractServiceDto": { "type": "object", "properties": {} },
+      "VpRequestInteractDto": {
+        "type": "object",
+        "properties": {
+          "service": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/VpRequestInteractServiceDto" }
+          }
+        },
+        "required": ["service"]
+      },
       "VpRequestDto": {
         "type": "object",
         "properties": {
