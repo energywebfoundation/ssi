@@ -639,7 +639,38 @@
         },
         "required": ["vp", "options"]
       },
-      "ExchangeDefinitionDto": { "type": "object", "properties": {} },
+      "ExchangeInteractServiceDefinitionDto": { "type": "object", "properties": {} },
+      "VpRequestQueryDto": { "type": "object", "properties": {} },
+      "CallbackConfigurationDto": { "type": "object", "properties": {} },
+      "ExchangeDefinitionDto": {
+        "type": "object",
+        "properties": {
+          "exchangeId": {
+            "type": "string",
+            "description": "The id of the exchange. It must be unique in the context of each VC API instance."
+          },
+          "interactServices": {
+            "description": "The Interact Service Definitions are related to the Interaction Types of the Verifiable Presentation Request (VPR) specification.\nHowever, as it is a configuration object, it not identical to a VPR interact services.\nIt can be see as the input data that the application uses to generate VPR interact services during the exchanges.",
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ExchangeInteractServiceDefinitionDto" }
+          },
+          "query": {
+            "description": "Defines requests for data in the Verifiable Presentation",
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/VpRequestQueryDto" }
+          },
+          "isOneTime": {
+            "type": "boolean",
+            "description": "Indicates whether or not the exchange should only be used once.\n\nIf wanting to ensure that the exchange will only be used once, this should be true.\nThis could be useful to, for example, associate the exchange is a specific instance of a business process.\n\nIf wanting to generated an exchange endpoint that can be reused, this should be false.\nThis could be useful to, for example, generate an exchange url that be put on a QR code sticker and distributed"
+          },
+          "callback": {
+            "description": "An array of \"callbacks\" that will be used by VC API to send notifications on the status/result of the exchange.",
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/CallbackConfigurationDto" }
+          }
+        },
+        "required": ["exchangeId", "interactServices", "query", "isOneTime", "callback"]
+      },
       "ExchangeResponseDto": { "type": "object", "properties": {} },
       "GetTransactionDto": { "type": "object", "properties": {} },
       "SubmissionReviewDto": { "type": "object", "properties": {} }
