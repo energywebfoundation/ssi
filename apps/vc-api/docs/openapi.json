@@ -639,7 +639,17 @@
         },
         "required": ["vp", "options"]
       },
-      "ExchangeInteractServiceDefinitionDto": { "type": "object", "properties": {} },
+      "ExchangeInteractServiceDefinitionDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "The \"type\" of the interact service.\nSee Verifiable Presentation Request [Interaction Types](https://w3c-ccg.github.io/vp-request-spec/#interaction-types) for background.",
+            "enum": ["UnmediatedHttpPresentationService2021", "MediatedHttpPresentationService2021"]
+          }
+        },
+        "required": ["type"]
+      },
       "VpRequestQueryDto": { "type": "object", "properties": {} },
       "CallbackConfigurationDto": { "type": "object", "properties": {} },
       "ExchangeDefinitionDto": {
