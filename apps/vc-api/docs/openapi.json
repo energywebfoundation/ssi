@@ -803,7 +803,21 @@
         },
         "required": ["errors", "transaction"]
       },
-      "SubmissionReviewDto": { "type": "object", "properties": {} }
+      "SubmissionReviewDto": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "string",
+            "description": "The judgement made by the reviewer",
+            "enum": ["approved", "rejected"]
+          },
+          "vp": {
+            "description": "A reviewer may want to include credentials (wrapped in a VP) to the holder",
+            "allOf": [{ "$ref": "#/components/schemas/VerifiablePresentationDto" }]
+          }
+        },
+        "required": ["result"]
+      }
     }
   }
 }

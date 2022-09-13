@@ -18,6 +18,7 @@
 import { Type } from 'class-transformer';
 import { IsEnum, IsOptional, ValidateNested } from 'class-validator';
 import { VerifiablePresentationDto } from '../../credentials/dtos/verifiable-presentation.dto';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export enum ReviewResult {
   approved = 'approved',
@@ -25,17 +26,19 @@ export enum ReviewResult {
 }
 
 export class SubmissionReviewDto {
-  /**
-   * The judgement made by the reviewer
-   */
   @IsEnum(ReviewResult)
+  @ApiProperty({
+    description: 'The judgement made by the reviewer',
+    enum: ReviewResult
+    // enumName: 'ReviewResult'
+  })
   result: ReviewResult;
 
-  /**
-   * A reviewer may want to include credentials (wrapped in a VP) to the holder
-   */
   @ValidateNested()
   @IsOptional()
   @Type(() => VerifiablePresentationDto)
+  @ApiPropertyOptional({
+    description: 'A reviewer may want to include credentials (wrapped in a VP) to the holder'
+  })
   vp?: VerifiablePresentationDto;
 }
