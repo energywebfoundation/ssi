@@ -558,7 +558,11 @@
         },
         "required": ["did", "options"]
       },
-      "VerifiablePresentationDto": { "type": "object", "properties": {} },
+      "VerifiablePresentationDto": {
+        "type": "object",
+        "properties": { "proof": { "type": "object", "description": "A JSON-LD Linked Data proof." } },
+        "required": ["proof"]
+      },
       "PresentationDto": { "type": "object", "properties": {} },
       "ProvePresentationDto": { "type": "object", "properties": {} },
       "VerifyPresentationDto": { "type": "object", "properties": {} },
