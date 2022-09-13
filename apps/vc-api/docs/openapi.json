@@ -127,7 +127,7 @@
       "post": {
         "operationId": "VcApiController_proveAuthenticationPresentation",
         "summary": "",
-        "description": "NON-STANDARD endpoint. Issue a DIDAuth presentation that authenticates a DID.",
+        "description": "Issue a DIDAuth presentation that authenticates a DID.\nNot a part of VC-API? Maybe there is a DID Auth spec though?\nA NON-STANDARD endpoint currently.",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -148,7 +148,7 @@
       "post": {
         "operationId": "VcApiController_presentationFrom",
         "summary": "",
-        "description": "Creates a Presentation without Proof by passing in the Presentation Definition, selected Verifiable Credentials",
+        "description": "Creates a Presentation without Proof by passing in the Presentation Definition, selected Verifiable Credentials (TODO: and an optional holder (DID)).\nThe presentation contains the [presentation submission](https://identity.foundation/presentation-exchange/#presentation-submission) data that the verifier can use.",
         "parameters": [],
         "responses": {
           "201": {
@@ -210,7 +210,7 @@
       "post": {
         "operationId": "VcApiController_createExchange",
         "summary": "",
-        "description": "NON-STANDARD endpoint. Allows the creation of a new exchange by providing the credential query and interaction endpoints. Similar to https://gataca-io.github.io/vui-core/#/Presentations/post_api_v2_presentations",
+        "description": "Allows the creation of a new exchange by providing the credential query and interaction endpoints\nA NON-STANDARD endpoint currently.\n\nSimilar to https://gataca-io.github.io/vui-core/#/Presentations/post_api_v2_presentations",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -226,7 +226,7 @@
       "post": {
         "operationId": "VcApiController_initiateExchange",
         "summary": "",
-        "description": "Initiates an exchange of information. https://w3c-ccg.github.io/vc-api/#initiate-exchange",
+        "description": "Initiates an exchange of information.\nhttps://w3c-ccg.github.io/vc-api/#initiate-exchange",
         "parameters": [
           { "name": "exchangeId", "required": true, "in": "path", "schema": { "type": "string" } }
         ],
@@ -245,7 +245,7 @@
       "put": {
         "operationId": "VcApiController_continueExchange",
         "summary": "",
-        "description": "Receives information related to an existing exchange. https://w3c-ccg.github.io/vc-api/#continue-exchange",
+        "description": "Receives information related to an existing exchange.\nhttps://w3c-ccg.github.io/vc-api/#continue-exchange",
         "parameters": [
           { "name": "exchangeId", "required": true, "in": "path", "schema": { "type": "string" } },
           { "name": "transactionId", "required": true, "in": "path", "schema": { "type": "string" } }
@@ -272,7 +272,7 @@
       "get": {
         "operationId": "VcApiController_getTransaction",
         "summary": "",
-        "description": "NON-STANDARD endpoint. Get exchange transaction by id. Similar to https://identitycache.energyweb.org/api/#/Claims/ClaimController_getByIssuerDid",
+        "description": "Get exchange transaction by id\nA NON-STANDARD endpoint currently.\nSimilar to https://identitycache.energyweb.org/api/#/Claims/ClaimController_getByIssuerDid",
         "parameters": [
           { "name": "exchangeId", "required": true, "in": "path", "schema": { "type": "string" } },
           { "name": "transactionId", "required": true, "in": "path", "schema": { "type": "string" } }
@@ -292,7 +292,7 @@
       "post": {
         "operationId": "VcApiController_addSubmissionReview",
         "summary": "",
-        "description": "NON-STANDARD endpoint. Update a transaction review. Similar to https://github.com/energywebfoundation/ssi-hub/blob/8b860e7cdae4e1b1aa75afeab8b9df7ab26befbb/src/modules/claim/claim.controller.ts#L80",
+        "description": "Update a transaction review\nA NON-STANDARD endpoint currently.\nSimilar to https://github.com/energywebfoundation/ssi-hub/blob/8b860e7cdae4e1b1aa75afeab8b9df7ab26befbb/src/modules/claim/claim.controller.ts#L80",
         "parameters": [
           { "name": "transactionId", "required": true, "in": "path", "schema": { "type": "string" } }
         ],

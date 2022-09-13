@@ -55,7 +55,6 @@ export class VcApiController {
   constructor(private vcApiService: CredentialsService, private exchangeService: ExchangeService) {}
 
   /**
-   * Issues a credential and returns it in the response body. Conforms to https://w3c-ccg.github.io/vc-api/issuer.html
    * @param issueDto credential without a proof, and, proof options
    * @returns a verifiable credential
    */
@@ -72,7 +71,6 @@ export class VcApiController {
   }
 
   /**
-   * Verify a credential. Conforms to https://w3c-ccg.github.io/vc-api/#verify-credential
    * @returns verification results: checks, warnings, errors
    */
   @Post('/credentials/verify')
@@ -97,15 +95,15 @@ export class VcApiController {
   // https://w3c-ccg.github.io/vc-api/holder.html
 
   /**
-   * Issue a DIDAuth presentation that authenticates a DID.
-   * Not a part of VC-API? Maybe there is a DID Auth spec though?
-   * A NON-STANDARD endpoint currently.
    * @param authenticateDto DID to authenticate as, and, proof options
    * @returns a verifiable presentation
    */
   @Post('presentations/prove/authentication')
   @ApiOperation({
-    description: 'NON-STANDARD endpoint. Issue a DIDAuth presentation that authenticates a DID.'
+    description:
+      'Issue a DIDAuth presentation that authenticates a DID.\n' +
+      'Not a part of VC-API? Maybe there is a DID Auth spec though?\n' +
+      'A NON-STANDARD endpoint currently.'
   })
   @ApiBody({ type: AuthenticateDto })
   @ApiCreatedResponse({ type: VerifiablePresentationDto })
@@ -115,14 +113,11 @@ export class VcApiController {
     return await this.vcApiService.didAuthenticate(authenticateDto);
   }
 
-  /**
-   * Creates a Presentation without Proof by passing in the Presentation Definition, selected Verifiable Credentials (TODO: and an optional holder (DID)).
-   * The presentation contains the [presentation submission](https://identity.foundation/presentation-exchange/#presentation-submission) data that the verifier can use.
-   */
   @Post('presentations/from')
   @ApiOperation({
     description:
-      'Creates a Presentation without Proof by passing in the Presentation Definition, selected Verifiable Credentials'
+      'Creates a Presentation without Proof by passing in the Presentation Definition, selected Verifiable Credentials (TODO: and an optional holder (DID)).\n' +
+      'The presentation contains the [presentation submission](https://identity.foundation/presentation-exchange/#presentation-submission) data that the verifier can use.'
   })
   //TODO: define request body DTO class
   @ApiCreatedResponse({ type: PresentationDto })
@@ -149,13 +144,11 @@ export class VcApiController {
   }
 
   /**
-   * Verify a presentation. Conforms to https://w3c-ccg.github.io/vc-api/#verify-presentation
    * @returns verification results: checks, warnings, errors
    */
   @Post('presentations/verify')
   @ApiOperation({
-    description:
-      'Verify a presentation. ' + 'Conforms to https://w3c-ccg.github.io/vc-api/#verify-presentation'
+    description: 'Verify a presentation. Conforms to https://w3c-ccg.github.io/vc-api/#verify-presentation'
   })
   @ApiBody({ type: VerifyPresentationDto })
   @HttpCode(200)
@@ -172,11 +165,6 @@ export class VcApiController {
   }
 
   /**
-   * Allows the creation of a new exchange by providing the credential query and interaction endpoints
-   * A NON-STANDARD endpoint currently.
-   *
-   * Similar to https://gataca-io.github.io/vui-core/#/Presentations/post_api_v2_presentations
-   *
    * TODO: Needs to have special authorization
    * @param exchangeDefinitionDto
    * @returns
@@ -184,8 +172,8 @@ export class VcApiController {
   @Post('/exchanges')
   @ApiOperation({
     description:
-      'NON-STANDARD endpoint. ' +
-      'Allows the creation of a new exchange by providing the credential query and interaction endpoints. ' +
+      'Allows the creation of a new exchange by providing the credential query and interaction endpoints\n' +
+      'A NON-STANDARD endpoint currently.\n\n' +
       'Similar to https://gataca-io.github.io/vui-core/#/Presentations/post_api_v2_presentations'
   })
   @ApiBody({ type: ExchangeDefinitionDto })
@@ -194,35 +182,19 @@ export class VcApiController {
     return this.exchangeService.createExchange(exchangeDefinitionDto);
   }
 
-  /**
-   * Initiates an exchange of information.
-   * https://w3c-ccg.github.io/vc-api/#initiate-exchange
-   *
-   * @param exchangeId
-   * @returns
-   */
   @Post('/exchanges/:exchangeId')
   @ApiOperation({
-    description: 'Initiates an exchange of information. https://w3c-ccg.github.io/vc-api/#initiate-exchange'
+    description: 'Initiates an exchange of information.\nhttps://w3c-ccg.github.io/vc-api/#initiate-exchange'
   })
   @ApiCreatedResponse({ type: ExchangeResponseDto })
   async initiateExchange(@Param('exchangeId') exchangeId: string): Promise<ExchangeResponseDto> {
     return this.exchangeService.startExchange(exchangeId);
   }
 
-  /**
-   * Receives information related to an existing exchange.
-   * https://w3c-ccg.github.io/vc-api/#continue-exchange
-   *
-   * @param exchangeId
-   * @param transactionId
-   * @param presentation
-   * @returns
-   */
   @Put('/exchanges/:exchangeId/:transactionId')
   @ApiOperation({
     description:
-      'Receives information related to an existing exchange. ' +
+      'Receives information related to an existing exchange.\n' +
       'https://w3c-ccg.github.io/vc-api/#continue-exchange'
   })
   @ApiBody({ type: VerifiablePresentationDto })
@@ -250,19 +222,15 @@ export class VcApiController {
   }
 
   /**
-   * Get exchange transaction by id
-   * A NON-STANDARD endpoint currently.
-   * Similar to https://identitycache.energyweb.org/api/#/Claims/ClaimController_getByIssuerDid
-   *
    * TODO: Needs to have special authorization. For SSI-Hub it is by DID
    * @param exchangeId id of the exchange
    * @param transactionId id of the exchange transaction
-   * @returns
    */
   @Get('/exchanges/:exchangeId/:transactionId')
   @ApiOperation({
     description:
-      'NON-STANDARD endpoint. Get exchange transaction by id. ' +
+      'Get exchange transaction by id\n' +
+      'A NON-STANDARD endpoint currently.\n' +
       'Similar to https://identitycache.energyweb.org/api/#/Claims/ClaimController_getByIssuerDid'
   })
   @ApiOkResponse({ type: GetTransactionDto })
@@ -282,21 +250,16 @@ export class VcApiController {
   }
 
   /**
-   * Update a transaction review
-   * A NON-STANDARD endpoint currently.
-   * Similar to https://github.com/energywebfoundation/ssi-hub/blob/8b860e7cdae4e1b1aa75afeab8b9df7ab26befbb/src/modules/claim/claim.controller.ts#L80
-   *
    * TODO: Perhaps reviews are not separate from transactions? Perhaps one updates the transaction directly
    * TODO: Needs to have special authorization
    * @param exchangeId id of the exchange
    * @param transactionId id of the exchange transaction
-   * @returns
    */
   @Post('/exchanges/:exchangeId/:transactionId/review')
   @ApiOperation({
     description:
-      'NON-STANDARD endpoint. ' +
-      'Update a transaction review. ' +
+      'Update a transaction review\n' +
+      'A NON-STANDARD endpoint currently.\n' +
       'Similar to https://github.com/energywebfoundation/ssi-hub/blob/8b860e7cdae4e1b1aa75afeab8b9df7ab26befbb/src/modules/claim/claim.controller.ts#L80'
   })
   @ApiBody({ type: SubmissionReviewDto })
