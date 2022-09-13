@@ -452,7 +452,21 @@
         },
         "required": ["@context", "id", "type", "issuer", "issuanceDate", "credentialSubject", "proof"]
       },
-      "VerifyCredentialDto": { "type": "object", "properties": {} },
+      "VerifyOptionsDto": { "type": "object", "properties": {} },
+      "VerifyCredentialDto": {
+        "type": "object",
+        "properties": {
+          "vc": {
+            "description": "A JSON-LD Verifiable Credential with a proof. https://w3c-ccg.github.io/vc-api/issuer.html#operation/issueCredential",
+            "allOf": [{ "$ref": "#/components/schemas/VerifiableCredentialDto" }]
+          },
+          "options": {
+            "description": "Parameters for verifying a verifiable credential or a verifiable presentation https://w3c-ccg.github.io/vc-api/verifier.html#operation/verifyCredential https://w3c-ccg.github.io/vc-api/verifier.html#operation/verifyPresentation",
+            "allOf": [{ "$ref": "#/components/schemas/VerifyOptionsDto" }]
+          }
+        },
+        "required": ["vc", "options"]
+      },
       "VerificationResultDto": { "type": "object", "properties": {} },
       "AuthenticateDto": { "type": "object", "properties": {} },
       "VerifiablePresentationDto": { "type": "object", "properties": {} },
