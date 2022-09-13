@@ -705,7 +705,30 @@
         },
         "required": ["exchangeId", "interactServices", "query", "isOneTime", "callback"]
       },
-      "ExchangeResponseDto": { "type": "object", "properties": {} },
+      "VpRequestDto": { "type": "object", "properties": {} },
+      "ExchangeResponseDto": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "description": "Any errors encountered during exchange",
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "vpRequest": {
+            "description": "Verifiable Presentation Request.\nShould conform to VP-Request specification.\nWill be returned if a VP is required to obtain more information from requester\nMay not be returned if no further information is required (for example, at the end of the workflow)",
+            "allOf": [{ "$ref": "#/components/schemas/VpRequestDto" }]
+          },
+          "vp": {
+            "description": "If it is an issuance response, then a vp may be provided",
+            "allOf": [{ "$ref": "#/components/schemas/VerifiablePresentationDto" }]
+          },
+          "processingInProgress": {
+            "type": "boolean",
+            "description": "True if an exchange submission is currently being processed or reviewed asyncronously"
+          }
+        },
+        "required": ["errors", "processingInProgress"]
+      },
       "GetTransactionDto": { "type": "object", "properties": {} },
       "SubmissionReviewDto": { "type": "object", "properties": {} }
     }
