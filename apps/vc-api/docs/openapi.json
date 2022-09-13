@@ -447,9 +447,10 @@
           "issuer": { "type": "string", "description": "A JSON-LD Verifiable Credential Issuer." },
           "issuanceDate": { "type": "string", "description": "The issuanceDate" },
           "expirationDate": { "type": "string", "description": "The expirationDate" },
-          "credentialSubject": { "type": "object", "description": "The subject" }
+          "credentialSubject": { "type": "object", "description": "The subject" },
+          "proof": { "type": "object", "description": "A JSON-LD Linked Data proof." }
         },
-        "required": ["@context", "id", "type", "issuer", "issuanceDate", "credentialSubject"]
+        "required": ["@context", "id", "type", "issuer", "issuanceDate", "credentialSubject", "proof"]
       },
       "VerifyCredentialDto": { "type": "object", "properties": {} },
       "VerificationResultDto": { "type": "object", "properties": {} },
