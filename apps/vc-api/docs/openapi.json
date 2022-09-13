@@ -508,7 +508,15 @@
         },
         "required": ["checks", "warnings", "errors"]
       },
-      "AuthenticateDto": { "type": "object", "properties": {} },
+      "ProvePresentationOptionsDto": { "type": "object", "properties": {} },
+      "AuthenticateDto": {
+        "type": "object",
+        "properties": {
+          "did": { "type": "string" },
+          "options": { "$ref": "#/components/schemas/ProvePresentationOptionsDto" }
+        },
+        "required": ["did", "options"]
+      },
       "VerifiablePresentationDto": { "type": "object", "properties": {} },
       "PresentationDto": { "type": "object", "properties": {} },
       "ProvePresentationDto": { "type": "object", "properties": {} },
