@@ -499,7 +499,15 @@
         },
         "required": ["vc", "options"]
       },
-      "VerificationResultDto": { "type": "object", "properties": {} },
+      "VerificationResultDto": {
+        "type": "object",
+        "properties": {
+          "checks": { "description": "The checks performed", "type": "array", "items": { "type": "string" } },
+          "warnings": { "description": "Warnings", "type": "array", "items": { "type": "string" } },
+          "errors": { "description": "Errors", "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["checks", "warnings", "errors"]
+      },
       "AuthenticateDto": { "type": "object", "properties": {} },
       "VerifiablePresentationDto": { "type": "object", "properties": {} },
       "PresentationDto": { "type": "object", "properties": {} },
