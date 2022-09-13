@@ -617,7 +617,14 @@
         },
         "required": ["@context", "type"]
       },
-      "ProvePresentationDto": { "type": "object", "properties": {} },
+      "ProvePresentationDto": {
+        "type": "object",
+        "properties": {
+          "presentation": { "$ref": "#/components/schemas/PresentationDto" },
+          "options": { "$ref": "#/components/schemas/ProvePresentationOptionsDto" }
+        },
+        "required": ["presentation", "options"]
+      },
       "VerifyPresentationDto": { "type": "object", "properties": {} },
       "ExchangeDefinitionDto": { "type": "object", "properties": {} },
       "ExchangeResponseDto": { "type": "object", "properties": {} },
