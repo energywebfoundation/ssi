@@ -560,10 +560,63 @@
       },
       "VerifiablePresentationDto": {
         "type": "object",
-        "properties": { "proof": { "type": "object", "description": "A JSON-LD Linked Data proof." } },
-        "required": ["proof"]
+        "properties": {
+          "@context": {
+            "description": "The JSON-LD context of the presentation.",
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the presentation. The id property is optional and MAY be used to provide a unique identifier for the presentation. https://www.w3.org/TR/vc-data-model/#presentations-0"
+          },
+          "type": {
+            "description": "The JSON-LD type of the presentation.",
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "holder": {
+            "type": "string",
+            "description": "The holder - will be ignored if no proof is present since there is no proof of authority over the credentials"
+          },
+          "verifiableCredential": {
+            "description": "The Verifiable Credentials",
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/VerifiableCredentialDto" }
+          },
+          "proof": { "type": "object", "description": "A JSON-LD Linked Data proof." }
+        },
+        "required": ["@context", "type", "proof"]
       },
-      "PresentationDto": { "type": "object", "properties": {} },
+      "PresentationDto": {
+        "type": "object",
+        "properties": {
+          "@context": {
+            "description": "The JSON-LD context of the presentation.",
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the presentation. The id property is optional and MAY be used to provide a unique identifier for the presentation. https://www.w3.org/TR/vc-data-model/#presentations-0"
+          },
+          "type": {
+            "description": "The JSON-LD type of the presentation.",
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "holder": {
+            "type": "string",
+            "description": "The holder - will be ignored if no proof is present since there is no proof of authority over the credentials"
+          },
+          "verifiableCredential": {
+            "description": "The Verifiable Credentials",
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/VerifiableCredentialDto" }
+          }
+        },
+        "required": ["@context", "type"]
+      },
       "ProvePresentationDto": { "type": "object", "properties": {} },
       "VerifyPresentationDto": { "type": "object", "properties": {} },
       "ExchangeDefinitionDto": { "type": "object", "properties": {} },
