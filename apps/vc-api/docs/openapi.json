@@ -508,7 +508,48 @@
         },
         "required": ["checks", "warnings", "errors"]
       },
-      "ProvePresentationOptionsDto": { "type": "object", "properties": {} },
+      "ProvePresentationOptionsDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "The type of the proof. Default is an appropriate proof type corresponding to the verification method."
+          },
+          "verificationMethod": {
+            "type": "string",
+            "description": "The URI of the verificationMethod used for the proof. Default assertionMethod URI."
+          },
+          "proofPurpose": {
+            "type": "string",
+            "description": "The purpose of the proof. Default 'assertionMethod'.",
+            "enum": [
+              "assertionMethod",
+              "authentication",
+              "keyAgreement",
+              "contactAgreement",
+              "capabilityInvocation",
+              "capabilityDelegation"
+            ]
+          },
+          "created": {
+            "type": "string",
+            "description": "The date and time of the proof (with a maximum accuracy in seconds). Default current system time."
+          },
+          "challenge": {
+            "type": "string",
+            "description": "A challenge provided by the requesting party of the proof. For example 6e62f66e-67de-11eb-b490-ef3eeefa55f2"
+          },
+          "domain": {
+            "type": "string",
+            "description": "The intended domain of validity for the proof. For example website.example"
+          },
+          "credentialStatus": {
+            "type": "object",
+            "description": "The method of credential status to issue the credential including. If omitted credential status will be included."
+          }
+        },
+        "required": ["verificationMethod"]
+      },
       "AuthenticateDto": {
         "type": "object",
         "properties": {
