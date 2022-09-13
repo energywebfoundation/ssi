@@ -705,7 +705,23 @@
         },
         "required": ["exchangeId", "interactServices", "query", "isOneTime", "callback"]
       },
-      "VpRequestDto": { "type": "object", "properties": {} },
+      "VpRequestInteractDto": { "type": "object", "properties": {} },
+      "VpRequestDto": {
+        "type": "object",
+        "properties": {
+          "challenge": {
+            "type": "string",
+            "description": "From https://w3c-ccg.github.io/vp-request-spec/#format :\n\"Challenge that will be digitally signed in the authentication proof\nthat will be attached to the VerifiablePresentation response\""
+          },
+          "query": {
+            "description": "From https://w3c-ccg.github.io/vp-request-spec/#format :\n\"To make a request for one or more objects wrapped in a Verifiable Presentation,\na client constructs a JSON request describing one or more queries that it wishes to perform from the receiver.\"\n\"The query type serves as the main extension point mechanism for requests for data in the presentation.\nThis document defines several common query types.\"",
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/VpRequestQueryDto" }
+          },
+          "interact": { "$ref": "#/components/schemas/VpRequestInteractDto" }
+        },
+        "required": ["challenge", "query", "interact"]
+      },
       "ExchangeResponseDto": {
         "type": "object",
         "properties": {
