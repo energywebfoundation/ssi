@@ -705,7 +705,20 @@
         },
         "required": ["exchangeId", "interactServices", "query", "isOneTime", "callback"]
       },
-      "VpRequestInteractServiceDto": { "type": "object", "properties": {} },
+      "VpRequestInteractServiceDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["UnmediatedHttpPresentationService2021", "MediatedHttpPresentationService2021"]
+          },
+          "serviceEndpoint": {
+            "type": "string",
+            "description": "URL at which the credential exchange can be continued"
+          }
+        },
+        "required": ["type", "serviceEndpoint"]
+      },
       "VpRequestInteractDto": {
         "type": "object",
         "properties": {
