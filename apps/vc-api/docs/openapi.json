@@ -294,6 +294,7 @@
         "summary": "",
         "description": "Update a transaction review\nA NON-STANDARD endpoint currently.\nSimilar to https://github.com/energywebfoundation/ssi-hub/blob/8b860e7cdae4e1b1aa75afeab8b9df7ab26befbb/src/modules/claim/claim.controller.ts#L80",
         "parameters": [
+          { "name": "exchangeId", "required": true, "in": "path", "schema": { "type": "string" } },
           { "name": "transactionId", "required": true, "in": "path", "schema": { "type": "string" } }
         ],
         "requestBody": {

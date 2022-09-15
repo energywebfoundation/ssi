@@ -265,6 +265,7 @@ export class VcApiController {
   @ApiBody({ type: SubmissionReviewDto })
   // TODO: define response DTO
   async addSubmissionReview(
+    @Param('exchangeId') exchangeId: string,
     @Param('transactionId') transactionId: string,
     @Body() submissionReview: SubmissionReviewDto
   ) {
