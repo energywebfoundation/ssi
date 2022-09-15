@@ -25,8 +25,8 @@ import { ApiProperty } from '@nestjs/swagger';
 export class VpRequestInteractServiceDto {
   @IsEnum(VpRequestInteractServiceType)
   @ApiProperty({
-    enum: VpRequestInteractServiceType
-    // enumName: 'VpRequestInteractServiceType'
+    enum: VpRequestInteractServiceType,
+    enumName: 'VpRequestInteractServiceType'
   })
   type: VpRequestInteractServiceType;
 

@@ -23,8 +23,8 @@ export class CreateDidOptionsDto {
   @IsEnum(DidMethod)
   @ApiProperty({
     description: 'DID Method to create.\nMust be one of "key" or "ethr"',
-    enum: DidMethod
-    // enumName: 'DidMethod',
+    enum: DidMethod,
+    enumName: 'DidMethod'
   })
   method: DidMethod;
 

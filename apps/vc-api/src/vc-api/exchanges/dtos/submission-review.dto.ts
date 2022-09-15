@@ -29,8 +29,8 @@ export class SubmissionReviewDto {
   @IsEnum(ReviewResult)
   @ApiProperty({
     description: 'The judgement made by the reviewer',
-    enum: ReviewResult
-    // enumName: 'ReviewResult'
+    enum: ReviewResult,
+    enumName: 'ReviewResult'
   })
   result: ReviewResult;
 

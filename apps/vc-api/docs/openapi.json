@@ -328,13 +328,13 @@
         },
         "required": ["keyId"]
       },
+      "DidMethod": { "type": "string", "enum": ["key", "ethr"] },
       "CreateDidOptionsDto": {
         "type": "object",
         "properties": {
           "method": {
-            "type": "string",
             "description": "DID Method to create.\nMust be one of \"key\" or \"ethr\"",
-            "enum": ["key", "ethr"]
+            "$ref": "#/components/schemas/DidMethod"
           },
           "keyId": {
             "type": "string",
@@ -453,6 +453,17 @@
         },
         "required": ["@context", "id", "type", "issuer", "issuanceDate", "credentialSubject", "proof"]
       },
+      "ProofPurpose": {
+        "type": "string",
+        "enum": [
+          "assertionMethod",
+          "authentication",
+          "keyAgreement",
+          "contactAgreement",
+          "capabilityInvocation",
+          "capabilityDelegation"
+        ]
+      },
       "VerifyOptionsDto": {
         "type": "object",
         "properties": {
@@ -461,16 +472,8 @@
             "description": "The URI of the verificationMethod used for the proof. Default assertionMethod URI."
           },
           "proofPurpose": {
-            "type": "string",
             "description": "The purpose of the proof. Default 'assertionMethod'.",
-            "enum": [
-              "assertionMethod",
-              "authentication",
-              "keyAgreement",
-              "contactAgreement",
-              "capabilityInvocation",
-              "capabilityDelegation"
-            ]
+            "$ref": "#/components/schemas/ProofPurpose"
           },
           "created": {
             "type": "string",
@@ -521,16 +524,8 @@
             "description": "The URI of the verificationMethod used for the proof. Default assertionMethod URI."
           },
           "proofPurpose": {
-            "type": "string",
             "description": "The purpose of the proof. Default 'assertionMethod'.",
-            "enum": [
-              "assertionMethod",
-              "authentication",
-              "keyAgreement",
-              "contactAgreement",
-              "capabilityInvocation",
-              "capabilityDelegation"
-            ]
+            "$ref": "#/components/schemas/ProofPurpose"
           },
           "created": {
             "type": "string",
@@ -640,24 +635,27 @@
         },
         "required": ["vp", "options"]
       },
+      "VpRequestInteractServiceType": {
+        "type": "string",
+        "enum": ["UnmediatedHttpPresentationService2021", "MediatedHttpPresentationService2021"]
+      },
       "ExchangeInteractServiceDefinitionDto": {
         "type": "object",
         "properties": {
           "type": {
-            "type": "string",
             "description": "The \"type\" of the interact service.\nSee Verifiable Presentation Request [Interaction Types](https://w3c-ccg.github.io/vp-request-spec/#interaction-types) for background.",
-            "enum": ["UnmediatedHttpPresentationService2021", "MediatedHttpPresentationService2021"]
+            "$ref": "#/components/schemas/VpRequestInteractServiceType"
           }
         },
         "required": ["type"]
       },
+      "VpRequestQueryType": { "type": "string", "enum": ["DIDAuth", "PresentationDefinition"] },
       "VpRequestQueryDto": {
         "type": "object",
         "properties": {
           "type": {
-            "type": "string",
             "description": "Query types as listed in the VP Request spec.\nhttps://w3c-ccg.github.io/vp-request-spec/#query-and-response-types\n\nThe \"PresentationDefinition\" type is proposed here: https://github.com/w3c-ccg/vp-request-spec/issues/7",
-            "enum": ["DIDAuth", "PresentationDefinition"]
+            "$ref": "#/components/schemas/VpRequestQueryType"
           },
           "credentialQuery": {
             "description": "The credential query.\nIt should correspond to the query type.",
@@ -709,10 +707,7 @@
       "VpRequestInteractServiceDto": {
         "type": "object",
         "properties": {
-          "type": {
-            "type": "string",
-            "enum": ["UnmediatedHttpPresentationService2021", "MediatedHttpPresentationService2021"]
-          },
+          "type": { "$ref": "#/components/schemas/VpRequestInteractServiceType" },
           "serviceEndpoint": {
             "type": "string",
             "description": "URL at which the credential exchange can be continued"
@@ -804,13 +799,13 @@
         },
         "required": ["errors", "transaction"]
       },
+      "ReviewResult": { "type": "string", "enum": ["approved", "rejected"] },
       "SubmissionReviewDto": {
         "type": "object",
         "properties": {
           "result": {
-            "type": "string",
             "description": "The judgement made by the reviewer",
-            "enum": ["approved", "rejected"]
+            "$ref": "#/components/schemas/ReviewResult"
           },
           "vp": {
             "description": "A reviewer may want to include credentials (wrapped in a VP) to the holder",

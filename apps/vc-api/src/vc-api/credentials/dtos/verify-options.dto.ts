@@ -37,8 +37,8 @@ export class VerifyOptionsDto implements VerifyOptions {
   @IsOptional()
   @ApiPropertyOptional({
     description: "The purpose of the proof. Default 'assertionMethod'.",
-    enum: ProofPurpose
-    // enumName: 'ProofPurpose'
+    enum: ProofPurpose,
+    enumName: 'ProofPurpose'
   })
   proofPurpose?: ProofPurpose;
 

@@ -32,8 +32,8 @@ export class VpRequestQueryDto {
       'Query types as listed in the VP Request spec.\n' +
       'https://w3c-ccg.github.io/vp-request-spec/#query-and-response-types\n\n' +
       'The "PresentationDefinition" type is proposed here: https://github.com/w3c-ccg/vp-request-spec/issues/7',
-    enum: VpRequestQueryType
-    // enumName: 'VpRequestQueryType'
+    enum: VpRequestQueryType,
+    enumName: 'VpRequestQueryType'
   })
   type: VpRequestQueryType;
 

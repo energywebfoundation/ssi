@@ -28,8 +28,8 @@ export class ExchangeInteractServiceDefinitionDto {
     description:
       'The "type" of the interact service.\n' +
       'See Verifiable Presentation Request [Interaction Types](https://w3c-ccg.github.io/vp-request-spec/#interaction-types) for background.',
-    enum: VpRequestInteractServiceType
-    // enumName: 'VpRequestInteractServiceType'
+    enum: VpRequestInteractServiceType,
+    enumName: 'VpRequestInteractServiceType'
   })
   type: VpRequestInteractServiceType;
 }

@@ -42,8 +42,8 @@ export class ProvePresentationOptionsDto {
   @IsOptional()
   @ApiPropertyOptional({
     description: "The purpose of the proof. Default 'assertionMethod'.",
-    enum: ProofPurpose
-    // enumName: 'ProofPurpose'
+    enum: ProofPurpose,
+    enumName: 'ProofPurpose'
   })
   proofPurpose?: ProofPurpose;
 
