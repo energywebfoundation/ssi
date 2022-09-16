@@ -19,7 +19,6 @@ import { BadRequestException, ConflictException, Injectable, Logger } from '@nes
 import { HttpService } from '@nestjs/axios';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { inspect } from 'util';
 import { VerifiablePresentationDto } from '../credentials/dtos/verifiable-presentation.dto';
 import { ExchangeEntity } from './entities/exchange.entity';
 import { ExchangeResponseDto } from './dtos/exchange-response.dto';
@@ -140,12 +139,17 @@ export class ExchangeService {
       throw new Error(validationErrors.toString());
     }
 
-    callback?.forEach((callback) => {
-      this.httpService.post(callback.url, body).subscribe({
-        next: (v) => this.logger.log(inspect(v)), // inspect used to replace circular references https://stackoverflow.com/a/18354289
-        error: (e) => this.logger.error(inspect(e))
-      });
-    });
+    Promise.all(
+      callback?.map(async (callback) => {
+        try {
+          await this.httpService.axiosRef.post(callback.url, body);
+          this.logger.log(`callback submitted: ${callback.url}`);
+        } catch (err) {
+          this.logger.error(`error calling callback (${callback.url}): ${err}`);
+        }
+      })
+    ).catch((err) => this.logger.error(err));
+    // TODO: decide how to change logic here to handle callback error
 
     return response;
   }
