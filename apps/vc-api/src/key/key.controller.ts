@@ -46,7 +46,7 @@ export class KeyController {
     const keyDescription = new KeyDescriptionDto();
     keyDescription.keyId = keyId;
     try {
-      validate(keyDescription);
+      await validate(keyDescription);
     } catch (error) {
       throw new BadRequestException(error);
     }
