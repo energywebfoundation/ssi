@@ -654,7 +654,7 @@
         "properties": {
           "presentationDefinition": {
             "type": "object",
-            "description": "An object conforming to the Presentation Definition specification"
+            "description": "An object conforming to the Presentation Definition specification\nhttps://github.com/w3c-ccg/vp-request-spec/issues/7#issuecomment-1067036904"
           }
         },
         "required": ["presentationDefinition"]
