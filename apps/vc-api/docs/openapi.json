@@ -649,7 +649,16 @@
         },
         "required": ["type"]
       },
-      "VpRequestPresentationDefinitionQueryDto": { "type": "object", "properties": {} },
+      "VpRequestPresentationDefinitionQueryDto": {
+        "type": "object",
+        "properties": {
+          "presentationDefinition": {
+            "type": "object",
+            "description": "An object conforming to the Presentation Definition specification"
+          }
+        },
+        "required": ["presentationDefinition"]
+      },
       "VpRequestDidAuthQueryDto": { "type": "object", "properties": {} },
       "VpRequestQueryType": { "type": "string", "enum": ["DIDAuth", "PresentationDefinition"] },
       "VpRequestQueryDto": {
