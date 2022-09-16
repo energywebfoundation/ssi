@@ -649,6 +649,8 @@
         },
         "required": ["type"]
       },
+      "VpRequestPresentationDefinitionQueryDto": { "type": "object", "properties": {} },
+      "VpRequestDidAuthQueryDto": { "type": "object", "properties": {} },
       "VpRequestQueryType": { "type": "string", "enum": ["DIDAuth", "PresentationDefinition"] },
       "VpRequestQueryDto": {
         "type": "object",
@@ -658,9 +660,14 @@
             "$ref": "#/components/schemas/VpRequestQueryType"
           },
           "credentialQuery": {
-            "description": "The credential query.\nIt should correspond to the query type.",
             "type": "array",
-            "items": { "type": "object" }
+            "description": "The credential query.\nIt should correspond to the query type.",
+            "items": {
+              "oneOf": [
+                { "$ref": "#/components/schemas/VpRequestPresentationDefinitionQueryDto" },
+                { "$ref": "#/components/schemas/VpRequestDidAuthQueryDto" }
+              ]
+            }
           }
         },
         "required": ["type", "credentialQuery"]
