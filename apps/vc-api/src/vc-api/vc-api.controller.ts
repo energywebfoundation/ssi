@@ -44,6 +44,7 @@ import { SubmissionReviewDto } from './exchanges/dtos/submission-review.dto';
 import { PresentationDto } from './credentials/dtos/presentation.dto';
 import { VerificationResultDto } from './credentials/dtos/verification-result.dto';
 import { VerifyPresentationDto } from './credentials/dtos/verify-presentation.dto';
+import { BadRequestResponseDto } from '../dtos/bad-request-response.dto';
 
 /**
  * VcApi API conforms to W3C vc-api
@@ -51,6 +52,7 @@ import { VerifyPresentationDto } from './credentials/dtos/verify-presentation.dt
  */
 @ApiTags('vc-api')
 @Controller('vc-api')
+@ApiBadRequestResponse({ type: BadRequestResponseDto })
 export class VcApiController {
   constructor(private vcApiService: CredentialsService, private exchangeService: ExchangeService) {}
 
@@ -80,7 +82,6 @@ export class VcApiController {
   @ApiBody({ type: VerifyCredentialDto })
   @HttpCode(200)
   @ApiOkResponse({ description: 'Verifiable Credential successfully verified', type: VerificationResultDto })
-  @ApiBadRequestResponse({ description: 'Invalid input' })
   async verifyCredential(
     @Body()
     verifyCredentialDto: VerifyCredentialDto

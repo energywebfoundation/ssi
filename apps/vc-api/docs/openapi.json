@@ -94,6 +94,12 @@
             "content": {
               "application/json": { "schema": { "$ref": "#/components/schemas/VerifiableCredentialDto" } }
             }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestResponseDto" } }
+            }
           }
         },
         "tags": ["vc-api"]
@@ -118,7 +124,12 @@
               "application/json": { "schema": { "$ref": "#/components/schemas/VerificationResultDto" } }
             }
           },
-          "400": { "description": "Invalid input" }
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestResponseDto" } }
+            }
+          }
         },
         "tags": ["vc-api"]
       }
@@ -139,6 +150,12 @@
             "content": {
               "application/json": { "schema": { "$ref": "#/components/schemas/VerifiablePresentationDto" } }
             }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestResponseDto" } }
+            }
           }
         },
         "tags": ["vc-api"]
@@ -155,6 +172,12 @@
             "description": "",
             "content": {
               "application/json": { "schema": { "$ref": "#/components/schemas/PresentationDto" } }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestResponseDto" } }
             }
           }
         },
@@ -176,6 +199,12 @@
             "description": "",
             "content": {
               "application/json": { "schema": { "$ref": "#/components/schemas/VerifiablePresentationDto" } }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestResponseDto" } }
             }
           }
         },
@@ -218,7 +247,15 @@
             "application/json": { "schema": { "$ref": "#/components/schemas/ExchangeDefinitionDto" } }
           }
         },
-        "responses": { "201": { "description": "" } },
+        "responses": {
+          "201": { "description": "" },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestResponseDto" } }
+            }
+          }
+        },
         "tags": ["vc-api"]
       }
     },
@@ -235,6 +272,12 @@
             "description": "",
             "content": {
               "application/json": { "schema": { "$ref": "#/components/schemas/ExchangeResponseDto" } }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestResponseDto" } }
             }
           }
         },
@@ -265,6 +308,12 @@
           },
           "202": {
             "description": "Verifiable Presentation successfully submitted. Further review in progress."
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestResponseDto" } }
+            }
           }
         },
         "tags": ["vc-api"]
@@ -282,6 +331,12 @@
             "description": "",
             "content": {
               "application/json": { "schema": { "$ref": "#/components/schemas/GetTransactionDto" } }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestResponseDto" } }
             }
           }
         },
@@ -303,7 +358,15 @@
             "application/json": { "schema": { "$ref": "#/components/schemas/SubmissionReviewDto" } }
           }
         },
-        "responses": { "201": { "description": "" } },
+        "responses": {
+          "201": { "description": "" },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestResponseDto" } }
+            }
+          }
+        },
         "tags": ["vc-api"]
       }
     }
@@ -380,6 +443,20 @@
           }
         },
         "required": ["id"]
+      },
+      "BadRequestResponseDto": {
+        "type": "object",
+        "properties": {
+          "statusCode": { "type": "number", "example": 400 },
+          "message": {
+            "oneOf": [
+              { "type": "string", "example": "error" },
+              { "type": "array", "items": { "type": "string" }, "example": ["error 1", "error 2"] }
+            ]
+          },
+          "error": { "type": "string", "example": "Bad Request" }
+        },
+        "required": ["statusCode", "message", "error"]
       },
       "CredentialDto": {
         "type": "object",
