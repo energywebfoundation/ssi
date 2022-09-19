@@ -277,6 +277,12 @@
             "content": {
               "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestResponseDto" } }
             }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/ConflictResponseDto" } }
+            }
           }
         },
         "tags": ["vc-api"]
@@ -845,6 +851,15 @@
           }
         },
         "required": ["exchangeId", "interactServices", "query", "isOneTime", "callback"]
+      },
+      "ConflictResponseDto": {
+        "type": "object",
+        "properties": {
+          "statusCode": { "type": "number", "example": 404 },
+          "message": { "type": "string" },
+          "error": { "type": "string", "example": "Not Found" }
+        },
+        "required": ["statusCode", "message", "error"]
       },
       "VpRequestInteractServiceDto": {
         "type": "object",

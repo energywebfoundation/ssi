@@ -20,6 +20,7 @@ import {
   ApiAcceptedResponse,
   ApiBadRequestResponse,
   ApiBody,
+  ApiConflictResponse,
   ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
@@ -45,6 +46,7 @@ import { PresentationDto } from './credentials/dtos/presentation.dto';
 import { VerificationResultDto } from './credentials/dtos/verification-result.dto';
 import { VerifyPresentationDto } from './credentials/dtos/verify-presentation.dto';
 import { BadRequestResponseDto } from '../dtos/bad-request-response.dto';
+import { ConflictResponseDto } from '../dtos/conflict-response.dto';
 
 /**
  * VcApi API conforms to W3C vc-api
@@ -179,6 +181,7 @@ export class VcApiController {
   })
   @ApiBody({ type: ExchangeDefinitionDto })
   @ApiCreatedResponse() // TODO: define response DTO
+  @ApiConflictResponse({ type: ConflictResponseDto })
   async createExchange(@Body() exchangeDefinitionDto: ExchangeDefinitionDto) {
     return this.exchangeService.createExchange(exchangeDefinitionDto);
   }
