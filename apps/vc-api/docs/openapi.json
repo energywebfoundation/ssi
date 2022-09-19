@@ -758,12 +758,20 @@
         },
         "required": ["type"]
       },
+      "PresentationDefinitionDto": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "input_descriptors": { "type": "array", "items": { "type": "array" } }
+        },
+        "required": ["id", "input_descriptors"]
+      },
       "VpRequestPresentationDefinitionQueryDto": {
         "type": "object",
         "properties": {
           "presentationDefinition": {
-            "type": "object",
-            "description": "An object conforming to the Presentation Definition specification\nhttps://github.com/w3c-ccg/vp-request-spec/issues/7#issuecomment-1067036904"
+            "description": "An object conforming to the Presentation Definition specification\nhttps://github.com/w3c-ccg/vp-request-spec/issues/7#issuecomment-1067036904",
+            "allOf": [{ "$ref": "#/components/schemas/PresentationDefinitionDto" }]
           }
         },
         "required": ["presentationDefinition"]
