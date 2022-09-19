@@ -18,12 +18,14 @@
 import { IPresentationDefinition } from '@sphereon/pex';
 import { IsPresentationDefinitionCredentialQuery } from './custom-validators/presentation-definition-credential-query.validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmptyObject } from 'class-validator';
 
 /**
  * https://github.com/w3c-ccg/vp-request-spec/issues/7#issuecomment-1067036904
  */
 export class VpRequestPresentationDefinitionQueryDto {
   @IsPresentationDefinitionCredentialQuery()
+  @IsNotEmptyObject()
   @ApiProperty({
     description:
       'An object conforming to the Presentation Definition specification\n' +
