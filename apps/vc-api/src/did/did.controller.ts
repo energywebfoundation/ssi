@@ -30,6 +30,7 @@ import { CreateDidOptionsDto } from './dto/create-did-options.dto';
 import { DidMethod } from './types/did-method';
 import { CreateDidResponseDto } from './dto/create-did-response.dto';
 import { BadRequestResponseDto } from '../dtos/bad-request-response.dto';
+import { NotFoundResponseDto } from '../dtos/not-found-response.dto';
 
 @ApiTags('did')
 @Controller('did')
@@ -56,7 +57,7 @@ export class DIDController {
 
   @Get('/:did')
   @ApiOkResponse({ type: CreateDidResponseDto })
-  @ApiNotFoundResponse()
+  @ApiNotFoundResponse({ type: NotFoundResponseDto })
   @ApiOperation({ description: 'Retrieve exisiting DID' })
   async getByDID(@Param('did') did: string): Promise<CreateDidResponseDto> {
     const didDoc = await this.didService.getDID(did);

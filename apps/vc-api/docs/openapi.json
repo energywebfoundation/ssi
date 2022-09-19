@@ -77,7 +77,12 @@
               "application/json": { "schema": { "$ref": "#/components/schemas/CreateDidResponseDto" } }
             }
           },
-          "404": { "description": "" }
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/NotFoundResponseDto" } }
+            }
+          }
         },
         "tags": ["did"]
       }
@@ -461,6 +466,15 @@
             ]
           },
           "error": { "type": "string", "example": "Bad Request" }
+        },
+        "required": ["statusCode", "message", "error"]
+      },
+      "NotFoundResponseDto": {
+        "type": "object",
+        "properties": {
+          "statusCode": { "type": "number", "example": 404 },
+          "message": { "type": "string" },
+          "error": { "type": "string", "example": "Not Found" }
         },
         "required": ["statusCode", "message", "error"]
       },
