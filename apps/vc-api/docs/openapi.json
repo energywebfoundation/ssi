@@ -793,7 +793,15 @@
                 { "$ref": "#/components/schemas/VpRequestPresentationDefinitionQueryDto" },
                 { "$ref": "#/components/schemas/VpRequestDidAuthQueryDto" }
               ]
-            }
+            },
+            "example": [
+              {
+                "presentationDefinition": {
+                  "id": "00000000-0000-4000-0000-000000000000",
+                  "input_descriptors": []
+                }
+              }
+            ]
           }
         },
         "required": ["type", "credentialQuery"]
@@ -803,7 +811,8 @@
         "properties": {
           "url": {
             "type": "string",
-            "description": "URL at a callback notification will be sent:\n- when a VP is submitted to a \"mediated\" exchange\n- after the exchange has completed"
+            "description": "URL at a callback notification will be sent:\n- when a VP is submitted to a \"mediated\" exchange\n- after the exchange has completed",
+            "example": "https://example.com"
           }
         },
         "required": ["url"]
