@@ -75,12 +75,7 @@ export class ExchangeService {
     }
 
     const baseUrl = this.configService.get<string>('baseUrl');
-    if (!baseUrl) {
-      return {
-        errors: [`base url is not defined`],
-        processingInProgress: false
-      };
-    }
+
     const baseWithControllerPath = `${baseUrl}${API_DEFAULT_VERSION_PREFIX}/vc-api`;
     const transaction = exchange.start(baseWithControllerPath);
     await this.transactionRepository.save(transaction);
