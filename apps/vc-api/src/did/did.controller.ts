@@ -18,6 +18,7 @@
 import { BadRequestException, Body, Controller, Get, NotFoundException, Param, Post } from '@nestjs/common';
 import { DIDService } from './did.service';
 import {
+  ApiBadRequestResponse,
   ApiBody,
   ApiCreatedResponse,
   ApiNotFoundResponse,
@@ -28,6 +29,7 @@ import {
 import { CreateDidOptionsDto } from './dto/create-did-options.dto';
 import { DidMethod } from './types/did-method';
 import { CreateDidResponseDto } from './dto/create-did-response.dto';
+import { BadRequestResponseDto } from '../dtos/bad-request-response.dto';
 
 @ApiTags('did')
 @Controller('did')
@@ -37,6 +39,7 @@ export class DIDController {
   @Post()
   @ApiBody({ type: CreateDidOptionsDto })
   @ApiCreatedResponse({ type: CreateDidResponseDto })
+  @ApiBadRequestResponse({ type: BadRequestResponseDto })
   @ApiOperation({ description: 'Generate a new DID' })
   async create(@Body() body: CreateDidOptionsDto): Promise<CreateDidResponseDto> {
     if (body.method === DidMethod.ethr) {

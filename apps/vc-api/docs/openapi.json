@@ -53,6 +53,12 @@
             "content": {
               "application/json": { "schema": { "$ref": "#/components/schemas/CreateDidResponseDto" } }
             }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestResponseDto" } }
+            }
           }
         },
         "tags": ["did"]
