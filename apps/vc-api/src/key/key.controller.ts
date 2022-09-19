@@ -16,11 +16,21 @@
  */
 
 import { BadRequestException, Body, Controller, Get, NotFoundException, Param, Post } from '@nestjs/common';
-import { ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBadRequestResponse,
+  ApiBody,
+  ApiCreatedResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags
+} from '@nestjs/swagger';
 import { validate } from 'class-validator';
 import { KeyDescriptionDto } from './dtos/key-description.dto';
 import { KeyPairDto } from './dtos/key-pair.dto';
 import { KeyService } from './key.service';
+import { BadRequestResponseDto } from '../dtos/bad-request-response.dto';
+import { NotFoundResponseDto } from '../dtos/not-found-response.dto';
 
 @ApiTags('key')
 @Controller('key')
@@ -35,6 +45,7 @@ export class KeyController {
   @Post()
   @ApiBody({ type: KeyPairDto })
   @ApiCreatedResponse({ type: KeyDescriptionDto })
+  @ApiBadRequestResponse({ type: BadRequestResponseDto })
   @ApiOperation({ description: 'Import a key' })
   async import(@Body() body: KeyPairDto): Promise<KeyDescriptionDto> {
     return await this.keyService.importKey(body);
@@ -42,6 +53,7 @@ export class KeyController {
 
   @Get('/:keyId')
   @ApiOkResponse({ type: KeyPairDto })
+  @ApiNotFoundResponse({ type: NotFoundResponseDto })
   async export(@Param('keyId') keyId: string): Promise<KeyPairDto> {
     const keyDescription = new KeyDescriptionDto();
     keyDescription.keyId = keyId;

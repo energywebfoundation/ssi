@@ -17,6 +17,12 @@
             "content": {
               "application/json": { "schema": { "$ref": "#/components/schemas/KeyDescriptionDto" } }
             }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestResponseDto" } }
+            }
           }
         },
         "tags": ["key"]
@@ -30,6 +36,12 @@
           "200": {
             "description": "",
             "content": { "application/json": { "schema": { "$ref": "#/components/schemas/KeyPairDto" } } }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/NotFoundResponseDto" } }
+            }
           }
         },
         "tags": ["key"]
@@ -402,6 +414,29 @@
         },
         "required": ["keyId"]
       },
+      "BadRequestResponseDto": {
+        "type": "object",
+        "properties": {
+          "statusCode": { "type": "number", "example": 400 },
+          "message": {
+            "oneOf": [
+              { "type": "string", "example": "error" },
+              { "type": "array", "items": { "type": "string" }, "example": ["error 1", "error 2"] }
+            ]
+          },
+          "error": { "type": "string", "example": "Bad Request" }
+        },
+        "required": ["statusCode", "message", "error"]
+      },
+      "NotFoundResponseDto": {
+        "type": "object",
+        "properties": {
+          "statusCode": { "type": "number", "example": 404 },
+          "message": { "type": "string" },
+          "error": { "type": "string", "example": "Not Found" }
+        },
+        "required": ["statusCode", "message", "error"]
+      },
       "DidMethod": { "type": "string", "enum": ["key", "ethr"] },
       "CreateDidOptionsDto": {
         "type": "object",
@@ -454,29 +489,6 @@
           }
         },
         "required": ["id"]
-      },
-      "BadRequestResponseDto": {
-        "type": "object",
-        "properties": {
-          "statusCode": { "type": "number", "example": 400 },
-          "message": {
-            "oneOf": [
-              { "type": "string", "example": "error" },
-              { "type": "array", "items": { "type": "string" }, "example": ["error 1", "error 2"] }
-            ]
-          },
-          "error": { "type": "string", "example": "Bad Request" }
-        },
-        "required": ["statusCode", "message", "error"]
-      },
-      "NotFoundResponseDto": {
-        "type": "object",
-        "properties": {
-          "statusCode": { "type": "number", "example": 404 },
-          "message": { "type": "string" },
-          "error": { "type": "string", "example": "Not Found" }
-        },
-        "required": ["statusCode", "message", "error"]
       },
       "CredentialDto": {
         "type": "object",
