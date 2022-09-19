@@ -148,8 +148,8 @@ describe('ExchangeService', () => {
         isOneTime: false,
         callback: []
       };
-      const result = await service.createExchange(exchangeDef);
-      expect(result.errors).toHaveLength(0);
+
+      await service.createExchange(exchangeDef);
     });
   });
 

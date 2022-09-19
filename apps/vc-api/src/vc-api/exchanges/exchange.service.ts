@@ -47,16 +47,13 @@ export class ExchangeService {
     private httpService: HttpService
   ) {}
 
-  public async createExchange(exchangeDefinitionDto: ExchangeDefinitionDto) {
+  public async createExchange(exchangeDefinitionDto: ExchangeDefinitionDto): Promise<void> {
     if (await this.exchangeRepository.findOneBy({ exchangeId: exchangeDefinitionDto.exchangeId })) {
       throw new ConflictException(`exchangeId='${exchangeDefinitionDto.exchangeId}' already exists`);
     }
 
     const exchange = new ExchangeEntity(exchangeDefinitionDto);
     await this.exchangeRepository.save(exchange);
-    return {
-      errors: []
-    };
   }
 
   /**
