@@ -22,6 +22,7 @@ import {
   ApiBody,
   ApiConflictResponse,
   ApiCreatedResponse,
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiResponse,
@@ -47,6 +48,7 @@ import { VerificationResultDto } from './credentials/dtos/verification-result.dt
 import { VerifyPresentationDto } from './credentials/dtos/verify-presentation.dto';
 import { BadRequestResponseDto } from '../dtos/bad-request-response.dto';
 import { ConflictResponseDto } from '../dtos/conflict-response.dto';
+import { NotFoundResponseDto } from '../dtos/not-found-response.dto';
 
 /**
  * VcApi API conforms to W3C vc-api
@@ -191,6 +193,7 @@ export class VcApiController {
     description: 'Initiates an exchange of information.\nhttps://w3c-ccg.github.io/vc-api/#initiate-exchange'
   })
   @ApiCreatedResponse({ type: ExchangeResponseDto })
+  @ApiNotFoundResponse({ type: NotFoundResponseDto })
   async initiateExchange(@Param('exchangeId') exchangeId: string): Promise<ExchangeResponseDto> {
     return this.exchangeService.startExchange(exchangeId);
   }

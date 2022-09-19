@@ -15,7 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BadRequestException, ConflictException, Injectable, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  Logger,
+  NotFoundException
+} from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -63,12 +69,11 @@ export class ExchangeService {
    */
   public async startExchange(exchangeId: string): Promise<ExchangeResponseDto> {
     const exchange = await this.exchangeRepository.findOneBy({ exchangeId });
+
     if (!exchange) {
-      return {
-        errors: [`${exchangeId}: no exchange definition found for this exchangeId`],
-        processingInProgress: false
-      };
+      throw new NotFoundException(`no exchange definition found for this exchangeId=${exchangeId}`);
     }
+
     const baseUrl = this.configService.get<string>('baseUrl');
     if (!baseUrl) {
       return {
