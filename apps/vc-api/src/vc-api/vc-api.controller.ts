@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Body, Controller, Get, HttpCode, Param, Post, Put, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, NotFoundException, Param, Post, Put, Res } from '@nestjs/common';
 import {
   ApiAcceptedResponse,
   ApiBadRequestResponse,
@@ -212,12 +212,22 @@ export class VcApiController {
   @ApiAcceptedResponse({
     description: 'Verifiable Presentation successfully submitted. Further review in progress.'
   })
+  @ApiNotFoundResponse({ type: NotFoundResponseDto })
   async continueExchange(
     @Param('exchangeId') exchangeId: string,
     @Param('transactionId') transactionId: string,
     @Body() presentation: VerifiablePresentationDto,
     @Res() res: Response
   ): Promise<ExchangeResponseDto | Response> {
+    const { errors: getExchangeErrors } = await this.exchangeService.getExchange(exchangeId);
+
+    if (
+      getExchangeErrors?.length > 0 &&
+      getExchangeErrors.includes(`${exchangeId}: no exchange found for this transaction id`)
+    ) {
+      throw new NotFoundException(`exchangeId=${exchangeId} does not exist`);
+    }
+
     const response = await this.exchangeService.continueExchange(presentation, transactionId);
 
     if (response.processingInProgress) {

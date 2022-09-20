@@ -349,6 +349,12 @@
             "content": {
               "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestResponseDto" } }
             }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/NotFoundResponseDto" } }
+            }
           }
         },
         "tags": ["vc-api"]
