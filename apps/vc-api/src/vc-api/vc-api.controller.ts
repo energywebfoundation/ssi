@@ -287,6 +287,13 @@ export class VcApiController {
     }
 
     const queryResult = await this.exchangeService.getExchangeTransaction(transactionId);
+
+    if (queryResult?.errors.length > 0) {
+      if (queryResult.errors.includes(`${transactionId}: no transaction found for this transaction id`)) {
+        throw new NotFoundException(`transactionId=${transactionId} does not exist`);
+      }
+    }
+
     const transactionDto = queryResult.transaction
       ? TransactionDto.toDto(queryResult.transaction)
       : undefined;
