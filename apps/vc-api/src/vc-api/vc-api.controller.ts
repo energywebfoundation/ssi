@@ -272,10 +272,20 @@ export class VcApiController {
       'Similar to https://identitycache.energyweb.org/api/#/Claims/ClaimController_getByIssuerDid'
   })
   @ApiOkResponse({ type: GetTransactionDto })
+  @ApiNotFoundResponse({ type: NotFoundResponseDto })
   async getTransaction(
     @Param('exchangeId') exchangeId: string,
     @Param('transactionId') transactionId: string
   ): Promise<GetTransactionDto> {
+    const { errors: getExchangeErrors } = await this.exchangeService.getExchange(exchangeId);
+
+    if (
+      getExchangeErrors?.length > 0 &&
+      getExchangeErrors.includes(`${exchangeId}: no exchange found for this transaction id`)
+    ) {
+      throw new NotFoundException(`exchangeId=${exchangeId} does not exist`);
+    }
+
     const queryResult = await this.exchangeService.getExchangeTransaction(transactionId);
     const transactionDto = queryResult.transaction
       ? TransactionDto.toDto(queryResult.transaction)
