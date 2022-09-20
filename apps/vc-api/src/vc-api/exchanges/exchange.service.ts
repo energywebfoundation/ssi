@@ -151,12 +151,9 @@ export class ExchangeService {
     return response;
   }
 
-  public async getExchange(exchangeId: string): Promise<{ errors: string[]; exchange?: ExchangeEntity }> {
+  public async getExchange(exchangeId: string): Promise<ExchangeEntity> {
     const exchange = await this.exchangeRepository.findOneBy({ exchangeId });
-    if (!exchange) {
-      return { errors: [`${exchangeId}: no exchange found for this exchange id`] };
-    }
-    return { errors: [], exchange: exchange };
+    return exchange;
   }
 
   public async getExchangeTransaction(

@@ -230,12 +230,7 @@ export class VcApiController {
     @Body() presentation: VerifiablePresentationDto,
     @Res() res: Response
   ): Promise<ExchangeResponseDto | Response> {
-    const { errors: getExchangeErrors } = await this.exchangeService.getExchange(exchangeId);
-
-    if (
-      getExchangeErrors?.length > 0 &&
-      getExchangeErrors.includes(`${exchangeId}: no exchange found for this exchange id`)
-    ) {
+    if (!(await this.exchangeService.getExchange(exchangeId))) {
       throw new NotFoundException(`exchangeId=${exchangeId} does not exist`);
     }
 
@@ -277,12 +272,7 @@ export class VcApiController {
     @Param('exchangeId') exchangeId: string,
     @Param('transactionId') transactionId: string
   ): Promise<GetTransactionDto> {
-    const { errors: getExchangeErrors } = await this.exchangeService.getExchange(exchangeId);
-
-    if (
-      getExchangeErrors?.length > 0 &&
-      getExchangeErrors.includes(`${exchangeId}: no exchange found for this exchange id`)
-    ) {
+    if (!(await this.exchangeService.getExchange(exchangeId))) {
       throw new NotFoundException(`exchangeId=${exchangeId} does not exist`);
     }
 
@@ -329,12 +319,7 @@ export class VcApiController {
     @Param('transactionId') transactionId: string,
     @Body() submissionReview: SubmissionReviewDto
   ) {
-    const { errors: getExchangeErrors } = await this.exchangeService.getExchange(exchangeId);
-
-    if (
-      getExchangeErrors.length > 0 &&
-      getExchangeErrors.includes(`${exchangeId}: no exchange found for this exchange id`)
-    ) {
+    if (!(await this.exchangeService.getExchange(exchangeId))) {
       throw new NotFoundException(`exchangeId=${exchangeId} does not exist`);
     }
 
