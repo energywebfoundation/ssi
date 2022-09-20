@@ -15,7 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Body, Controller, Get, HttpCode, NotFoundException, Param, Post, Put, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  InternalServerErrorException,
+  NotFoundException,
+  Param,
+  Post,
+  Put,
+  Res
+} from '@nestjs/common';
 import {
   ApiAcceptedResponse,
   ApiBadRequestResponse,
@@ -230,11 +241,14 @@ export class VcApiController {
 
     const response = await this.exchangeService.continueExchange(presentation, transactionId);
 
-    if (
-      response.errors?.length > 0 &&
-      response.errors.includes(`${transactionId}: no transaction found for this transaction id`)
-    ) {
-      throw new NotFoundException(`transactionId=${transactionId} does not exist`);
+    if (response.errors?.length > 0) {
+      if (response.errors.includes(`${transactionId}: no transaction found for this transaction id`)) {
+        throw new NotFoundException(`transactionId=${transactionId} does not exist`);
+      }
+
+      throw new InternalServerErrorException(
+        response.errors.length === 1 ? response.errors[0] : response.errors
+      );
     }
 
     if (response.processingInProgress) {
