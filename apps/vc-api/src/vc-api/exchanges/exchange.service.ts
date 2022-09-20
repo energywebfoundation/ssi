@@ -154,7 +154,7 @@ export class ExchangeService {
   public async getExchange(exchangeId: string): Promise<{ errors: string[]; exchange?: ExchangeEntity }> {
     const exchange = await this.exchangeRepository.findOneBy({ exchangeId });
     if (!exchange) {
-      return { errors: [`${exchangeId}: no exchange found for this transaction id`] };
+      return { errors: [`${exchangeId}: no exchange found for this exchange id`] };
     }
     return { errors: [], exchange: exchange };
   }

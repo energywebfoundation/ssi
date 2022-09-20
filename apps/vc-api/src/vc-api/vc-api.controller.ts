@@ -234,7 +234,7 @@ export class VcApiController {
 
     if (
       getExchangeErrors?.length > 0 &&
-      getExchangeErrors.includes(`${exchangeId}: no exchange found for this transaction id`)
+      getExchangeErrors.includes(`${exchangeId}: no exchange found for this exchange id`)
     ) {
       throw new NotFoundException(`exchangeId=${exchangeId} does not exist`);
     }
@@ -281,7 +281,7 @@ export class VcApiController {
 
     if (
       getExchangeErrors?.length > 0 &&
-      getExchangeErrors.includes(`${exchangeId}: no exchange found for this transaction id`)
+      getExchangeErrors.includes(`${exchangeId}: no exchange found for this exchange id`)
     ) {
       throw new NotFoundException(`exchangeId=${exchangeId} does not exist`);
     }
@@ -333,7 +333,7 @@ export class VcApiController {
 
     if (
       getExchangeErrors.length > 0 &&
-      getExchangeErrors.includes(`${exchangeId}: no exchange found for this transaction id`)
+      getExchangeErrors.includes(`${exchangeId}: no exchange found for this exchange id`)
     ) {
       throw new NotFoundException(`exchangeId=${exchangeId} does not exist`);
     }
