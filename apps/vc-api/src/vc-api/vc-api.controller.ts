@@ -323,11 +323,30 @@ export class VcApiController {
   })
   @ApiBody({ type: SubmissionReviewDto })
   // TODO: define response DTO
+  @ApiNotFoundResponse({ type: NotFoundResponseDto })
   async addSubmissionReview(
     @Param('exchangeId') exchangeId: string,
     @Param('transactionId') transactionId: string,
     @Body() submissionReview: SubmissionReviewDto
   ) {
-    return await this.exchangeService.addReview(transactionId, submissionReview);
+    const { errors: getExchangeErrors } = await this.exchangeService.getExchange(exchangeId);
+
+    if (
+      getExchangeErrors.length > 0 &&
+      getExchangeErrors.includes(`${exchangeId}: no exchange found for this transaction id`)
+    ) {
+      throw new NotFoundException(`exchangeId=${exchangeId} does not exist`);
+    }
+
+    const result = await this.exchangeService.addReview(transactionId, submissionReview);
+
+    if (
+      result.errors.length > 0 &&
+      result.errors.includes(`${transactionId}: no transaction found for this transaction id`)
+    ) {
+      throw new NotFoundException(`transactionId=${transactionId} does not exist`);
+    }
+
+    return result;
   }
 }
