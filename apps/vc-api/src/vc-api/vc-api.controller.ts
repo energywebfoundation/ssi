@@ -292,6 +292,10 @@ export class VcApiController {
       if (queryResult.errors.includes(`${transactionId}: no transaction found for this transaction id`)) {
         throw new NotFoundException(`transactionId=${transactionId} does not exist`);
       }
+
+      throw new InternalServerErrorException(
+        queryResult.errors.length > 1 ? queryResult.errors : queryResult.errors[0]
+      );
     }
 
     const transactionDto = queryResult.transaction
