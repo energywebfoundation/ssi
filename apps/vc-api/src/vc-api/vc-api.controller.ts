@@ -314,6 +314,7 @@ export class VcApiController {
   })
   @ApiBody({ type: SubmissionReviewDto })
   // TODO: define response DTO
+  @ApiCreatedResponse()
   @ApiNotFoundResponse({ type: NotFoundResponseDto })
   async addSubmissionReview(
     @Param('exchangeId') exchangeId: string,

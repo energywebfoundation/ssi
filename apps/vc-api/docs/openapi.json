@@ -406,6 +406,7 @@
           }
         },
         "responses": {
+          "201": { "description": "" },
           "400": {
             "description": "",
             "content": {
