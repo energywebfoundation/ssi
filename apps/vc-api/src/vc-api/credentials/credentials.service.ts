@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {BadRequestException, Injectable } from '@nestjs/common';
+import {BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import {
   issueCredential,
   verifyCredential,
@@ -74,13 +74,21 @@ export class CredentialsService implements CredentialVerifier {
       issueDto.options,
       verificationMethod.id
     );
-    return JSON.parse(
-      await issueCredential(
-        JSON.stringify(issueDto.credential),
-        JSON.stringify(proofOptions),
-        JSON.stringify(key)
-      )
-    );
+
+    const result = await issueCredential(
+      JSON.stringify(issueDto.credential),
+      JSON.stringify(proofOptions),
+      JSON.stringify(key)
+    ).catch((err) => {
+      if (typeof err === 'string') {
+        //TODO: discuss if BadRequestException should be thrown here instead?
+        throw new InternalServerErrorException(`@spruceid/didkit-wasm-node.issueCredential error: ${err}`);
+      }
+
+      throw err;
+    });
+
+    return JSON.parse(result);
   }
 
   async verifyCredential(
