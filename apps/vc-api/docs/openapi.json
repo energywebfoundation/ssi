@@ -535,8 +535,16 @@
             "items": { "type": "string" }
           },
           "issuer": { "type": "string", "description": "A JSON-LD Verifiable Credential Issuer." },
-          "issuanceDate": { "type": "string", "description": "The issuanceDate" },
-          "expirationDate": { "type": "string", "description": "The expirationDate" },
+          "issuanceDate": {
+            "type": "string",
+            "description": "The issuanceDate",
+            "example": "2022-09-21T11:49:03.205Z"
+          },
+          "expirationDate": {
+            "type": "string",
+            "description": "The expirationDate",
+            "example": "2023-09-21T11:49:03.205Z"
+          },
           "credentialSubject": { "type": "object", "description": "The subject" }
         },
         "required": ["@context", "id", "type", "issuer", "issuanceDate", "credentialSubject"]
@@ -585,8 +593,16 @@
             "items": { "type": "string" }
           },
           "issuer": { "type": "string", "description": "A JSON-LD Verifiable Credential Issuer." },
-          "issuanceDate": { "type": "string", "description": "The issuanceDate" },
-          "expirationDate": { "type": "string", "description": "The expirationDate" },
+          "issuanceDate": {
+            "type": "string",
+            "description": "The issuanceDate",
+            "example": "2022-09-21T11:49:03.205Z"
+          },
+          "expirationDate": {
+            "type": "string",
+            "description": "The expirationDate",
+            "example": "2023-09-21T11:49:03.205Z"
+          },
           "credentialSubject": { "type": "object", "description": "The subject" },
           "proof": { "type": "object", "description": "A JSON-LD Linked Data proof." }
         },
