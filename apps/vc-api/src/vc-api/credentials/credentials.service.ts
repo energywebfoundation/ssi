@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable } from '@nestjs/common';
+import {BadRequestException, Injectable } from '@nestjs/common';
 import {
   issueCredential,
   verifyCredential,
@@ -174,6 +174,11 @@ export class CredentialsService implements CredentialVerifier {
 
   private async getVerificationMethodForDid(did: string): Promise<VerificationMethod> {
     const didDoc = await this.didService.getDID(did);
+
+    if (!didDoc) {
+      throw new BadRequestException(`DID="${did}" does not exist`);
+    }
+
     return didDoc.verificationMethod[0];
   }
 
