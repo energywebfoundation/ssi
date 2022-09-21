@@ -303,6 +303,7 @@ export class VcApiController {
    * TODO: Needs to have special authorization
    * @param exchangeId id of the exchange
    * @param transactionId id of the exchange transaction
+   * @param submissionReview
    */
   @Post('/exchanges/:exchangeId/:transactionId/review')
   @ApiOperation({
