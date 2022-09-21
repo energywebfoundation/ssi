@@ -96,7 +96,17 @@ export class CredentialsService implements CredentialVerifier {
     options: VerifyOptionsDto
   ): Promise<VerificationResultDto> {
     const verifyOptions: ISpruceVerifyOptions = options;
-    return JSON.parse(await verifyCredential(JSON.stringify(vc), JSON.stringify(verifyOptions)));
+
+    const result = await verifyCredential(JSON.stringify(vc), JSON.stringify(verifyOptions)).catch((err) => {
+      if (typeof err === 'string') {
+        //TODO: discuss if BadRequestException should be thrown here instead?
+        throw new InternalServerErrorException(`@spruceid/didkit-wasm-node.verifyCredential error: ${err}`);
+      }
+
+      throw err;
+    });
+
+    return JSON.parse(result);
   }
 
   /**
