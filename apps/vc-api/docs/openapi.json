@@ -895,7 +895,7 @@
       "ConflictErrorResponseDto": {
         "type": "object",
         "properties": {
-          "statusCode": { "type": "number", "example": 404 },
+          "statusCode": { "type": "number", "example": 409 },
           "message": { "type": "string" },
           "error": { "type": "string", "example": "Not Found" }
         },
