@@ -162,7 +162,16 @@ export class CredentialsService implements CredentialVerifier {
         JSON.stringify(provePresentationDto.presentation),
         JSON.stringify(proofOptions),
         JSON.stringify(key)
-      )
+      ).catch((err) => {
+        if (typeof err === 'string') {
+          //TODO: discuss if BadRequestException should be thrown here instead?
+          throw new InternalServerErrorException(
+            `@spruceid/didkit-wasm-node.issuePresentation error: ${err}`
+          );
+        }
+
+        throw err;
+      })
     );
   }
 
