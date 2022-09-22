@@ -199,7 +199,18 @@ export class CredentialsService implements CredentialVerifier {
     options: VerifyOptionsDto
   ): Promise<VerificationResultDto> {
     const verifyOptions: ISpruceVerifyOptions = options;
-    return JSON.parse(await verifyPresentation(JSON.stringify(vp), JSON.stringify(verifyOptions)));
+    return JSON.parse(
+      await verifyPresentation(JSON.stringify(vp), JSON.stringify(verifyOptions)).catch((err) => {
+        if (typeof err === 'string') {
+          //TODO: discuss if BadRequestException should be thrown here instead?
+          throw new InternalServerErrorException(
+            `@spruceid/didkit-wasm-node.verifyPresentation error: ${err}`
+          );
+        }
+
+        throw err;
+      })
+    );
   }
 
   private async getVerificationMethodForDid(did: string): Promise<VerificationMethod> {
