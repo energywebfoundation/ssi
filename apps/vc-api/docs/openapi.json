@@ -87,6 +87,14 @@
             "content": {
               "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestErrorResponseDto" } }
             }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InternalServerErrorResponseDto" }
+              }
+            }
           }
         },
         "tags": ["did"]
@@ -109,6 +117,14 @@
             "description": "",
             "content": {
               "application/json": { "schema": { "$ref": "#/components/schemas/NotFoundErrorResponseDto" } }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InternalServerErrorResponseDto" }
+              }
             }
           }
         },

@@ -21,6 +21,7 @@ import {
   ApiBadRequestResponse,
   ApiBody,
   ApiCreatedResponse,
+  ApiInternalServerErrorResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
@@ -31,9 +32,11 @@ import { DidMethod } from './types/did-method';
 import { CreateDidResponseDto } from './dto/create-did-response.dto';
 import { BadRequestErrorResponseDto } from '../dtos/bad-request-error-response.dto';
 import { NotFoundErrorResponseDto } from '../dtos/not-found-error-response.dto';
+import { InternalServerErrorResponseDto } from '../dtos/internal-server-error-response.dto';
 
 @ApiTags('did')
 @Controller('did')
+@ApiInternalServerErrorResponse({ type: InternalServerErrorResponseDto })
 export class DIDController {
   constructor(private didService: DIDService) {}
 
