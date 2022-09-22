@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import {
   issueCredential,
   verifyCredential,
@@ -172,7 +172,7 @@ export class CredentialsService implements CredentialVerifier {
    */
   async didAuthenticate(authenticateDto: AuthenticateDto): Promise<VerifiablePresentationDto> {
     if (authenticateDto.options.proofPurpose !== ProofPurpose.authentication) {
-      throw new Error('proof purpose must be authentication for DIDAuth');
+      throw new BadRequestException('proof purpose must be authentication for DIDAuth');
     }
     const verificationMethodId =
       authenticateDto.options.verificationMethod ??
