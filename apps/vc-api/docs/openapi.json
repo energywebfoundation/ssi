@@ -584,8 +584,8 @@
           "statusCode": { "type": "number", "example": 400 },
           "message": {
             "oneOf": [
-              { "type": "string", "example": "error" },
-              { "type": "array", "items": { "type": "string" }, "example": ["error 1", "error 2"] }
+              { "type": "array", "items": { "type": "string" }, "example": ["error 1", "error 2"] },
+              { "type": "string", "example": "error" }
             ]
           },
           "error": { "type": "string", "example": "Bad Request" }

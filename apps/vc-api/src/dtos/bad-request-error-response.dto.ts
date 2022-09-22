@@ -23,12 +23,12 @@ export class BadRequestErrorResponseDto {
 
   @ApiProperty({
     oneOf: [
-      { type: 'string', example: 'error' },
       {
         type: 'array',
         items: { type: 'string' },
         example: ['error 1', 'error 2']
-      }
+      },
+      { type: 'string', example: 'error' }
     ]
   })
   message: string | string[];
