@@ -123,6 +123,14 @@
             "content": {
               "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestErrorResponseDto" } }
             }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InternalServerErrorResponseDto" }
+              }
+            }
           }
         },
         "tags": ["vc-api"]
@@ -152,6 +160,14 @@
             "content": {
               "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestErrorResponseDto" } }
             }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InternalServerErrorResponseDto" }
+              }
+            }
           }
         },
         "tags": ["vc-api"]
@@ -179,6 +195,14 @@
             "content": {
               "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestErrorResponseDto" } }
             }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InternalServerErrorResponseDto" }
+              }
+            }
           }
         },
         "tags": ["vc-api"]
@@ -201,6 +225,14 @@
             "description": "",
             "content": {
               "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestErrorResponseDto" } }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InternalServerErrorResponseDto" }
+              }
             }
           }
         },
@@ -229,6 +261,14 @@
             "content": {
               "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestErrorResponseDto" } }
             }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InternalServerErrorResponseDto" }
+              }
+            }
           }
         },
         "tags": ["vc-api"]
@@ -253,7 +293,15 @@
               "application/json": { "schema": { "$ref": "#/components/schemas/VerificationResultDto" } }
             }
           },
-          "400": { "description": "Invalid or malformed input" }
+          "400": { "description": "Invalid or malformed input" },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InternalServerErrorResponseDto" }
+              }
+            }
+          }
         },
         "tags": ["vc-api"]
       }
@@ -282,6 +330,14 @@
             "description": "",
             "content": {
               "application/json": { "schema": { "$ref": "#/components/schemas/ConflictErrorResponseDto" } }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InternalServerErrorResponseDto" }
+              }
             }
           }
         },
@@ -313,6 +369,14 @@
             "description": "",
             "content": {
               "application/json": { "schema": { "$ref": "#/components/schemas/NotFoundErrorResponseDto" } }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InternalServerErrorResponseDto" }
+              }
             }
           }
         },
@@ -355,6 +419,14 @@
             "content": {
               "application/json": { "schema": { "$ref": "#/components/schemas/NotFoundErrorResponseDto" } }
             }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InternalServerErrorResponseDto" }
+              }
+            }
           }
         },
         "tags": ["vc-api"]
@@ -384,6 +456,14 @@
             "description": "",
             "content": {
               "application/json": { "schema": { "$ref": "#/components/schemas/NotFoundErrorResponseDto" } }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InternalServerErrorResponseDto" }
+              }
             }
           }
         },
@@ -417,6 +497,14 @@
             "description": "",
             "content": {
               "application/json": { "schema": { "$ref": "#/components/schemas/NotFoundErrorResponseDto" } }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InternalServerErrorResponseDto" }
+              }
             }
           }
         },
@@ -519,6 +607,20 @@
           }
         },
         "required": ["id"]
+      },
+      "InternalServerErrorResponseDto": {
+        "type": "object",
+        "properties": {
+          "statusCode": { "type": "number", "example": 500 },
+          "message": {
+            "oneOf": [
+              { "type": "string", "example": "error" },
+              { "type": "array", "items": { "type": "string" }, "example": ["error 1", "error 2"] }
+            ]
+          },
+          "error": { "type": "string", "example": "Internal Server Error" }
+        },
+        "required": ["statusCode", "error"]
       },
       "CredentialDto": {
         "type": "object",

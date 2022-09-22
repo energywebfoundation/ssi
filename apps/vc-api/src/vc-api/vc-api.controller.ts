@@ -33,6 +33,7 @@ import {
   ApiBody,
   ApiConflictResponse,
   ApiCreatedResponse,
+  ApiInternalServerErrorResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
@@ -60,6 +61,7 @@ import { VerifyPresentationDto } from './credentials/dtos/verify-presentation.dt
 import { BadRequestErrorResponseDto } from '../dtos/bad-request-error-response.dto';
 import { ConflictErrorResponseDto } from '../dtos/conflict-error-response.dto';
 import { NotFoundErrorResponseDto } from '../dtos/not-found-error-response.dto';
+import { InternalServerErrorResponseDto } from '../dtos/internal-server-error-response.dto';
 
 /**
  * VcApi API conforms to W3C vc-api
@@ -68,6 +70,7 @@ import { NotFoundErrorResponseDto } from '../dtos/not-found-error-response.dto';
 @ApiTags('vc-api')
 @Controller('vc-api')
 @ApiBadRequestResponse({ type: BadRequestErrorResponseDto })
+@ApiInternalServerErrorResponse({ type: InternalServerErrorResponseDto })
 export class VcApiController {
   constructor(private vcApiService: CredentialsService, private exchangeService: ExchangeService) {}
 
