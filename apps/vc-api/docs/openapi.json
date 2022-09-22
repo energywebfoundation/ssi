@@ -23,6 +23,14 @@
             "content": {
               "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestErrorResponseDto" } }
             }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InternalServerErrorResponseDto" }
+              }
+            }
           }
         },
         "tags": ["key"]
@@ -41,6 +49,14 @@
             "description": "",
             "content": {
               "application/json": { "schema": { "$ref": "#/components/schemas/NotFoundErrorResponseDto" } }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InternalServerErrorResponseDto" }
+              }
             }
           }
         },
@@ -517,6 +533,20 @@
   "servers": [],
   "components": {
     "schemas": {
+      "InternalServerErrorResponseDto": {
+        "type": "object",
+        "properties": {
+          "statusCode": { "type": "number", "example": 500 },
+          "message": {
+            "oneOf": [
+              { "type": "string", "example": "error" },
+              { "type": "array", "items": { "type": "string" }, "example": ["error 1", "error 2"] }
+            ]
+          },
+          "error": { "type": "string", "example": "Internal Server Error" }
+        },
+        "required": ["statusCode", "error"]
+      },
       "KeyPairDto": {
         "type": "object",
         "properties": {
@@ -607,20 +637,6 @@
           }
         },
         "required": ["id"]
-      },
-      "InternalServerErrorResponseDto": {
-        "type": "object",
-        "properties": {
-          "statusCode": { "type": "number", "example": 500 },
-          "message": {
-            "oneOf": [
-              { "type": "string", "example": "error" },
-              { "type": "array", "items": { "type": "string" }, "example": ["error 1", "error 2"] }
-            ]
-          },
-          "error": { "type": "string", "example": "Internal Server Error" }
-        },
-        "required": ["statusCode", "error"]
       },
       "CredentialDto": {
         "type": "object",

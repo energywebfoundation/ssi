@@ -20,6 +20,7 @@ import {
   ApiBadRequestResponse,
   ApiBody,
   ApiCreatedResponse,
+  ApiInternalServerErrorResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
@@ -31,9 +32,11 @@ import { KeyPairDto } from './dtos/key-pair.dto';
 import { KeyService } from './key.service';
 import { BadRequestErrorResponseDto } from '../dtos/bad-request-error-response.dto';
 import { NotFoundErrorResponseDto } from '../dtos/not-found-error-response.dto';
+import { InternalServerErrorResponseDto } from '../dtos/internal-server-error-response.dto';
 
 @ApiTags('key')
 @Controller('key')
+@ApiInternalServerErrorResponse({ type: InternalServerErrorResponseDto })
 export class KeyController {
   constructor(private keyService: KeyService) {}
 
