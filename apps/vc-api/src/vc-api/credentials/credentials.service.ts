@@ -174,12 +174,24 @@ export class CredentialsService implements CredentialVerifier {
     if (authenticateDto.options.proofPurpose !== ProofPurpose.authentication) {
       throw new BadRequestException('proof purpose must be authentication for DIDAuth');
     }
+
     const verificationMethodId =
       authenticateDto.options.verificationMethod ??
       (await this.getVerificationMethodForDid(authenticateDto.did)).id;
+
     const key = await this.getKeyForVerificationMethod(verificationMethodId);
     const proofOptions = this.mapVcApiPresentationOptionsToSpruceIssueOptions(authenticateDto.options);
-    return JSON.parse(await DIDAuth(authenticateDto.did, JSON.stringify(proofOptions), JSON.stringify(key)));
+
+    return JSON.parse(
+      await DIDAuth(authenticateDto.did, JSON.stringify(proofOptions), JSON.stringify(key)).catch((err) => {
+        if (typeof err === 'string') {
+          //TODO: discuss if BadRequestException should be thrown here instead?
+          throw new InternalServerErrorException(`@spruceid/didkit-wasm-node.DIDAuth error: ${err}`);
+        }
+
+        throw err;
+      })
+    );
   }
 
   async verifyPresentation(
