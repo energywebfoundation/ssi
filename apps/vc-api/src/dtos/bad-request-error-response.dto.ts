@@ -17,7 +17,7 @@
 
 import { ApiProperty } from '@nestjs/swagger';
 
-export class BadRequestResponseDto {
+export class BadRequestErrorResponseDto {
   @ApiProperty({ example: 400 })
   statusCode: 400;
 

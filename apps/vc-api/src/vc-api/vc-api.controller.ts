@@ -57,9 +57,9 @@ import { SubmissionReviewDto } from './exchanges/dtos/submission-review.dto';
 import { PresentationDto } from './credentials/dtos/presentation.dto';
 import { VerificationResultDto } from './credentials/dtos/verification-result.dto';
 import { VerifyPresentationDto } from './credentials/dtos/verify-presentation.dto';
-import { BadRequestResponseDto } from '../dtos/bad-request-response.dto';
-import { ConflictResponseDto } from '../dtos/conflict-response.dto';
-import { NotFoundResponseDto } from '../dtos/not-found-response.dto';
+import { BadRequestErrorResponseDto } from '../dtos/bad-request-error-response.dto';
+import { ConflictErrorResponseDto } from '../dtos/conflict-error-response.dto';
+import { NotFoundErrorResponseDto } from '../dtos/not-found-error-response.dto';
 
 /**
  * VcApi API conforms to W3C vc-api
@@ -67,7 +67,7 @@ import { NotFoundResponseDto } from '../dtos/not-found-response.dto';
  */
 @ApiTags('vc-api')
 @Controller('vc-api')
-@ApiBadRequestResponse({ type: BadRequestResponseDto })
+@ApiBadRequestResponse({ type: BadRequestErrorResponseDto })
 export class VcApiController {
   constructor(private vcApiService: CredentialsService, private exchangeService: ExchangeService) {}
 
@@ -194,7 +194,7 @@ export class VcApiController {
   })
   @ApiBody({ type: ExchangeDefinitionDto })
   @ApiCreatedResponse() // TODO: define response DTO
-  @ApiConflictResponse({ type: ConflictResponseDto })
+  @ApiConflictResponse({ type: ConflictErrorResponseDto })
   async createExchange(@Body() exchangeDefinitionDto: ExchangeDefinitionDto) {
     return this.exchangeService.createExchange(exchangeDefinitionDto);
   }
@@ -204,7 +204,7 @@ export class VcApiController {
     description: 'Initiates an exchange of information.\nhttps://w3c-ccg.github.io/vc-api/#initiate-exchange'
   })
   @ApiCreatedResponse({ type: ExchangeResponseDto })
-  @ApiNotFoundResponse({ type: NotFoundResponseDto })
+  @ApiNotFoundResponse({ type: NotFoundErrorResponseDto })
   async initiateExchange(@Param('exchangeId') exchangeId: string): Promise<ExchangeResponseDto> {
     return this.exchangeService.startExchange(exchangeId);
   }
@@ -223,7 +223,7 @@ export class VcApiController {
   @ApiAcceptedResponse({
     description: 'Verifiable Presentation successfully submitted. Further review in progress.'
   })
-  @ApiNotFoundResponse({ type: NotFoundResponseDto })
+  @ApiNotFoundResponse({ type: NotFoundErrorResponseDto })
   async continueExchange(
     @Param('exchangeId') exchangeId: string,
     @Param('transactionId') transactionId: string,
@@ -267,7 +267,7 @@ export class VcApiController {
       'Similar to https://identitycache.energyweb.org/api/#/Claims/ClaimController_getByIssuerDid'
   })
   @ApiOkResponse({ type: GetTransactionDto })
-  @ApiNotFoundResponse({ type: NotFoundResponseDto })
+  @ApiNotFoundResponse({ type: NotFoundErrorResponseDto })
   async getTransaction(
     @Param('exchangeId') exchangeId: string,
     @Param('transactionId') transactionId: string
@@ -315,7 +315,7 @@ export class VcApiController {
   @ApiBody({ type: SubmissionReviewDto })
   // TODO: define response DTO
   @ApiCreatedResponse()
-  @ApiNotFoundResponse({ type: NotFoundResponseDto })
+  @ApiNotFoundResponse({ type: NotFoundErrorResponseDto })
   async addSubmissionReview(
     @Param('exchangeId') exchangeId: string,
     @Param('transactionId') transactionId: string,

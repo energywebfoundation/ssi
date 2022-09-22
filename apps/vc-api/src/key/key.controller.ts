@@ -29,8 +29,8 @@ import { validate } from 'class-validator';
 import { KeyDescriptionDto } from './dtos/key-description.dto';
 import { KeyPairDto } from './dtos/key-pair.dto';
 import { KeyService } from './key.service';
-import { BadRequestResponseDto } from '../dtos/bad-request-response.dto';
-import { NotFoundResponseDto } from '../dtos/not-found-response.dto';
+import { BadRequestErrorResponseDto } from '../dtos/bad-request-error-response.dto';
+import { NotFoundErrorResponseDto } from '../dtos/not-found-error-response.dto';
 
 @ApiTags('key')
 @Controller('key')
@@ -45,7 +45,7 @@ export class KeyController {
   @Post()
   @ApiBody({ type: KeyPairDto })
   @ApiCreatedResponse({ type: KeyDescriptionDto })
-  @ApiBadRequestResponse({ type: BadRequestResponseDto })
+  @ApiBadRequestResponse({ type: BadRequestErrorResponseDto })
   @ApiOperation({ description: 'Import a key' })
   async import(@Body() body: KeyPairDto): Promise<KeyDescriptionDto> {
     return await this.keyService.importKey(body);
@@ -53,7 +53,7 @@ export class KeyController {
 
   @Get('/:keyId')
   @ApiOkResponse({ type: KeyPairDto })
-  @ApiNotFoundResponse({ type: NotFoundResponseDto })
+  @ApiNotFoundResponse({ type: NotFoundErrorResponseDto })
   async export(@Param('keyId') keyId: string): Promise<KeyPairDto> {
     const keyDescription = new KeyDescriptionDto();
     keyDescription.keyId = keyId;

@@ -21,7 +21,7 @@
           "400": {
             "description": "",
             "content": {
-              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestResponseDto" } }
+              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestErrorResponseDto" } }
             }
           }
         },
@@ -40,7 +40,7 @@
           "404": {
             "description": "",
             "content": {
-              "application/json": { "schema": { "$ref": "#/components/schemas/NotFoundResponseDto" } }
+              "application/json": { "schema": { "$ref": "#/components/schemas/NotFoundErrorResponseDto" } }
             }
           }
         },
@@ -69,7 +69,7 @@
           "400": {
             "description": "",
             "content": {
-              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestResponseDto" } }
+              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestErrorResponseDto" } }
             }
           }
         },
@@ -92,7 +92,7 @@
           "404": {
             "description": "",
             "content": {
-              "application/json": { "schema": { "$ref": "#/components/schemas/NotFoundResponseDto" } }
+              "application/json": { "schema": { "$ref": "#/components/schemas/NotFoundErrorResponseDto" } }
             }
           }
         },
@@ -121,7 +121,7 @@
           "400": {
             "description": "",
             "content": {
-              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestResponseDto" } }
+              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestErrorResponseDto" } }
             }
           }
         },
@@ -150,7 +150,7 @@
           "400": {
             "description": "",
             "content": {
-              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestResponseDto" } }
+              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestErrorResponseDto" } }
             }
           }
         },
@@ -177,7 +177,7 @@
           "400": {
             "description": "",
             "content": {
-              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestResponseDto" } }
+              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestErrorResponseDto" } }
             }
           }
         },
@@ -200,7 +200,7 @@
           "400": {
             "description": "",
             "content": {
-              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestResponseDto" } }
+              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestErrorResponseDto" } }
             }
           }
         },
@@ -227,7 +227,7 @@
           "400": {
             "description": "",
             "content": {
-              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestResponseDto" } }
+              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestErrorResponseDto" } }
             }
           }
         },
@@ -275,13 +275,13 @@
           "400": {
             "description": "",
             "content": {
-              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestResponseDto" } }
+              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestErrorResponseDto" } }
             }
           },
           "409": {
             "description": "",
             "content": {
-              "application/json": { "schema": { "$ref": "#/components/schemas/ConflictResponseDto" } }
+              "application/json": { "schema": { "$ref": "#/components/schemas/ConflictErrorResponseDto" } }
             }
           }
         },
@@ -306,13 +306,13 @@
           "400": {
             "description": "",
             "content": {
-              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestResponseDto" } }
+              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestErrorResponseDto" } }
             }
           },
           "404": {
             "description": "",
             "content": {
-              "application/json": { "schema": { "$ref": "#/components/schemas/NotFoundResponseDto" } }
+              "application/json": { "schema": { "$ref": "#/components/schemas/NotFoundErrorResponseDto" } }
             }
           }
         },
@@ -347,13 +347,13 @@
           "400": {
             "description": "",
             "content": {
-              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestResponseDto" } }
+              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestErrorResponseDto" } }
             }
           },
           "404": {
             "description": "",
             "content": {
-              "application/json": { "schema": { "$ref": "#/components/schemas/NotFoundResponseDto" } }
+              "application/json": { "schema": { "$ref": "#/components/schemas/NotFoundErrorResponseDto" } }
             }
           }
         },
@@ -377,13 +377,13 @@
           "400": {
             "description": "",
             "content": {
-              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestResponseDto" } }
+              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestErrorResponseDto" } }
             }
           },
           "404": {
             "description": "",
             "content": {
-              "application/json": { "schema": { "$ref": "#/components/schemas/NotFoundResponseDto" } }
+              "application/json": { "schema": { "$ref": "#/components/schemas/NotFoundErrorResponseDto" } }
             }
           }
         },
@@ -410,13 +410,13 @@
           "400": {
             "description": "",
             "content": {
-              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestResponseDto" } }
+              "application/json": { "schema": { "$ref": "#/components/schemas/BadRequestErrorResponseDto" } }
             }
           },
           "404": {
             "description": "",
             "content": {
-              "application/json": { "schema": { "$ref": "#/components/schemas/NotFoundResponseDto" } }
+              "application/json": { "schema": { "$ref": "#/components/schemas/NotFoundErrorResponseDto" } }
             }
           }
         },
@@ -444,7 +444,7 @@
         },
         "required": ["keyId"]
       },
-      "BadRequestResponseDto": {
+      "BadRequestErrorResponseDto": {
         "type": "object",
         "properties": {
           "statusCode": { "type": "number", "example": 400 },
@@ -458,7 +458,7 @@
         },
         "required": ["statusCode", "message", "error"]
       },
-      "NotFoundResponseDto": {
+      "NotFoundErrorResponseDto": {
         "type": "object",
         "properties": {
           "statusCode": { "type": "number", "example": 404 },
@@ -892,7 +892,7 @@
         },
         "required": ["exchangeId", "interactServices", "query", "isOneTime", "callback"]
       },
-      "ConflictResponseDto": {
+      "ConflictErrorResponseDto": {
         "type": "object",
         "properties": {
           "statusCode": { "type": "number", "example": 404 },

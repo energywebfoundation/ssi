@@ -17,7 +17,7 @@
 
 import { ApiProperty } from '@nestjs/swagger';
 
-export class ConflictResponseDto {
+export class ConflictErrorResponseDto {
   @ApiProperty({ example: 404 })
   statusCode: 409;
 
