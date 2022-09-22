@@ -123,7 +123,7 @@ export class CredentialsService implements CredentialVerifier {
       credentials as IVerifiableCredential[]
     );
     if (areRequiredCredentialsPresent !== Status.INFO) {
-      throw new Error('Credentials do not satisfy defintion');
+      throw new InternalServerErrorException('Credentials do not satisfy defintion');
     }
     const presentation = pex.presentationFrom(presentationDefinition, verifiableCredential);
 
@@ -240,17 +240,17 @@ export class CredentialsService implements CredentialVerifier {
   private async getKeyForVerificationMethod(desiredVerificationMethodId: string): Promise<JWK> {
     const verificationMethod = await this.didService.getVerificationMethod(desiredVerificationMethodId);
     if (!verificationMethod) {
-      throw new Error('This verification method is not known to this wallet');
+      throw new InternalServerErrorException('This verification method is not known to this wallet');
     }
     const keyID = verificationMethod.publicKeyJwk?.kid;
     if (!keyID) {
-      throw new Error(
+      throw new InternalServerErrorException(
         'There is no key ID (kid) associated with this verification method. Unable to retrieve private key'
       );
     }
     const privateKey = await this.keyService.getPrivateKeyFromKeyId(keyID);
     if (!privateKey) {
-      throw new Error('Unable to retrieve private key for this verification method');
+      throw new InternalServerErrorException('Unable to retrieve private key for this verification method');
     }
     return privateKey;
   }
