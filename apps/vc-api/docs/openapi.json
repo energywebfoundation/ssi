@@ -942,7 +942,7 @@
         "type": "object",
         "properties": {
           "id": { "type": "string" },
-          "input_descriptors": { "type": "array", "items": { "type": "array" } }
+          "input_descriptors": { "type": "array", "items": { "type": "object" } }
         },
         "required": ["id", "input_descriptors"]
       },

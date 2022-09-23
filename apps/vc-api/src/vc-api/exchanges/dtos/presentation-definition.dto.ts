@@ -24,7 +24,7 @@ export class PresentationDefinitionDto {
   id: string;
 
   @IsArray()
-  @ApiProperty({ isArray: true })
+  @ApiProperty({ type: 'object', isArray: true })
   // TODO: consider defining DTO and validations
   input_descriptors: Record<any, unknown>[];
 }
