@@ -24,6 +24,6 @@ export class ConflictErrorResponseDto {
   @ApiProperty()
   message: string;
 
-  @ApiProperty({ example: 'Not Found' })
+  @ApiProperty({ example: 'Conflict' })
   error: 'Conflict';
 }
