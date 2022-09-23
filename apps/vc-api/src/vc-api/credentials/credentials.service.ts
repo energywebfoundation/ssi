@@ -39,6 +39,7 @@ import { PresentationDto } from './dtos/presentation.dto';
 import { IPresentationDefinition, IVerifiableCredential, PEX, ProofPurpose, Status } from '@sphereon/pex';
 import { VerificationMethod } from 'did-resolver';
 import { ProvePresentationOptionsDto } from './dtos/prove-presentation-options.dto';
+import { didKitExecutor } from './utils/did-kit-executor.function';
 
 /**
  * Credential issuance options that Spruce accepts
@@ -75,21 +76,15 @@ export class CredentialsService implements CredentialVerifier {
       verificationMethod.id
     );
 
-    const result = await issueCredential(
-      JSON.stringify(issueDto.credential),
-      JSON.stringify(proofOptions),
-      JSON.stringify(key)
-    ).catch((err) => {
-      // TODO: DRY
-      if (typeof err === 'string') {
-        // assumption is that non-didkit errors will be of object type
-        throw new BadRequestException(`@spruceid/didkit-wasm-node.issueCredential error: ${err}`);
-      }
-
-      throw err;
-    });
-
-    return JSON.parse(result);
+    return didKitExecutor<VerifiableCredentialDto>(
+      () =>
+        issueCredential(
+          JSON.stringify(issueDto.credential),
+          JSON.stringify(proofOptions),
+          JSON.stringify(key)
+        ),
+      'issueCredential'
+    );
   }
 
   async verifyCredential(
@@ -98,17 +93,10 @@ export class CredentialsService implements CredentialVerifier {
   ): Promise<VerificationResultDto> {
     const verifyOptions: ISpruceVerifyOptions = options;
 
-    const result = await verifyCredential(JSON.stringify(vc), JSON.stringify(verifyOptions)).catch((err) => {
-      // TODO: DRY
-      if (typeof err === 'string') {
-        // assumption is that non-didkit errors will be of object type
-        throw new BadRequestException(`@spruceid/didkit-wasm-node.verifyCredential error: ${err}`);
-      }
-
-      throw err;
-    });
-
-    return JSON.parse(result);
+    return didKitExecutor<VerificationResultDto>(
+      () => verifyCredential(JSON.stringify(vc), JSON.stringify(verifyOptions)),
+      'verifyCredential'
+    );
   }
 
   /**
@@ -159,20 +147,15 @@ export class CredentialsService implements CredentialVerifier {
       (await this.getVerificationMethodForDid(provePresentationDto.presentation.holder)).id;
     const key = await this.getKeyForVerificationMethod(verificationMethodId);
     const proofOptions = this.mapVcApiPresentationOptionsToSpruceIssueOptions(provePresentationDto.options);
-    return JSON.parse(
-      await issuePresentation(
-        JSON.stringify(provePresentationDto.presentation),
-        JSON.stringify(proofOptions),
-        JSON.stringify(key)
-      ).catch((err) => {
-        // TODO: DRY
-        if (typeof err === 'string') {
-          // assumption is that non-didkit errors will be of object type
-          throw new BadRequestException(`@spruceid/didkit-wasm-node.issuePresentation error: ${err}`);
-        }
 
-        throw err;
-      })
+    return didKitExecutor<VerifiablePresentationDto>(
+      () =>
+        issuePresentation(
+          JSON.stringify(provePresentationDto.presentation),
+          JSON.stringify(proofOptions),
+          JSON.stringify(key)
+        ),
+      'issuePresentation'
     );
   }
 
@@ -192,16 +175,9 @@ export class CredentialsService implements CredentialVerifier {
     const key = await this.getKeyForVerificationMethod(verificationMethodId);
     const proofOptions = this.mapVcApiPresentationOptionsToSpruceIssueOptions(authenticateDto.options);
 
-    return JSON.parse(
-      await DIDAuth(authenticateDto.did, JSON.stringify(proofOptions), JSON.stringify(key)).catch((err) => {
-        // TODO: DRY
-        if (typeof err === 'string') {
-          // assumption is that non-didkit errors will be of object type
-          throw new BadRequestException(`@spruceid/didkit-wasm-node.DIDAuth error: ${err}`);
-        }
-
-        throw err;
-      })
+    return didKitExecutor<VerifiablePresentationDto>(
+      () => DIDAuth(authenticateDto.did, JSON.stringify(proofOptions), JSON.stringify(key)),
+      'DIDAuth'
     );
   }
 
@@ -210,16 +186,10 @@ export class CredentialsService implements CredentialVerifier {
     options: VerifyOptionsDto
   ): Promise<VerificationResultDto> {
     const verifyOptions: ISpruceVerifyOptions = options;
-    return JSON.parse(
-      await verifyPresentation(JSON.stringify(vp), JSON.stringify(verifyOptions)).catch((err) => {
-        // TODO: DRY
-        if (typeof err === 'string') {
-          // assumption is that non-didkit errors will be of object type
-          throw new BadRequestException(`@spruceid/didkit-wasm-node.verifyPresentation error: ${err}`);
-        }
 
-        throw err;
-      })
+    return didKitExecutor<VerificationResultDto>(
+      () => verifyPresentation(JSON.stringify(vp), JSON.stringify(verifyOptions)),
+      'verifyPresentation'
     );
   }
 
