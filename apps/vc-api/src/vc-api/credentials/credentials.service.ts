@@ -80,6 +80,7 @@ export class CredentialsService implements CredentialVerifier {
       JSON.stringify(proofOptions),
       JSON.stringify(key)
     ).catch((err) => {
+      // TODO: DRY
       if (typeof err === 'string') {
         // assumption is that non-didkit errors will be of object type
         throw new BadRequestException(`@spruceid/didkit-wasm-node.issueCredential error: ${err}`);
@@ -98,6 +99,7 @@ export class CredentialsService implements CredentialVerifier {
     const verifyOptions: ISpruceVerifyOptions = options;
 
     const result = await verifyCredential(JSON.stringify(vc), JSON.stringify(verifyOptions)).catch((err) => {
+      // TODO: DRY
       if (typeof err === 'string') {
         // assumption is that non-didkit errors will be of object type
         throw new BadRequestException(`@spruceid/didkit-wasm-node.verifyCredential error: ${err}`);
@@ -163,6 +165,7 @@ export class CredentialsService implements CredentialVerifier {
         JSON.stringify(proofOptions),
         JSON.stringify(key)
       ).catch((err) => {
+        // TODO: DRY
         if (typeof err === 'string') {
           // assumption is that non-didkit errors will be of object type
           throw new BadRequestException(`@spruceid/didkit-wasm-node.issuePresentation error: ${err}`);
@@ -191,6 +194,7 @@ export class CredentialsService implements CredentialVerifier {
 
     return JSON.parse(
       await DIDAuth(authenticateDto.did, JSON.stringify(proofOptions), JSON.stringify(key)).catch((err) => {
+        // TODO: DRY
         if (typeof err === 'string') {
           // assumption is that non-didkit errors will be of object type
           throw new BadRequestException(`@spruceid/didkit-wasm-node.DIDAuth error: ${err}`);
@@ -208,6 +212,7 @@ export class CredentialsService implements CredentialVerifier {
     const verifyOptions: ISpruceVerifyOptions = options;
     return JSON.parse(
       await verifyPresentation(JSON.stringify(vp), JSON.stringify(verifyOptions)).catch((err) => {
+        // TODO: DRY
         if (typeof err === 'string') {
           // assumption is that non-didkit errors will be of object type
           throw new BadRequestException(`@spruceid/didkit-wasm-node.verifyPresentation error: ${err}`);
