@@ -81,8 +81,8 @@ export class CredentialsService implements CredentialVerifier {
       JSON.stringify(key)
     ).catch((err) => {
       if (typeof err === 'string') {
-        //TODO: discuss if BadRequestException should be thrown here instead?
-        throw new InternalServerErrorException(`@spruceid/didkit-wasm-node.issueCredential error: ${err}`);
+        // assumption is that non-didkit errors will be of object type
+        throw new BadRequestException(`@spruceid/didkit-wasm-node.issueCredential error: ${err}`);
       }
 
       throw err;
@@ -99,8 +99,8 @@ export class CredentialsService implements CredentialVerifier {
 
     const result = await verifyCredential(JSON.stringify(vc), JSON.stringify(verifyOptions)).catch((err) => {
       if (typeof err === 'string') {
-        //TODO: discuss if BadRequestException should be thrown here instead?
-        throw new InternalServerErrorException(`@spruceid/didkit-wasm-node.verifyCredential error: ${err}`);
+        // assumption is that non-didkit errors will be of object type
+        throw new BadRequestException(`@spruceid/didkit-wasm-node.verifyCredential error: ${err}`);
       }
 
       throw err;
@@ -164,10 +164,8 @@ export class CredentialsService implements CredentialVerifier {
         JSON.stringify(key)
       ).catch((err) => {
         if (typeof err === 'string') {
-          //TODO: discuss if BadRequestException should be thrown here instead?
-          throw new InternalServerErrorException(
-            `@spruceid/didkit-wasm-node.issuePresentation error: ${err}`
-          );
+          // assumption is that non-didkit errors will be of object type
+          throw new BadRequestException(`@spruceid/didkit-wasm-node.issuePresentation error: ${err}`);
         }
 
         throw err;
@@ -194,8 +192,8 @@ export class CredentialsService implements CredentialVerifier {
     return JSON.parse(
       await DIDAuth(authenticateDto.did, JSON.stringify(proofOptions), JSON.stringify(key)).catch((err) => {
         if (typeof err === 'string') {
-          //TODO: discuss if BadRequestException should be thrown here instead?
-          throw new InternalServerErrorException(`@spruceid/didkit-wasm-node.DIDAuth error: ${err}`);
+          // assumption is that non-didkit errors will be of object type
+          throw new BadRequestException(`@spruceid/didkit-wasm-node.DIDAuth error: ${err}`);
         }
 
         throw err;
@@ -211,10 +209,8 @@ export class CredentialsService implements CredentialVerifier {
     return JSON.parse(
       await verifyPresentation(JSON.stringify(vp), JSON.stringify(verifyOptions)).catch((err) => {
         if (typeof err === 'string') {
-          //TODO: discuss if BadRequestException should be thrown here instead?
-          throw new InternalServerErrorException(
-            `@spruceid/didkit-wasm-node.verifyPresentation error: ${err}`
-          );
+          // assumption is that non-didkit errors will be of object type
+          throw new BadRequestException(`@spruceid/didkit-wasm-node.verifyPresentation error: ${err}`);
         }
 
         throw err;
