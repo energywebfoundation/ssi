@@ -45,6 +45,7 @@ ingress:
   className: ""
   annotations:
       kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
       # cloudflare certs
       cert-manager.io/issuer: prod-issuer
       cert-manager.io/issuer-kind: OriginIssuer
