@@ -474,9 +474,7 @@
         "responses": {
           "200": {
             "description": "",
-            "content": {
-              "application/json": { "schema": { "$ref": "#/components/schemas/GetTransactionDto" } }
-            }
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/TransactionDto" } } }
           },
           "400": {
             "description": "",
@@ -1114,21 +1112,6 @@
           }
         },
         "required": ["transactionId", "exchangeId", "vpRequest"]
-      },
-      "GetTransactionDto": {
-        "type": "object",
-        "properties": {
-          "errors": {
-            "description": "Any errors encountered querying transaction",
-            "type": "array",
-            "items": { "type": "string" }
-          },
-          "transaction": {
-            "description": "The returned transaction",
-            "allOf": [{ "$ref": "#/components/schemas/TransactionDto" }]
-          }
-        },
-        "required": ["errors", "transaction"]
       },
       "ReviewResult": { "type": "string", "enum": ["approved", "rejected"] },
       "SubmissionReviewDto": {
