@@ -969,6 +969,14 @@ Note the constraint on the `$.type` path of the credential.
 This is used to require that the presented credential be of type "PermanentResidentCard".
 For further documentation regarding the `presentationDefinition`, can be seen [here](../exchanges.md#presentation-definition-queries)
 
+In order to test the notification functionality, you can use the "[webhook.site](https://webhook.site/)".
+This is a free website which allows you to view and debug callback/webhook HTTP POST requests.
+With this service, requests are saved to a dedicated location for later review.
+Please only use this service for this tutorial (or other non-production applications).
+
+To use the webhook.site service with this tutorial, use a dedicated endpoint url generated for you after entering
+the site. It should looke similar to `https://webhook.site/efb19fb8-2579-4e1b-8614-d5a03edaaa7a`
+Copy this URL, including the domain, into the exchange definition below.
 
 ```json
 {
@@ -1014,7 +1022,11 @@ For further documentation regarding the `presentationDefinition`, can be seen [h
       }
    ],
    "isOneTime":true,
-   "callback":[]
+   "callback":[
+     {
+       "url": "FILL YOUR CALLBACK URL, for example 'https://webhook.site/efb19fb8-2579-4e1b-8614-d5a03edaaa7a'"
+     }
+   ]
 }
 ```
 
@@ -1340,11 +1352,7 @@ In the request body, copy the VP that was obtained from the previous step.
 
 #### 2.6 [Verifier] Act on Submitted Presentation
 
-In this presentation exchange (part 2) of this tutorial, no callback was configured in the exchange definition.
-This is because the Post Test Server (used [during the issuance exchange](#11-authority-portal-configure-the-credential-issuance-exchange)) has a Body Length of 1500 and so cannot accept the POST.
-However, typically a Verifier would configure a callback in order to be able to act on the submitted presentation.
-
-For reference, the callback notification that would have been receive in a configured callback for this presentation would be:
+For reference, the callback notification that would have been received in a configured callback for this presentation would be:
 
 ```json
 {
