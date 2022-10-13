@@ -80,7 +80,6 @@ export class ExchangeService {
     const transaction = exchange.start(baseWithControllerPath);
     await this.transactionRepository.save(transaction);
     return {
-      errors: [],
       vpRequest: VpRequestDto.toDto(transaction.vpRequest),
       processingInProgress: false
     };
