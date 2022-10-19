@@ -26,6 +26,8 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, setupSwaggerDocument(app));
   await app.listen(3000);
 
+  // Seeding needed in order to be able to execute VC-API test suite
+  // https://github.com/w3c-ccg/vc-api-test-suite
   await app.get(SeederService).seed();
 
   try {
