@@ -708,7 +708,7 @@
           "credential": { "$ref": "#/components/schemas/CredentialDto" },
           "options": { "$ref": "#/components/schemas/IssueOptionsDto" }
         },
-        "required": ["credential", "options"]
+        "required": ["credential"]
       },
       "VerifiableCredentialDto": {
         "type": "object",
