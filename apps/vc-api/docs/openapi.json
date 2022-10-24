@@ -679,7 +679,7 @@
           },
           "credentialSubject": { "type": "object", "description": "The subject" }
         },
-        "required": ["@context", "id", "type", "issuer", "issuanceDate", "credentialSubject"]
+        "required": ["@context", "type", "issuer", "issuanceDate", "credentialSubject"]
       },
       "IssueOptionsDto": {
         "type": "object",
@@ -738,7 +738,7 @@
           "credentialSubject": { "type": "object", "description": "The subject" },
           "proof": { "type": "object", "description": "A JSON-LD Linked Data proof." }
         },
-        "required": ["@context", "id", "type", "issuer", "issuanceDate", "credentialSubject", "proof"]
+        "required": ["@context", "type", "issuer", "issuanceDate", "credentialSubject", "proof"]
       },
       "ProofPurpose": {
         "type": "string",
