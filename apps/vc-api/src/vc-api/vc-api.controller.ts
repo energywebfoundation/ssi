@@ -103,7 +103,10 @@ export class VcApiController {
     @Body()
     verifyCredentialDto: VerifyCredentialDto
   ): Promise<VerificationResultDto> {
-    return await this.vcApiService.verifyCredential(verifyCredentialDto.vc, verifyCredentialDto.options);
+    return await this.vcApiService.verifyCredential(
+      verifyCredentialDto.verifiableCredential,
+      verifyCredentialDto.options
+    );
   }
 
   // VERIFIER https://w3c-ccg.github.io/vc-api/verifier.html
