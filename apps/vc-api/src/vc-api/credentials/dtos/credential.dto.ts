@@ -17,6 +17,7 @@
 
 import { IsArray, IsDateString, IsObject, IsOptional, IsString } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsIssuer } from '../../exchanges/dtos/custom-validators';
 
 /**
  * A JSON-LD Verifiable Credential without a proof.
@@ -43,7 +44,7 @@ export class CredentialDto {
   @ApiProperty({ description: 'The JSON-LD type of the credential.' })
   type: string[];
 
-  @IsString()
+  @IsIssuer()
   @ApiProperty({ description: 'A JSON-LD Verifiable Credential Issuer.' })
   issuer: string;
 
