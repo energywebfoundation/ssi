@@ -22,4 +22,8 @@ export class IssuerDto {
   @IsString()
   @ApiProperty()
   id: string;
+
+  constructor(properties: Partial<IssuerDto>) {
+    Object.assign(this, properties);
+  }
 }

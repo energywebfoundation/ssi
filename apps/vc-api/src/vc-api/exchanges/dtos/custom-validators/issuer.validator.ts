@@ -22,19 +22,25 @@ import {
   ValidationArguments,
   ValidationOptions,
   ValidatorConstraint,
-  ValidatorConstraintInterface
+  ValidatorConstraintInterface,
+  validate
 } from 'class-validator';
+import { IssuerDto } from '../../../credentials/dtos/issuer.dto';
 
-@ValidatorConstraint({ async: false })
+@ValidatorConstraint({ async: true })
 export class IsIssuerValidatorConstraint implements ValidatorConstraintInterface {
-  validate(value: unknown): Promise<boolean> | boolean {
+  async validate(value: unknown): Promise<boolean> {
     if (isString(value)) {
       return true;
     }
 
     if (isObject(value)) {
-      return true;
+      const instance = new IssuerDto(value);
+      const validationErrors = await validate(instance);
+      return validationErrors.length === 0;
     }
+
+    return false;
   }
 
   defaultMessage(validationArguments?: ValidationArguments): string {
