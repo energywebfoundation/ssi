@@ -37,6 +37,7 @@ export class IsIssuerValidatorConstraint implements ValidatorConstraintInterface
     if (isObject(value)) {
       const instance = new IssuerDto(value);
       const validationErrors = await validate(instance);
+      // TODO: check how to pass detailed message to the http response
       return validationErrors.length === 0;
     }
 
