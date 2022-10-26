@@ -692,9 +692,24 @@
         },
         "required": ["@context", "type", "issuer", "issuanceDate", "credentialSubject"]
       },
+      "ProofPurpose": {
+        "type": "string",
+        "enum": [
+          "assertionMethod",
+          "authentication",
+          "keyAgreement",
+          "contactAgreement",
+          "capabilityInvocation",
+          "capabilityDelegation"
+        ]
+      },
       "IssueOptionsDto": {
         "type": "object",
         "properties": {
+          "proofPurpose": {
+            "description": "The purpose of the proof. Default 'assertionMethod'.",
+            "$ref": "#/components/schemas/ProofPurpose"
+          },
           "created": {
             "type": "string",
             "description": "The date and time of the proof (with a maximum accuracy in seconds). Default current system time."
@@ -753,17 +768,6 @@
           "proof": { "type": "object", "description": "A JSON-LD Linked Data proof." }
         },
         "required": ["@context", "type", "issuer", "issuanceDate", "credentialSubject", "proof"]
-      },
-      "ProofPurpose": {
-        "type": "string",
-        "enum": [
-          "assertionMethod",
-          "authentication",
-          "keyAgreement",
-          "contactAgreement",
-          "capabilityInvocation",
-          "capabilityDelegation"
-        ]
       },
       "VerifyOptionsDto": {
         "type": "object",
