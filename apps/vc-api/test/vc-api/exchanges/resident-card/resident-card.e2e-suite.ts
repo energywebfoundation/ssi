@@ -68,6 +68,7 @@ export const residentCardExchangeSuite = () => {
 
     // As holder, continue exchange by submitting did auth presention
     await walletClient.continueExchange(issuanceExchangeContinuationEndpoint, didAuthVp, true, true);
+    await walletClient.continueExchange(issuanceExchangeContinuationEndpoint, didAuthVp, true, true);
     issuanceCallbackScope.done();
 
     // As the issuer, get the transaction
