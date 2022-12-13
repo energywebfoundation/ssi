@@ -20,15 +20,52 @@ import {
   getVerifiableCredentialsService,
   IssuerFields,
   fromPrivateKey,
-  CacheClient
+  CacheClient,
+  RoleCredentialSubject
 } from 'iam-client-lib';
-import { Wallet, providers } from 'ethers';
+import {
+  Credential,
+  CredentialStatusPurpose,
+  StatusListEntryType
+} from '@ew-did-registry/credentials-interface';
+import { Wallet, providers, utils } from 'ethers';
+import axios from 'axios';
+import { error } from 'console';
+// import {} from '../../../../../../common/temp/node_modules/iam-client-lib/dist/src/modules/cache-client/cache-client.service'
+
+const { id } = utils;
+
+jest.mock('axios');
+const getClaimsBySubject = jest.fn();
+jest.mock('iam-client-lib/dist/src/modules/cache-client/cache-client.service', () => {
+  return {
+    CacheClient: jest.fn().mockImplementation(() => {
+      return {
+        getClaimsBySubject,
+        addStatusToCredential: (
+          credential: Credential<RoleCredentialSubject>
+        ): Credential<RoleCredentialSubject> => {
+          return {
+            ...credential,
+            credentialStatus: {
+              id: `https://energyweb.org/credential/${id(JSON.stringify(credential))}#list`,
+              type: StatusListEntryType.Entry2021,
+              statusPurpose: CredentialStatusPurpose.REVOCATION,
+              statusListIndex: '1',
+              statusListCredential: `https://identitycache.org/v1/status-list/${credential.id}`
+            }
+          };
+        }
+      };
+    })
+  };
+});
 
 export const energywebRoleVCExchangeSure = () => {
   it('should be able to present Energy Web Role based VC', async () => {
     // As an holder, obtain EW Role verifiable credential
 
-    const rpcUrl = 'http://volta-rpc.energyweb.org/';
+    const rpcUrl = 'https://volta-rpc.energyweb.org/';
     let provider = new providers.JsonRpcProvider(rpcUrl);
 
     const roleNamespace = 'test.ew.role.credential';
@@ -55,6 +92,7 @@ export const energywebRoleVCExchangeSure = () => {
       });
     };
     const verifiableCredential = await createExampleSignedCredential([]);
+    error('xxxxxxxxxxxxxx + vc creation');
     const verifiablePresentation = await verifiableCredentialsService.createVerifiablePresentation([
       verifiableCredential
     ]);

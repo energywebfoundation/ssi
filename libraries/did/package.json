@@ -19,7 +19,7 @@
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "@trust/keyto": "^1.0.0",
-    "ethers": "5.5.1",
+    "ethers": "5.7.2",
     "did-resolver": "~4.0.0",
     "ethr-did-resolver": "~5.0.0",
     "@spruceid/didkit-wasm-node": "~0.2.0"

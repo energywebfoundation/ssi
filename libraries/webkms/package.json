@@ -17,7 +17,7 @@
   "author": "Energy Web",
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "ethers": "5.5.1",
+    "ethers": "5.7.2",
     "jose": "^4.0.0"
   },
   "devDependencies": {
