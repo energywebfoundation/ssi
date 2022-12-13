@@ -27,11 +27,13 @@
   "dependencies": {
     "@energyweb/ssi-did": "0.0.1",
     "@energyweb/w3c-ccg-webkms": "0.0.1",
+    "@ethersproject/providers": "5.7.2",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/typeorm": "^9.0.0",
+    "ethers": "5.7.2",
     "jose": "^4.0.0",
     "reflect-metadata": "^0.1.0",
     "rimraf": "^3.0.0",
@@ -50,6 +52,7 @@
     "@nestjs/serve-static": "^3.0.0"
   },
   "devDependencies": {
+    "@ew-did-registry/credentials-interface": "0.8.0",
     "@nestjs/cli": "^9.0.0",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
@@ -59,9 +62,11 @@
     "@types/supertest": "^2.0.0",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
+    "axios": "1.2.1",
     "eslint": "^8.0.0",
     "eslint-config-prettier": "^8.0.0",
     "eslint-plugin-prettier": "^4.0.0",
+    "iam-client-lib": "^7.0.0",
     "jest": "^29.0.0",
     "prettier": "^2.0.0",
     "supertest": "^6.0.0",
