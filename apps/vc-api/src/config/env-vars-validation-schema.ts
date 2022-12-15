@@ -30,4 +30,27 @@ export const envVarsValidationSchema = Joi.object({
   DB_TYPE: Joi.string()
     .valid(...Object.values(DB_TYPES))
     .default(DB_TYPES.SQLITE_INMEMORY)
-});
+})
+  .when('.DB_TYPE', {
+    switch: [
+      { is: Joi.required().valid(DB_TYPES.SQLITE), then: { SQLITE_FILE: Joi.string().required() } },
+      {
+        is: Joi.required().valid(DB_TYPES.POSTGRES),
+        then: {
+          POSTGRES_DB_HOST: Joi.string().hostname().required(),
+          POSTGRES_DB_PORT: Joi.number().port().required(),
+          POSTGRES_DB_USER: Joi.string().required(),
+          POSTGRES_DB_PASSWORD: Joi.string().required(),
+          POSTGRES_DB_NAME: Joi.string().required()
+        }
+      }
+    ]
+  })
+  .when('.DB_TYPE', {
+    is: Joi.required().valid(DB_TYPES.SQLITE, DB_TYPES.POSTGRES),
+    then: {
+      DB_DROP_SCHEMA: Joi.boolean().default(false),
+      DB_SYNCHRONIZE: Joi.boolean().default(false),
+      DB_RUN_MIGRATIONS: Joi.boolean().default(true)
+    }
+  });
