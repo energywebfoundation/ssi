@@ -71,3 +71,6 @@ common/autoinstallers/*/.npmrc
 dist
 .vscode/
 docker-compose.yml
+*.db
+*.db-shm
+*.db-wal

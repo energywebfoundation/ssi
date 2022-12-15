@@ -43,7 +43,14 @@ export const typeOrmConfigFactory = (config: ConfigService): TypeOrmModuleOption
   }
 
   if (config.get<DB_TYPES>('DB_TYPE') === DB_TYPES.SQLITE) {
-    throw new Error(`${DB_TYPES.SQLITE} database not implemented`);
+    return {
+      type: 'better-sqlite3',
+      database: config.get('SQLITE_FILE'),
+      dropSchema: config.get('DB_DROP_SCHEMA'),
+      synchronize: config.get('DB_SYNCHRONIZE'),
+      migrationsRun: config.get('DB_RUN_MIGRATIONS'),
+      ...commonOptions
+    };
   }
 
   if (config.get<DB_TYPES>('DB_TYPE') === DB_TYPES.POSTGRES) {
