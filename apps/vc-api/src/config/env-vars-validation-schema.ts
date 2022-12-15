@@ -17,8 +17,17 @@
 
 import * as Joi from 'joi';
 
+export enum DB_TYPES {
+  SQLITE_INMEMORY = 'SQLITE_INMEMORY',
+  SQLITE = 'SQLITE',
+  POSTGRES = 'POSTGRES'
+}
+
 export const envVarsValidationSchema = Joi.object({
   NODE_ENV: Joi.string().valid('development', 'production', 'test').default('development'),
   PORT: Joi.number().integer().positive().default(3000),
-  BASE_URL: Joi.string().uri().default('http://localhost:3000')
+  BASE_URL: Joi.string().uri().default('http://localhost:3000'),
+  DB_TYPE: Joi.string()
+    .valid(...Object.values(DB_TYPES))
+    .default(DB_TYPES.SQLITE_INMEMORY)
 });

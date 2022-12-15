@@ -16,15 +16,16 @@
  */
 
 import { DynamicModule, Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { KeyModule } from './key/key.module';
 import { DidModule } from './did/did.module';
 import { VcApiModule } from './vc-api/vc-api.module';
-import { TypeOrmSQLiteModule } from './in-memory-db';
+import { typeOrmConfigFactory } from './config/db';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { SeederModule } from './seeder/seeder.module';
 import { envVarsValidationSchema } from './config/env-vars-validation-schema';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 let config: DynamicModule;
 
@@ -46,7 +47,13 @@ try {
 
 @Module({
   imports: [
-    TypeOrmSQLiteModule(),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config) => ({
+        ...typeOrmConfigFactory(config)
+      })
+    }),
     KeyModule,
     DidModule,
     VcApiModule,

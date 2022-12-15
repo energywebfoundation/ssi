@@ -18,7 +18,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { calculateJwkThumbprint, JWK } from 'jose';
-import { TypeOrmSQLiteModule } from '../in-memory-db';
+import { typeOrmInMemoryModuleFactory } from '../config/db';
 import { KeyPair } from './key-pair.entity';
 import { keyType } from './key-types';
 import { KeyService } from './key.service';
@@ -29,7 +29,7 @@ describe('KeyService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmSQLiteModule(), TypeOrmModule.forFeature([KeyPair])],
+      imports: [typeOrmInMemoryModuleFactory(), TypeOrmModule.forFeature([KeyPair])],
       providers: [KeyService]
     }).compile();
 

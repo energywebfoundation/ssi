@@ -17,7 +17,7 @@
 
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TypeOrmSQLiteModule } from '../in-memory-db';
+import { typeOrmInMemoryModuleFactory } from '../config/db';
 import { KeyModule } from '../key/key.module';
 import { KeyService } from '../key/key.service';
 import { DIDService } from './did.service';
@@ -32,7 +32,7 @@ describe('DIDService', () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         KeyModule,
-        TypeOrmSQLiteModule(),
+        typeOrmInMemoryModuleFactory(),
         TypeOrmModule.forFeature([DIDDocumentEntity, VerificationMethodEntity])
       ],
       providers: [DIDService]
