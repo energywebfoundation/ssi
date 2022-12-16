@@ -28,9 +28,12 @@ RUN cp -R ./apps/vc-api/dist ./common/deploy/apps/vc-api
 
 FROM base as final
 ENV NODE_ENV=production
+
 EXPOSE 3000
 
 COPY --from=builder /app/common/deploy /app
 COPY license-header.txt /app
+
+ENV DB_TYPE=SQLITE_INMEMORY
 
 CMD ["node", "apps/vc-api/dist/src/main.js"]
