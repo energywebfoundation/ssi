@@ -18,6 +18,7 @@
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
 import { DB_TYPES } from './env-vars-validation-schema';
+import * as path from 'path';
 
 /**
  * Inspired by https://dev.to/webeleon/unit-testing-nestjs-with-typeorm-in-memory-l6m
@@ -43,12 +44,23 @@ export const typeOrmConfigFactory = (config: ConfigService): TypeOrmModuleOption
   }
 
   if (config.get<DB_TYPES>('DB_TYPE') === DB_TYPES.SQLITE) {
+    const SQLITE_FILE = config.get('SQLITE_FILE');
+    if (!SQLITE_FILE) {
+      throw new Error(`SQLITE_FILE not set`);
+    }
+
+    // this is required because migration generation is executed from the migrations subfolder
+    const databaseFilePath = path.isAbsolute(SQLITE_FILE)
+      ? SQLITE_FILE
+      : path.resolve(__dirname, '../..', SQLITE_FILE);
+
     return {
       type: 'better-sqlite3',
-      database: config.get('SQLITE_FILE'),
+      database: databaseFilePath,
       dropSchema: config.get('DB_DROP_SCHEMA'),
       synchronize: config.get('DB_SYNCHRONIZE'),
       migrationsRun: config.get('DB_RUN_MIGRATIONS'),
+      migrations: [`${path.resolve(__dirname, '../migrations/sqlite')}/*.{ts,js}`],
       ...commonOptions
     };
   }
@@ -64,6 +76,7 @@ export const typeOrmConfigFactory = (config: ConfigService): TypeOrmModuleOption
       dropSchema: config.get('DB_DROP_SCHEMA'),
       synchronize: config.get('DB_SYNCHRONIZE'),
       migrationsRun: config.get('DB_RUN_MIGRATIONS'),
+      migrations: [`${path.resolve(__dirname, '../migrations/pg')}/*.{ts,js}`],
       ...commonOptions
     };
   }

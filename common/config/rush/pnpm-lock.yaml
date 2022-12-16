@@ -143,6 +143,9 @@ dependencies:
   nock:
     specifier: ~13.3.1
     version: 13.3.1
+  pg:
+    specifier: ^8.0.0
+    version: 8.11.3
   prettier:
     specifier: ^2.8.8
     version: 2.8.8
@@ -2999,6 +3002,11 @@ packages:
 
   /dotenv@16.1.4:
     resolution: {integrity: sha512-m55RtE8AsPeJBpOIFKihEmqUcoVncQIwo7x9U8ZwLEZw9ZpXboz2c+rvog+jUaJvVrZ5kBOeYQBX5+8Aa/OZQw==}
+    engines: {node: '>=12'}
+    dev: false
+
+  /dotenv@16.3.1:
+    resolution: {integrity: sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==}
     engines: {node: '>=12'}
     dev: false
 
@@ -7030,7 +7038,7 @@ packages:
     dev: false
 
   file:projects/ssi-vc-api.tgz(@babel/core@7.18.13)(babel-jest@29.5.0)(express@4.18.2)(webpack@5.88.1):
-    resolution: {integrity: sha512-ms4q9xJ/p6cMqH88e9KgDYV8yFET58/yWSju4D00qDMF3iPmKmMP9QIOxpUQFhssaQ4qZNHsboBmlf8YyaanKQ==, tarball: file:projects/ssi-vc-api.tgz}
+    resolution: {integrity: sha512-9YEaoWassvSvi2uttwkCSF7jobCSlnHGrSkY/CTj62WJsYvj3CtdVN9UELAUwGkKhdvnJAgrCa1DE38jDzrzoQ==, tarball: file:projects/ssi-vc-api.tgz}
     id: file:projects/ssi-vc-api.tgz
     name: '@rush-temp/ssi-vc-api'
     version: 0.0.0
@@ -7062,6 +7070,7 @@ packages:
       class-transformer: 0.5.1
       class-validator: 0.14.0
       did-resolver: 4.1.0
+      dotenv: 16.3.1
       eslint: 8.22.0
       eslint-config-prettier: 8.8.0(eslint@8.22.0)
       eslint-plugin-no-only-tests: 3.1.0
