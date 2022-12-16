@@ -54,7 +54,18 @@ export const typeOrmConfigFactory = (config: ConfigService): TypeOrmModuleOption
   }
 
   if (config.get<DB_TYPES>('DB_TYPE') === DB_TYPES.POSTGRES) {
-    throw new Error(`${DB_TYPES.POSTGRES} database not implemented`);
+    return {
+      type: 'postgres',
+      host: config.get('POSTGRES_DB_HOST'),
+      port: +config.get('POSTGRES_DB_PORT'),
+      username: config.get('POSTGRES_DB_USER'),
+      password: config.get('POSTGRES_DB_PASSWORD'),
+      database: config.get('POSTGRES_DB_NAME'),
+      dropSchema: config.get('DB_DROP_SCHEMA'),
+      synchronize: config.get('DB_SYNCHRONIZE'),
+      migrationsRun: config.get('DB_RUN_MIGRATIONS'),
+      ...commonOptions
+    };
   }
 };
 
