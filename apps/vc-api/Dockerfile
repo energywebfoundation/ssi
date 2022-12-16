@@ -36,4 +36,7 @@ COPY license-header.txt /app
 
 ENV DB_TYPE=SQLITE_INMEMORY
 
+VOLUME /data
+ENV SQLITE_FILE=/data/sqlite.db
+
 CMD ["node", "apps/vc-api/dist/src/main.js"]
