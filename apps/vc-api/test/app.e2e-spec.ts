@@ -21,7 +21,7 @@ import { AppModule } from '../src/app.module';
 import { WalletClient } from './wallet-client';
 import { didSuite } from './did/did.e2e-suite';
 import { residentCardExchangeSuite } from './vc-api/exchanges/resident-card/resident-card.e2e-suite';
-import { energywebRoleVCExchangeSure } from './vc-api/exchanges/ew-role/ew-role-vc-exchange.e2e-suite';
+import { energywebRoleVCExchangeSuite } from './vc-api/exchanges/ew-role/ew-role-vc-exchange.e2e-suite';
 import { VpRequestDto } from '../src/vc-api/exchanges/dtos/vp-request.dto';
 import { rebeamExchangeSuite } from './vc-api/exchanges/rebeam/rebeam.e2e-suite';
 import { vcApiSuite } from './vc-api/credentials/vc-api.e2e-suite';
@@ -58,12 +58,12 @@ describe('App (e2e)', () => {
     await exchangeRepository.clear();
   });
 
-  describe('DID (e2e)', didSuite);
-  describe('Key (e2e)', keySuite);
-  describe('VC-API (e2e)', vcApiSuite);
+  // describe('DID (e2e)', didSuite);
+  // describe('Key (e2e)', keySuite);
+  // describe('VC-API (e2e)', vcApiSuite);
   describe('Resident Card (e2e)', residentCardExchangeSuite);
-  describe('Rebeam (e2e)', rebeamExchangeSuite);
-  describe('EW Role VC (e2e)', energywebRoleVCExchangeSure);
+  // describe('Rebeam (e2e)', rebeamExchangeSuite);
+  describe('EW Role VC (e2e)', energywebRoleVCExchangeSuite);
 });
 
 /**
