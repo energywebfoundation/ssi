@@ -36,7 +36,7 @@ const commonOptions = {
 };
 
 export const typeOrmConfigFactory = (config: ConfigService): TypeOrmModuleOptions => {
-  if (config.get<DB_TYPES>('DB_TYPE') === DB_TYPES.SQLITE_INMEMORY) {
+  if (config.get<DB_TYPES>('DB_TYPE') === DB_TYPES.SQLITE_IN_MEMORY) {
     return {
       ...inMemoryDBConfig,
       ...commonOptions

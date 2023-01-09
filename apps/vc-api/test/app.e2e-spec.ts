@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-Object.assign(process.env, { DB_TYPE: 'SQLITE_INMEMORY' }); // overwriting the .env file settings
+Object.assign(process.env, { DB_TYPE: 'SQLITE_IN_MEMORY' }); // overwriting the .env file settings
 
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe, VersioningType } from '@nestjs/common';

@@ -34,7 +34,7 @@ EXPOSE 3000
 COPY --from=builder /app/common/deploy /app
 COPY license-header.txt /app
 
-ENV DB_TYPE=SQLITE_INMEMORY
+ENV DB_TYPE=SQLITE_IN_MEMORY
 
 VOLUME /data
 ENV SQLITE_FILE=/data/sqlite.db

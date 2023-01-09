@@ -18,7 +18,7 @@
 import * as Joi from 'joi';
 
 export enum DB_TYPES {
-  SQLITE_INMEMORY = 'SQLITE_INMEMORY',
+  SQLITE_IN_MEMORY = 'SQLITE_IN_MEMORY',
   SQLITE = 'SQLITE',
   POSTGRES = 'POSTGRES'
 }
@@ -29,7 +29,7 @@ export const envVarsValidationSchema = Joi.object({
   BASE_URL: Joi.string().uri().default('http://localhost:3000'),
   DB_TYPE: Joi.string()
     .valid(...Object.values(DB_TYPES))
-    .default(DB_TYPES.SQLITE_INMEMORY)
+    .default(DB_TYPES.SQLITE_IN_MEMORY)
 })
   .when('.DB_TYPE', {
     switch: [
