@@ -18,10 +18,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { calculateJwkThumbprint, JWK } from 'jose';
-import { typeOrmInMemoryModuleFactory } from '../config/db';
+import { typeOrmConfigFactory } from '../config/db';
 import { KeyPair } from './key-pair.entity';
 import { keyType } from './key-types';
 import { KeyService } from './key.service';
+import { DB_TYPES } from '../config/env-vars-validation-schema';
+import { ConfigService } from '@nestjs/config';
 
 describe('KeyService', () => {
   let service: KeyService;
@@ -29,7 +31,16 @@ describe('KeyService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [typeOrmInMemoryModuleFactory(), TypeOrmModule.forFeature([KeyPair])],
+      imports: [
+        TypeOrmModule.forRoot(
+          typeOrmConfigFactory({
+            get: (key): Record<string, unknown> => {
+              return { DB_TYPE: DB_TYPES.SQLITE_IN_MEMORY }[key];
+            }
+          } as unknown as ConfigService)
+        ),
+        TypeOrmModule.forFeature([KeyPair])
+      ],
       providers: [KeyService]
     }).compile();
 

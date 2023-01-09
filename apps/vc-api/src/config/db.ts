@@ -81,6 +81,3 @@ export const typeOrmConfigFactory = (config: ConfigService): TypeOrmModuleOption
     };
   }
 };
-
-export const typeOrmInMemoryModuleFactory = () =>
-  TypeOrmModule.forRoot({ ...inMemoryDBConfig, ...commonOptions });
