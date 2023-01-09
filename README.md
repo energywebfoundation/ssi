@@ -195,7 +195,7 @@ The following settings are reccomended on production. These are also default app
 # below, if set to `true`, erases all data on every application start
 DB_DROP_ON_START=false
 # below is intended to be set to `true` only when developing locally
-DB_SYNCHRONIZE=false
+DB_SYNC_SCHEMA_ON_START=false
 ```
 
 Execution of the database schema migrations is automated, so that only required migrations are executed to upgrade the 
@@ -222,7 +222,7 @@ $ npm run migration:run
 The reccommended settings for development are:
 ```dotenv
 DB_DROP_ON_START=true
-DB_SYNCHRONIZE=true
+DB_SYNC_SCHEMA_ON_START=true
 DB_RUN_MIGRATIONS=true
 ```
 
