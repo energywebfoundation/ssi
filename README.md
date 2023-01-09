@@ -193,7 +193,7 @@ upgrading VC-API version running. Thanks to the migrations feature of the TypeOR
 The following settings are reccomended on production. These are also default application settings if not provided:
 ```dotenv
 # below, if set to `true`, erases all data on every application start
-DB_DROP_SCHEMA=false
+DB_DROP_ON_START=false
 # below is intended to be set to `true` only when developing locally
 DB_SYNCHRONIZE=false
 ```
@@ -221,7 +221,7 @@ $ npm run migration:run
 
 The reccommended settings for development are:
 ```dotenv
-DB_DROP_SCHEMA=true
+DB_DROP_ON_START=true
 DB_SYNCHRONIZE=true
 DB_RUN_MIGRATIONS=true
 ```

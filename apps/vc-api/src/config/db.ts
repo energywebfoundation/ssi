@@ -57,7 +57,7 @@ export const typeOrmConfigFactory = (config: ConfigService): TypeOrmModuleOption
     return {
       type: 'better-sqlite3',
       database: databaseFilePath,
-      dropSchema: config.get('DB_DROP_SCHEMA'),
+      dropSchema: config.get('DB_DROP_ON_START'),
       synchronize: config.get('DB_SYNCHRONIZE'),
       migrationsRun: config.get('DB_RUN_MIGRATIONS'),
       migrations: [`${path.resolve(__dirname, '../migrations/sqlite')}/*.{ts,js}`],
@@ -73,7 +73,7 @@ export const typeOrmConfigFactory = (config: ConfigService): TypeOrmModuleOption
       username: config.get('POSTGRES_DB_USER'),
       password: config.get('POSTGRES_DB_PASSWORD'),
       database: config.get('POSTGRES_DB_NAME'),
-      dropSchema: config.get('DB_DROP_SCHEMA'),
+      dropSchema: config.get('DB_DROP_ON_START'),
       synchronize: config.get('DB_SYNCHRONIZE'),
       migrationsRun: config.get('DB_RUN_MIGRATIONS'),
       migrations: [`${path.resolve(__dirname, '../migrations/pg')}/*.{ts,js}`],

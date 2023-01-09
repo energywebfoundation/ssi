@@ -49,7 +49,7 @@ export const envVarsValidationSchema = Joi.object({
   .when('.DB_TYPE', {
     is: Joi.required().valid(DB_TYPES.SQLITE, DB_TYPES.POSTGRES),
     then: {
-      DB_DROP_SCHEMA: Joi.boolean().default(false),
+      DB_DROP_ON_START: Joi.boolean().default(false),
       DB_SYNCHRONIZE: Joi.boolean().default(false),
       DB_RUN_MIGRATIONS: Joi.boolean().default(true)
     }
