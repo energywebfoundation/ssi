@@ -5,9 +5,9 @@ services:
     image: postgres:14-alpine
     restart: unless-stopped
     environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_DB: vc-api
+      POSTGRES_PASSWORD: $POSTGRES_DB_PASSWORD
+      POSTGRES_USER: $POSTGRES_DB_USER
+      POSTGRES_DB: $POSTGRES_DB_NAME
     ports:
       - '127.0.0.1:5432:5432'
     volumes:
