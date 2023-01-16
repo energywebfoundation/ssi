@@ -45,6 +45,8 @@ JSON Schema can be used to describe the precise shape required by the a credenti
 
 The JsonSchemaValidator2018 `credentialSchema` `type` is defined in the [Verifiable Credentials Vocabulary](w3.org/2018/credentials/#JsonSchemaValidator2018)
 
+### Open API Schema
+
 ### SHACL
 
 SHACL is the W3C standard for validating RDF graphs. 
