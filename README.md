@@ -241,7 +241,8 @@ To create migrations, you will need to:
 3. ensure your `.env` file contains valid settings for both Postgres and SQLite persisted in file
 4. [execute](#executing-existing-migrations) existing migrations
 5. [generate](#generating-new-migration-files) migration files
-6. validate migration files
+6. validate migration files - this should include executing all migrations (including new ones) and E2E tests for both
+   database engines SQLite and Postgres
 7. commit migration files
 
 #### Dropping schemas
