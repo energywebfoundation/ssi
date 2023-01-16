@@ -183,14 +183,14 @@ $ npm run start:dev
 
 ## Database migrations
 
-Having database persisted on production makes it necessary to have database schema migration process in place when 
-upgrading VC-API version running. Thanks to the migrations feature of the TypeORM this can bed automated.
+Having database persisted on production makes it necessary to have database schema migration process in place when
+upgrading VC-API version running. Thanks to the migrations feature of TypeORM, this can be automated.
 
 ### Executing migrations after VC-API code updated
 
 #### WARNING!!!
 
-The following settings are reccomended on production. These are also default application settings if not provided:
+The following settings are recommended on production. These are also default application settings if not provided:
 ```dotenv
 # below, if set to `true`, erases all data on every application start
 DB_DROP_ON_START=false
