@@ -152,18 +152,18 @@ For further documentation regarding the `presentationDefinition`, can be seen [h
                                       },
                                       "additionalProperties":true
                                   }
-                                  },
-                                  {
-                                    "path":["$.type"],
-                                    "filter":{
-                                        "type":"array",
-                                        "items":[
+                                },
+                                {
+                                  "path":["$.type"],
+                                  "filter":{
+                                      "type":"array",
+                                      "items":[
                                           {
                                               "const":"VerifiableCredential"
                                           }
-                                        ]
-                                    }
+                                      ]
                                   }
+                                }
                               ]
                           }
                         }
