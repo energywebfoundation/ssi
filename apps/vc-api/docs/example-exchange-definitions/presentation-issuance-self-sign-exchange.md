@@ -1,4 +1,8 @@
-Sample Exchange Definition for a issuance, self-sign and presentation - Holder needs to prove control over DID, thus exchange definition of type DIDAuth is needed to get the Credential from Issuer and another exchange definition to present the obtained credential and self-signed credentials.
+Sample Exchange Definition for a issuance, self-sign and presentation.
+
+Use case:
+
+1. Holder needs to prove control over DID, thus exchange definition of type _DIDAuth_ is needed to get the Credential (PermanentResidentCard) from Issuer. Another exchange-definition to present the obtained credential and self-signed credential.
 
 `DIDAuth` exchange-definition :
 

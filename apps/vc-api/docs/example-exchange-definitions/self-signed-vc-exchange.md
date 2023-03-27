@@ -1,5 +1,9 @@
 Sample Exchange definition to present self-signed Verifiable Credential.
 
+Use case:
+
+1. Present self-signed Verifiable Credential to verifier to consent to a requirement.
+
 ```json
 {
     "exchangeId": "286bc1e0-f1bd-488a-a873-8d71be3c690e",
@@ -104,3 +108,5 @@ Sample Exchange definition to present self-signed Verifiable Credential.
     "isOneTime":true
 }
 ```
+
+2. For obtaining a credential based on presentation of self-signed Verifiable Credential, the exchange-definition mentioned above could be used with an `interactServices` of type `MediatedHttpPresentationService2021`. The credential could be issued to _DID_ which created the Verifiable Presentation.

@@ -1,4 +1,4 @@
-Sample Exchange Definition to make presentation for Permanent Resident Card
+Sample Exchange Definition to make Verifiable Presentation with Permanent Resident Card.
 
 ``` json
 {

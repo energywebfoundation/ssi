@@ -1,4 +1,8 @@
-Exchange Definitions for one presentation and one self-signed credential. For example, the Holder is required to present two credentials, one Permanent Resident Card and one Self-Signed VC.
+Exchange Definitions for one presentation (VC issued by authority through VP) and one self-signed credential. 
+
+Use case:
+
+1. The Holder is required to present two credentials, one Permanent Resident Card (issued by authority) and one Self-Signed VC.
 
 ```json
 {

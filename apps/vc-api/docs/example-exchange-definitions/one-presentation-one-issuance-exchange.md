@@ -1,4 +1,8 @@
-Sample Exchange Definition for a presentation and issuance - Holder needs to prove control over DID, thus exchange definition of type DIDAuth is needed to get the Credential from Issuer and another exchange definition to present the credential.
+Sample Exchange Definition for an issuance and presentation.
+
+Use case:
+
+1. Holder needs to prove control over DID to obtain a Verifiable Credential from authority, thus exchange definition of type _DIDAuth_ is needed. The exchange-definition of type _PresentationDefinition_ is needed to present the obtained Verifiable Credential.
 
 `DIDAuth` exchange-definition :
 

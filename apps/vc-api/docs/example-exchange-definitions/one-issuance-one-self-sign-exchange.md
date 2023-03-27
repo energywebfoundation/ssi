@@ -1,4 +1,8 @@
-Sample Exchange Definition for a self-signed and issuance - Holder needs to prove control over DID, thus exchange definition of type DIDAuth is needed to get the Credential from Issuer and another exchange definition to present the obtained credential and self-signed credentials.
+Sample Exchange Definition for a self-signed and issuance
+
+Use cases: 
+
+1. Holder needs to prove control over DID, thus exchange definition of type `DIDAuth` is needed to get the Credential from Issuer. Followed by presentation of both obtained VC (issued by authority) and a self signed credential which can be executed with exchange-definition of type `PresentationDefinition`.
 
 `DIDAuth` exchange-definition :
 
@@ -114,3 +118,5 @@ Sample Exchange Definition for a self-signed and issuance - Holder needs to prov
    ]
 }
 ```
+
+2. For obtaining a credential based on presentation of self-signed Verifiable Credential, the exchange-definition mentioned above (type _PresentationDefinition_) could be used with an `interactServices` of type `MediatedHttpPresentationService2021` (No need for `DIDAuth` exchange-definition, verifier can know holder's DID from the VP with self-signed credential).
