@@ -2,7 +2,7 @@ Sample Exchange Definition for a issuance and self-signed credential.
 
 Use cases: 
 
-1. Holder needs to present two VCs one issued by authority and a self signed credential which can be executed with exchange-definition of type `PresentationDefinition`.
+1. Holder needs to present a self signed credential to obtain another Verifiable Credential from Issuer (Authority), which can be executed with exchange-definition of type `PresentationDefinition`.
 
 `PresentationDefinition` exchange Definition.
 
@@ -15,47 +15,12 @@ Use cases:
          "credentialQuery":[
             {
                "presentationDefinition":{
-                  "id":"286bc1e0-f1bd-488a-a873-8d71be3c690e",
-                  "submission_requirements":[
-                     {
-                        "name":"Consent and Resident-card Exchange",
-                        "rule":"pick",
-                        "min":2,
-                        "from":"A"
-                     }
-                  ],
+                  "id":"286bc1e0-f1bd-488a-a873-8d71be3c690e",,
                   "input_descriptors":[
-                     {
-                        "id":"PermanentResidentCard",
-                        "name":"PermanentResidentCard",
-                        "purpose":"PermanentResidentCard",
-                        "group":[
-                           "A"
-                        ],
-                        "constraints":{
-                           "fields":[
-                              {
-                                 "path":[
-                                    "$.type"
-                                 ],
-                                 "filter":{
-                                    "type":"array",
-                                    "contains":{
-                                       "type":"string",
-                                       "const":"PermanentResidentCard"
-                                    }
-                                 }
-                              }
-                           ]
-                        }
-                     },
                      {
                         "id":"ConsentCredential",
                         "name":"ConsentCredential",
                         "purpose":"One consent credential is required for this presentation",
-                        "group":[
-                           "A"
-                        ],
                         "constraints":{
                            "subject_is_issuer":"required",
                            "fields":[
@@ -82,7 +47,7 @@ Use cases:
    ],
    "interactServices":[
       {
-         "type":"UnmediatedHttpPresentationService2021"
+         "type":"MediatedHttpPresentationService2021"
       }
    ],
    "isOneTime":true,

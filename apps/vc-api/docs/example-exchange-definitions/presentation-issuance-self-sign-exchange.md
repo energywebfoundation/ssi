@@ -2,7 +2,7 @@ Sample Exchange Definition for a issuance, self-sign and presentation.
 
 Use case:
 
-1. Holder needs to prove control over DID, thus exchange definition of type _DIDAuth_ is needed to get the Credential (PermanentResidentCard) from Issuer. Another exchange-definition to present the obtained credential and self-signed credential.
+1. The Holder is required to present a self-signed consent VC and a PermanentResidentCard VC (Issued by Authority) to obtain another Verifiable Credential from the Issuer.
 
 `PresentationDefinition` exchange Definition.
 
