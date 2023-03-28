@@ -2,7 +2,7 @@ Sample Exchange definition to present self-signed Verifiable Credential.
 
 Use case:
 
-1. Present self-signed Verifiable Credential to verifier to consent to a requirement.
+1. Present self-signed Verifiable Credential to verifier.
 
 ```json
 {
