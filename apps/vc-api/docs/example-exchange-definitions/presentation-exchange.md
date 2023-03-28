@@ -1,4 +1,4 @@
-Sample Exchange Definition to make Verifiable Presentation with Permanent Resident Card.
+Sample Exchange Definition for a presentation.
 
 Use case: The Holder is required to present an issued VC (PermanentResidentCard) to the Verifier.
 

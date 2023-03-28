@@ -1,4 +1,4 @@
-Sample Exchange Definition for a issuance and self-signed credential.
+Sample Exchange Definition for a issuance and self-signed Verifiable Credential.
 
 Use cases: The Holder is required to present a self signed credential to obtain another Verifiable Credential from Issuer (Authority).
 
