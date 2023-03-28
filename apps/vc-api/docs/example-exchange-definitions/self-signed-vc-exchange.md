@@ -102,11 +102,9 @@ Use case:
     ],
     "callback": [
       {
-        "url": "FILL YOUR CALLBACK URL, for example 'https://webhook.site/efb19fb8-2579-4e1b-8614-d5a03edaaa7a'"
+        "url": "https://webhook.site/efb19fb8-2579-4e1b-8614-d5a03edaaa7a"
       }
     ],
     "isOneTime":true
 }
 ```
-
-2. For obtaining a credential based on presentation of self-signed Verifiable Credential, the exchange-definition mentioned above could be used with an `interactServices` of type `MediatedHttpPresentationService2021`. The credential could be issued to _DID_ which created the Verifiable Presentation.

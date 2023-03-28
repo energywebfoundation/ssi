@@ -88,7 +88,7 @@ Use case:
    "isOneTime":true,
    "callback":[
       {
-         "url":"FILL YOUR CALLBACK URL, for example 'https://webhook.site/efb19fb8-2579-4e1b-8614-d5a03edaaa7a'"
+         "url":"https://webhook.site/efb19fb8-2579-4e1b-8614-d5a03edaaa7a"
       }
    ]
 }
