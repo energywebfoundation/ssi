@@ -14,8 +14,9 @@ Use case: The Holder is required to present self-signed Verifiable Credential to
                     "id":"286bc1e0-f1bd-488a-a873-8d71be3c690e",
                     "input_descriptors":[
                         {
-                          "id": "consent_agreement",
-                          "name": "Consent Agreement",
+                          "id":"ConsentCredential",
+                          "name":"ConsentCredential",
+                          "purpose":"One consent credential is required for this presentation",
                           "constraints": {
                             "subject_is_issuer":"required",
                             "fields":[
