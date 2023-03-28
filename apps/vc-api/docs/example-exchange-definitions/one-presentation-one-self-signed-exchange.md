@@ -1,8 +1,6 @@
 Exchange Definitions for one presentation (VC issued by authority through VP) and one self-signed credential. 
 
-Use case:
-
-1. The Holder is required to present a self-signed consent VC and a PermanentResidentCard VC (Issued by Authority) to Verifier.
+Use case: The Holder is required to present a self-signed consent VC and a PermanentResidentCard VC (Issued by Authority) to Verifier.
 
 ```json
 {

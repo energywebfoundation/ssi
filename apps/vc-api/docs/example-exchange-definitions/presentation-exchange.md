@@ -1,5 +1,7 @@
 Sample Exchange Definition to make Verifiable Presentation with Permanent Resident Card.
 
+Use case: The Holder is required to present an issued VC (PermanentResidentCard) to the Verifier.
+
 ``` json
 {
    "exchangeId":"286bc1e0-f1bd-488a-a873-8d71be3c690e",

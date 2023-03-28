@@ -1,10 +1,6 @@
 Sample Exchange Definition for a issuance, self-sign and presentation.
 
-Use case:
-
-1. The Holder is required to present a self-signed consent VC and a PermanentResidentCard VC (Issued by Authority) to obtain another Verifiable Credential from the Issuer.
-
-`PresentationDefinition` exchange Definition.
+Use case: The Holder is required to present a self-signed consent VC and a PermanentResidentCard VC (Issued by Authority) to obtain another Verifiable Credential from the Issuer.
 
 ``` json
 {

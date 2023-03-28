@@ -1,8 +1,6 @@
 Sample Exchange definition to present self-signed Verifiable Credential.
 
-Use case:
-
-1. Present self-signed Verifiable Credential to verifier.
+Use case: The Holder is required to present self-signed Verifiable Credential to Verifier.
 
 ```json
 {

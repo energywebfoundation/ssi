@@ -1,10 +1,6 @@
 Sample Exchange Definition for a presentation and issuance.
 
-Use case:
-
-1. The Holder is required to present an issued VC (PermanentResidentCard) to the Issuer to obtain another VC.
-
-`PresentationDefinition` exchange-definition :
+Use case: The Holder is required to present an issued VC (PermanentResidentCard) to the Issuer to obtain another VC.
 
 ```json
 {

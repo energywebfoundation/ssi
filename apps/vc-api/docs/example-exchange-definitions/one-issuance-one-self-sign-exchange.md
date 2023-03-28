@@ -1,10 +1,6 @@
 Sample Exchange Definition for a issuance and self-signed credential.
 
-Use cases: 
-
-1. Holder needs to present a self signed credential to obtain another Verifiable Credential from Issuer (Authority), which can be executed with exchange-definition of type `PresentationDefinition`.
-
-`PresentationDefinition` exchange Definition.
+Use cases: The Holder is required to present a self signed credential to obtain another Verifiable Credential from Issuer (Authority).
 
 ``` json
 {

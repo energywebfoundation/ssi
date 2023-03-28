@@ -1,8 +1,6 @@
 Sample Exchange Definition for issuance.
 
-Use case:
-
-1. Holder needs to prove control over DID, thus exchange definition of type `DIDAuth` is required.
+Use case: The Holder is required to prove control over DID, thus exchange definition of type `DIDAuth` is required.
 
 ```json
 {
