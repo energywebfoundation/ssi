@@ -105,6 +105,19 @@ In particular, there are several endpoints related to exchanges that are outside
 | Presenting | Submit Submission Review | No |
 | Presenting | Create Presentation from Credentials | No |
 
+#### Supported Proof Types for Proof Generation
+
+The proof types supported during Proof generation (e.g. issuance and presentation) are listed below.
+Currently only [Data Integrity (JSON-LD)](https://www.w3.org/TR/vc-data-model/#data-integrity-proofs) proofs are supported.
+The "Related DID" is mentioned because the verification method used to generate the proof is selected from the `issuer` property for VCs or `holder` property for VPs.
+
+The following proof types are supported:
+
+| Proof Type | Related DID | Test Status
+| --- | --- | ---
+| Ed25519Signature2018 | did:key | Covered by automated tests
+| EcdsaSecp256k1Signature2019 | did:ethr | Not yet covered by automated tests
+
 ### DID Module
 
 The DID Module in the [vc-api](./) offers the generation of DIDs and tracking the data resolvable in their DID documents.
