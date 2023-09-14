@@ -112,6 +112,16 @@ The DID Module in the [vc-api](./) offers the generation of DIDs and tracking th
 ### Key Module
 The key module is kept separate from the DID module because it's plausible that key module will be provided by a different service (i.e. a dedicated KMS) at some point.
 
+#### Supported Key Types
+
+The table below shows which key types are available for each operation.
+
+| Operations | Key Type 
+| --- | --- 
+| Import | Ed25519
+| Generate | Ed25519, ES256K
+| Export | Any key stored
+
 #### Key Import/Export
 
 The key module allows for the import and export of key pairs.
