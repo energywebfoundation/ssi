@@ -109,6 +109,15 @@ In particular, there are several endpoints related to exchanges that are outside
 
 The DID Module in the [vc-api](./) offers the generation of DIDs and tracking the data resolvable in their DID documents.
 
+#### Supported DID Methods
+
+The table below shows which DID methods are available.
+
+| DID Method | Notes
+| --- | --- 
+| key | Only Ed25519 (with `Ed25519VerificationKey2018` verification method)
+| ethr | Only implicit DID resolution. No chain data resolution supported
+
 ### Key Module
 The key module is kept separate from the DID module because it's plausible that key module will be provided by a different service (i.e. a dedicated KMS) at some point.
 
