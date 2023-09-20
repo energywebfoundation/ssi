@@ -16,7 +16,7 @@
  */
 
 import { ProofPurpose } from '@sphereon/pex';
-import { IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsOptional, IsString } from 'class-validator';
 import { VerifyOptions } from '../types/verify-options';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 
@@ -34,6 +34,7 @@ export class VerifyOptionsDto implements VerifyOptions {
   verificationMethod?: string;
 
   @IsString()
+  @IsEnum(ProofPurpose)
   @IsOptional()
   @ApiPropertyOptional({
     description: "The purpose of the proof. Default 'assertionMethod'.",

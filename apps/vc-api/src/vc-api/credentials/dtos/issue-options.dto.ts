@@ -15,14 +15,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { IsObject, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsObject, IsOptional, IsString } from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
+import { ProofPurpose } from '@sphereon/pex';
 
 /**
  * Options for specifying how the Data Integrity Proof is created for a credential issuance
  * https://w3c-ccg.github.io/vc-api/issuer.html#operation/issueCredential
  */
 export class IssueOptionsDto {
+  @IsString()
+  @IsEnum(ProofPurpose)
+  @IsOptional()
+  @ApiPropertyOptional({
+    description: "The purpose of the proof. Default 'assertionMethod'.",
+    enum: ProofPurpose,
+    enumName: 'ProofPurpose'
+  })
+  /**
+   * TODO: this is out of spec (https://w3c-ccg.github.io/vc-api/#issue-credential),
+   * but required by https://github.com/w3c-ccg/vc-api-test-suite/blob/1280a75771ac933b7d0ebe4710eabed1fcd60eab/packages/vc-http-api-test-server/__tests__/issueCredential.spec.js#L58-L58
+   */
+  proofPurpose?: ProofPurpose;
+
   @IsString()
   @IsOptional()
   @ApiPropertyOptional({
