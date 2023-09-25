@@ -359,7 +359,7 @@ Having configured the exchange, the Verifier must then ask the resident to prese
   "outOfBandInvitation": {
     "type": "https://example.com/out-of-band/vc-api-exchange",
     "body": {
-      "url": "http://localhost:3000/v1/vc-api/exchanges/<FILL WITH YOUR EXCHANGE ID>"
+      "url": "{VC API base url}/v1/vc-api/exchanges/<FILL WITH YOUR EXCHANGE ID>"
     }
   }
 }

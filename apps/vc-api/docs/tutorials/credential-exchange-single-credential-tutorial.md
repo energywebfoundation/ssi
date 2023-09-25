@@ -172,7 +172,7 @@ They can do this transmission by encoding the json in a QR code and displaying t
         "type": "https://energyweb.org/out-of-band-invitation/vc-api-exchange",
         "body": { 
             "credentialTypeAvailable": "PermanentResidentCard",
-            "url": "http://localhost:3000/v1/vc-api/exchanges/{THE EXCHANGE ID FROM THE PREVIOUS STEP}" 
+            "url": "{VC API base url}/v1/vc-api/exchanges/{THE EXCHANGE ID FROM THE PREVIOUS STEP}" 
         }
     }
 } 
@@ -222,7 +222,7 @@ This is providing the location at which we can continue the credential exchange 
             "service": [
                 {
                     "type": "MediatedHttpPresentationService2021",
-                    "serviceEndpoint": "http://localhost:3000/v1/exchanges/resident-card-issuance-82793/55fb5bc5-4f5f-40c8-aa8d-f3a1991637fc"
+                    "serviceEndpoint": "{VC API base url}/v1/exchanges/resident-card-issuance-82793/55fb5bc5-4f5f-40c8-aa8d-f3a1991637fc"
                 }
             ]
         }
@@ -388,7 +388,7 @@ This response indicates that the client attempt to continue the exchange again (
             "service": [
                 {
                     "type": "MediatedHttpPresentationService2021",
-                    "serviceEndpoint": "http://localhost:3000/v1/vc-api/exchanges/{EXCHANGE ID}/27ce6175-bab7-4a1b-84b2-87cf87ad9163"
+                    "serviceEndpoint": "{VC API base url}/v1/vc-api/exchanges/{EXCHANGE ID}/27ce6175-bab7-4a1b-84b2-87cf87ad9163"
                 }
             ]
         }
@@ -426,7 +426,7 @@ An example of the expected POST body received in the request bucket is:
             "service": [
                 {
                     "type": "MediatedHttpPresentationService2021",
-                    "serviceEndpoint": "http://localhost:3000/v1/vc-api/exchanges/resident-card-issuance-82793/55fb5bc5-4f5f-40c8-aa8d-f3a1991637fc"
+                    "serviceEndpoint": "{VC API base url}/v1/vc-api/exchanges/resident-card-issuance-82793/55fb5bc5-4f5f-40c8-aa8d-f3a1991637fc"
                 }
             ]
         }
@@ -1045,7 +1045,7 @@ Having configured the exchange, the Verifier must then ask the resident to prese
   "outOfBandInvitation": {
     "type": "https://example.com/out-of-band/vc-api-exchange",
     "body": {
-      "url": "http://localhost:3000/v1/vc-api/exchanges/<FILL WITH YOUR EXCHANGE ID>"
+      "url": "{VC API base url}/v1/vc-api/exchanges/<FILL WITH YOUR EXCHANGE ID>"
     }
   }
 }
