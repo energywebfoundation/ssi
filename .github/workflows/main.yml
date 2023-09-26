@@ -38,3 +38,9 @@ jobs:
 
       - name: Run test
         run: node common/scripts/install-run-rush.js test --verbose
+
+      - name: Test vc-api is starting
+        run: node apps/vc-api/dist/src/main.js
+
+      - name: Test input-descriptor-to-credential is starting
+        run: node apps/vc-api/dist/src/main.js
