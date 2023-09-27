@@ -42,7 +42,7 @@ describe('AppController (e2e)', () => {
   });
 
   describe('/converter/input-descriptor-to-credential (POST)', function () {
-    describe('when called with a valid Card Ownership Credential ID', function () {
+    describe('when called with a valid Car Ownership Credential ID', function () {
       let result: request.Response;
       beforeEach(async function () {
         result = await request(app.getHttpServer())
