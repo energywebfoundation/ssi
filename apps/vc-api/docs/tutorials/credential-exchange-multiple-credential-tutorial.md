@@ -353,6 +353,14 @@ Copy this URL, including the domain, into the exchange definition below.
 #### 2.2 [Verifier] Provide an exchange invitation to the resident
 
 Having configured the exchange, the Verifier must then ask the resident to present the required credentials.
+This invitation to a credential exchange can be done in mechanism such as a QR code or [CHAPI](https://chapi.io/).
+The mechanism used is outside of the scope of VC API.
+
+The data structure below is an example of a data structure that could be package the exchange invitation.
+Its structure is based on the [WACI-DIDComm Interoperability Profile](https://identity.foundation/waci-didcomm/#interoperability-profile).
+The Verifier may construct any data structure, as long as it is accepted and understood by the recipient wallet.
+Other data structures, such as a data structure described in the [CHAPI documentation](https://chapi.io/developers/wallets/native/#verifiable-credential-storage).
+Constructing this data structure is outside of the scope of VC API.  
 
 ```json
 {
