@@ -95,7 +95,7 @@ describe('AppController (e2e)', () => {
         expect(result.body).toEqual({
           error: 'Bad Request',
           message: [
-            'constraints.fields.0.path property key name value must be one of the allowed string values: @context,credentialSubject,id,issuanceDate,type',
+            'constraints.fields.0.path property key name value must be one of the allowed string values: @context,credentialSubject,id,issuanceDate,type,issuer',
             'constraints.fields needs to be an array of objects with at least the following path field values: $.@context, $.credentialSubject, $.type'
           ],
           statusCode: 400

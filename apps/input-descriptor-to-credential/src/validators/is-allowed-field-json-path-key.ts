@@ -23,7 +23,7 @@ import {
 } from 'class-validator';
 import { ValidationArguments } from 'class-validator/types/validation/ValidationArguments';
 
-export const allowedFieldNames = ['@context', 'credentialSubject', 'id', 'issuanceDate', 'type'];
+export const allowedFieldNames = ['@context', 'credentialSubject', 'id', 'issuanceDate', 'type', 'issuer'];
 
 @ValidatorConstraint({ async: false })
 export class IsAllowedFieldJsonPathKeyConstraint implements ValidatorConstraintInterface {
