@@ -11,7 +11,7 @@
               "const": "https://www.w3.org/2018/credentials/v1"
             },
             {
-              "$ref": "#/definitions/context-1"
+              "$ref": "#/definitions/agrees-to"
             },
             {
               "$ref": "#/definitions/context-2"
@@ -21,81 +21,71 @@
           "minItems": 3,
           "maxItems": 3,
           "definitions": {
-            "context-1": {
+            "agrees-to": {
               "type": "object",
               "additionalProperties": false,
-              "required": [
-                "applicationLaw",
-                "compensationOfTheOffer",
-                "contractedItem",
-                "expressionOfTheOffer",
-                "jurisdiction",
-                "party1",
-                "party2"
-              ],
+              "required": ["agreesTo"],
               "properties": {
-                "applicationLaw": {
-                  "const": "https://github.com/energywebfoundation/elia-energyblocks-vcs/tree/master/ontology/v1/applicationLaw"
-                },
-                "compensationOfTheOffer": {
-                  "const": "https://github.com/energywebfoundation/elia-energyblocks-vcs/tree/master/ontology/v1/compensationOfTheOffer"
-                },
-                "contractedItem": {
-                  "const": "https://github.com/energywebfoundation/elia-energyblocks-vcs/tree/master/ontology/v1/contractedItem"
-                },
-                "expressionOfTheOffer": {
-                  "const": "https://github.com/energywebfoundation/elia-energyblocks-vcs/tree/master/ontology/v1/expressionOfTheOffer"
-                },
-                "jurisdiction": {
-                  "const": "https://github.com/energywebfoundation/elia-energyblocks-vcs/tree/master/ontology/v1/jurisdiction"
-                },
-                "party1": {
+                "agreesTo": {
                   "type": "object",
                   "additionalProperties": false,
                   "required": ["@id", "@context"],
                   "properties": {
                     "@id": {
-                      "const": "https://github.com/energywebfoundation/elia-energyblocks-vcs/tree/master/ontology/v1/party1"
+                      "const": "https://github.com/energywebfoundation/elia-energyblocks-vcs/tree/master/ontology/v1/agreesTo"
                     },
                     "@context": {
                       "type": "object",
                       "additionalProperties": false,
-                      "required": ["address", "brand", "iso6523Code"],
+                      "required": [
+                        "applicationLaw",
+                        "compensationOfTheOffer",
+                        "contractedItem",
+                        "expressionOfTheOffer",
+                        "jurisdiction",
+                        "counterParty"
+                      ],
                       "properties": {
-                        "address": {
-                          "const": "https://schema.org/address"
+                        "applicationLaw": {
+                          "const": "https://github.com/energywebfoundation/elia-energyblocks-vcs/tree/master/ontology/v1/applicationLaw"
                         },
-                        "brand": {
-                          "const": "https://schema.org/brand"
+                        "compensationOfTheOffer": {
+                          "const": "https://github.com/energywebfoundation/elia-energyblocks-vcs/tree/master/ontology/v1/compensationOfTheOffer"
                         },
-                        "iso6523Code": {
-                          "const": "https://schema.org/iso6523Code"
-                        }
-                      }
-                    }
-                  }
-                },
-                "party2": {
-                  "type": "object",
-                  "additionalProperties": false,
-                  "required": ["@id", "@context"],
-                  "properties": {
-                    "@id": {
-                      "const": "https://github.com/energywebfoundation/elia-energyblocks-vcs/tree/master/ontology/v1/party2"
-                    },
-                    "@context": {
-                      "type": "object",
-                      "additionalProperties": false,
-                      "required": ["address", "familyName", "givenName"],
-                      "properties": {
-                        "address": {
-                          "const": "https://schema.org/address"
+                        "contractedItem": {
+                          "const": "https://github.com/energywebfoundation/elia-energyblocks-vcs/tree/master/ontology/v1/contractedItem"
                         },
-                        "familyName": {
-                          "const": "https://schema.org/familyName"
+                        "expressionOfTheOffer": {
+                          "const": "https://github.com/energywebfoundation/elia-energyblocks-vcs/tree/master/ontology/v1/expressionOfTheOffer"
                         },
-                        "givenName": {
-                          "const": "https://schema.org/givenName"
+                        "jurisdiction": {
+                          "const": "https://github.com/energywebfoundation/elia-energyblocks-vcs/tree/master/ontology/v1/jurisdiction"
+                        },
+                        "counterParty": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": ["@id", "@context"],
+                          "properties": {
+                            "@id": {
+                              "const": "https://github.com/energywebfoundation/elia-energyblocks-vcs/tree/master/ontology/v1/counterParty"
+                            },
+                            "@context": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": ["address", "brand", "iso6523Code"],
+                              "properties": {
+                                "address": {
+                                  "const": "https://schema.org/address"
+                                },
+                                "brand": {
+                                  "const": "https://schema.org/brand"
+                                },
+                                "iso6523Code": {
+                                  "const": "https://schema.org/iso6523Code"
+                                }
+                              }
+                            }
+                          }
                         }
                       }
                     }
@@ -111,14 +101,14 @@
                 "ContractCredential": {
                   "const": "https://github.com/energywebfoundation/elia-energyblocks-vcs/tree/master/credentials/2023-nest-project/ContractCredential"
                 },
+                "Contract": {
+                  "const": "https://github.com/energywebfoundation/elia-energyblocks-vcs/tree/master/ontology/v1/Contract"
+                },
                 "Device": {
                   "const": "https://github.com/energywebfoundation/elia-energyblocks-vcs/tree/master/credentials/2023-nest-project/Device"
                 },
                 "Organization": {
                   "const": "https://schema.org/Organization"
-                },
-                "Person": {
-                  "const": "https://schema.org/Person"
                 }
               }
             }
@@ -156,86 +146,79 @@
           "$schema": "http://json-schema.org/draft-07/schema#",
           "type": "object",
           "additionalProperties": false,
-          "required": [
-            "type",
-            "id",
-            "contractedItem",
-            "party1",
-            "party2",
-            "expressionOfTheOffer",
-            "compensationOfTheOffer",
-            "jurisdiction",
-            "applicationLaw"
-          ],
+          "required": ["type", "id", "agreesTo"],
           "properties": {
             "type": {
-              "const": "Contract"
+              "const": "ContractParty"
             },
             "id": {
-              "const": "contractIdScheme:456"
+              "const": "did:example:subject"
             },
-            "contractedItem": {
+            "agreesTo": {
               "type": "object",
-              "required": ["type", "id"],
               "additionalProperties": false,
+              "required": [
+                "type",
+                "id",
+                "applicationLaw",
+                "compensationOfTheOffer",
+                "contractedItem",
+                "counterParty",
+                "expressionOfTheOffer",
+                "jurisdiction"
+              ],
               "properties": {
                 "type": {
-                  "const": "Device"
+                  "const": "Contract"
                 },
                 "id": {
-                  "const": "deviceIdScheme:123"
+                  "const": "contractIdScheme:456"
+                },
+                "applicationLaw": {
+                  "const": "Belgium laws"
+                },
+                "compensationOfTheOffer": {
+                  "const": "0"
+                },
+                "contractedItem": {
+                  "type": "object",
+                  "required": ["type", "id"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "Device"
+                    },
+                    "id": {
+                      "const": "deviceIdScheme:123"
+                    }
+                  }
+                },
+                "counterParty": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["type", "brand", "address", "iso6523Code"],
+                  "properties": {
+                    "type": {
+                      "const": "Organization"
+                    },
+                    "brand": {
+                      "const": "Car Manufacturer Inc"
+                    },
+                    "address": {
+                      "const": "Boulevard de l'Empereur, 1000 Bruxelles"
+                    },
+                    "iso6523Code": {
+                      "const": "123456789"
+                    }
+                  }
+                },
+                "expressionOfTheOffer": {
+                  "const": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
+                },
+                "jurisdiction": {
+                  "const": "Courts of Bruxelles"
                 }
               }
-            },
-            "party1": {
-              "type": "object",
-              "additionalProperties": false,
-              "required": ["type", "brand", "address", "iso6523Code"],
-              "properties": {
-                "type": {
-                  "const": "Organization"
-                },
-                "brand": {
-                  "const": "Car Manufacturer Inc"
-                },
-                "address": {
-                  "const": "Boulevard de l'Empereur, 1000 Bruxelles"
-                },
-                "iso6523Code": {
-                  "const": "123456789"
-                }
-              }
-            },
-            "party2": {
-              "type": "object",
-              "additionalProperties": false,
-              "required": ["type", "givenName", "familyName", "address"],
-              "properties": {
-                "type": {
-                  "const": "Person"
-                },
-                "givenName": {
-                  "const": "John"
-                },
-                "familyName": {
-                  "const": "Doe"
-                },
-                "address": {
-                  "const": "Boulevard de l'Empereur, 1000 Bruxelles"
-                }
-              }
-            },
-            "expressionOfTheOffer": {
-              "const": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
-            },
-            "compensationOfTheOffer": {
-              "const": "0"
-            },
-            "jurisdiction": {
-              "const": "Courts of Bruxelles"
-            },
-            "applicationLaw": {
-              "const": "Belgium laws"
             }
           }
         }
