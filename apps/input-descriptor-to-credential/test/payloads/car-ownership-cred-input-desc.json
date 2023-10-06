@@ -43,7 +43,8 @@
                         "contractedItem",
                         "expressionOfTheOffer",
                         "jurisdiction",
-                        "counterParty"
+                        "party1",
+                        "party2"
                       ],
                       "properties": {
                         "applicationLaw": {
@@ -61,13 +62,13 @@
                         "jurisdiction": {
                           "const": "https://github.com/energywebfoundation/elia-energyblocks-vcs/tree/master/ontology/v1/jurisdiction"
                         },
-                        "counterParty": {
+                        "party1": {
                           "type": "object",
                           "additionalProperties": false,
                           "required": ["@id", "@context"],
                           "properties": {
                             "@id": {
-                              "const": "https://github.com/energywebfoundation/elia-energyblocks-vcs/tree/master/ontology/v1/counterParty"
+                              "const": "https://github.com/energywebfoundation/elia-energyblocks-vcs/tree/master/ontology/v1/party1"
                             },
                             "@context": {
                               "type": "object",
@@ -86,6 +87,32 @@
                               }
                             }
                           }
+                        },
+                        "party2": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": ["@id", "@context"],
+                          "properties": {
+                            "@id": {
+                              "const": "https://github.com/energywebfoundation/elia-energyblocks-vcs/tree/master/ontology/v1/party2"
+                            },
+                            "@context": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": ["address", "familyName", "givenName"],
+                              "properties": {
+                                "address": {
+                                  "const": "https://schema.org/address"
+                                },
+                                "familyName": {
+                                  "const": "https://schema.org/familyName"
+                                },
+                                "givenName": {
+                                  "const": "https://schema.org/givenName"
+                                }
+                              }
+                            }
+                          }
                         }
                       }
                     }
@@ -96,19 +123,32 @@
             "context-2": {
               "type": "object",
               "additionalProperties": false,
-              "required": ["ContractCredential", "Device", "Organization", "Person"],
+              "required": [
+                "ContractCredential",
+                "ContractParty",
+                "Contract",
+                "Device",
+                "Organization",
+                "Person"
+              ],
               "properties": {
                 "ContractCredential": {
-                  "const": "https://github.com/energywebfoundation/elia-energyblocks-vcs/tree/master/credentials/2023-nest-project/ContractCredential"
+                  "const": "https://github.com/energywebfoundation/elia-energyblocks-vcs/tree/master/ontology/v1/ContractCredential"
+                },
+                "ContractParty": {
+                  "const": "https://github.com/energywebfoundation/elia-energyblocks-vcs/tree/master/ontology/v1/ContractParty"
                 },
                 "Contract": {
                   "const": "https://github.com/energywebfoundation/elia-energyblocks-vcs/tree/master/ontology/v1/Contract"
                 },
                 "Device": {
-                  "const": "https://github.com/energywebfoundation/elia-energyblocks-vcs/tree/master/credentials/2023-nest-project/Device"
+                  "const": "https://github.com/energywebfoundation/elia-energyblocks-vcs/tree/master/ontology/v1/Device"
                 },
                 "Organization": {
                   "const": "https://schema.org/Organization"
+                },
+                "Person": {
+                  "const": "https://schema.org/Person"
                 }
               }
             }
@@ -137,7 +177,7 @@
         "path": ["$.id"],
         "filter": {
           "$schema": "http://json-schema.org/draft-07/schema#",
-          "const": "https://example.com/credential/1>"
+          "const": "https://example.com/credential/1"
         }
       },
       {
@@ -193,7 +233,7 @@
                     }
                   }
                 },
-                "counterParty": {
+                "party1": {
                   "type": "object",
                   "additionalProperties": false,
                   "required": ["type", "brand", "address", "iso6523Code"],
@@ -209,6 +249,25 @@
                     },
                     "iso6523Code": {
                       "const": "123456789"
+                    }
+                  }
+                },
+                "party2": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["type", "address", "givenName", "familyName"],
+                  "properties": {
+                    "type": {
+                      "const": "Person"
+                    },
+                    "givenName": {
+                      "const": "John"
+                    },
+                    "address": {
+                      "const": "Boulevard de l'Empereur, 1000 Bruxelles"
+                    },
+                    "familyName": {
+                      "const": "Doe"
                     }
                   }
                 },
