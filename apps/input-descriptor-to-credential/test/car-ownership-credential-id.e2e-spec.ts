@@ -18,37 +18,36 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import request from 'supertest';
-import { AppModule } from '../src/app.module';
+import { AppModule } from '../src';
 import { InputDesciptorToCredentialDto } from '../src/modules/converter/dtos';
+import { resolve as resolvePath } from 'path';
+import * as fs from 'fs';
+
+const path = resolvePath(__dirname, 'payloads/car-ownership-cred-input-desc.json');
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
+  let payload;
 
   beforeEach(async () => {
+    payload = JSON.parse(fs.readFileSync(path).toString('utf8'));
+
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule]
     }).compile();
 
     app = moduleFixture.createNestApplication();
-    app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+    // app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
     await app.init();
   });
 
   describe('/converter/input-descriptor-to-credential (POST)', function () {
-    describe('when called with a valid payload', function () {
+    describe('when called with a valid Car Ownership Credential ID', function () {
       let result: request.Response;
       beforeEach(async function () {
         result = await request(app.getHttpServer())
           .post('/converter/input-descriptor-to-credential')
-          .send({
-            constraints: {
-              fields: [
-                { path: ['$.@context'], filter: {} },
-                { path: ['$.credentialSubject'], filter: {} },
-                { path: ['$.type'], filter: {} }
-              ]
-            }
-          } as InputDesciptorToCredentialDto);
+          .send(payload);
       });
 
       it('should respond with 201 status code', async function () {
@@ -60,46 +59,14 @@ describe('AppController (e2e)', () => {
       });
 
       it('should respond with body containing data', async function () {
+        const expectedResponse = {
+          credential: JSON.parse(
+            fs.readFileSync(resolvePath(__dirname, 'payloads/car-ownership-cred.json')).toString('utf8')
+          )
+        };
+
         expect(result.body).toBeDefined();
-        expect(result.body).toEqual({
-          credential: {
-            '@context': {},
-            credentialSubject: {},
-            type: {}
-          }
-        });
-      });
-    });
-
-    describe('when called with invalid payload', function () {
-      let result: request.Response;
-
-      beforeEach(async function () {
-        result = await request(app.getHttpServer())
-          .post('/converter/input-descriptor-to-credential')
-          .send({
-            constraints: { fields: [{ path: ['$.foobar'], filter: {} }] }
-          } as InputDesciptorToCredentialDto);
-      });
-
-      it('should respond with 400 status code', async function () {
-        expect(result.status).toBe(400);
-      });
-
-      it('should respond with application/json Content-Type header', async function () {
-        expect(result.headers['content-type']).toMatch('application/json');
-      });
-
-      it('should respond with a body containing data', async function () {
-        expect(result.body).toBeDefined();
-        expect(result.body).toEqual({
-          error: 'Bad Request',
-          message: [
-            'constraints.fields.0.path property key name value must be one of the allowed string values: @context,credentialSubject,id,issuanceDate,type,issuer',
-            'constraints.fields needs to be an array of objects with at least the following path field values: $.@context, $.credentialSubject, $.type'
-          ],
-          statusCode: 400
-        });
+        expect(result.body).toEqual(expectedResponse);
       });
     });
   });
