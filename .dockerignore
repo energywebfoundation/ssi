@@ -1,6 +1,7 @@
 /Dockerfile
 **/Dockerfile
 docker-compose.yml
+**/docker-compose.yml
 .dockerignore
 **/node_modules
 npm-debug.log
@@ -8,6 +9,7 @@ npm-debug.log
 .next
 .git
 .env
+**/.env
 **/dist
 # Rush temporary files
 common/deploy/
@@ -16,3 +18,11 @@ common/autoinstallers/*/.npmrc
 **/.rush/temp/
 
 **/*.log
+
+*.db
+*.db-shm
+*.db-wal
+
+**/*.db
+**/*.db-shm
+**/*.db-wal

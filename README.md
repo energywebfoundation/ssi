@@ -122,6 +122,166 @@ To run tests across all apps and libraries in one command, a rush script has bee
 $ rush test
 ```
 
+## Multiple database engines support
+VC-API backend supports:
+- in-memory SQLite (default)
+- SQLite persisted in a file
+- Postgres (needs to be started separately)
+
+### In-memory SQLite
+**This mode is not intended to be used by multiple load balanced VC-API service instances.**
+
+This is the default mode of operation. The database in this mode is purged and initiated everytime process is started.
+No special
+steps are required when upgrading versions of the VP-API. Every instance of the VC-API uses its own instance of this
+database. 
+
+Start your local VC-API instance with the following:
+```shell
+$ cd apps/vc-api
+$ npm run start:dev
+```
+
+### SQLite
+**This mode is not intended to be used by multiple load balanced VC-API service instances.**
+
+To activate data persistence for SQLite, set the following env variables:
+```dotenv
+DB_TYPE=SQLITE
+SQLITE_FILE=<path/to/your/file/sqlite.db>
+```
+
+Start the VC-API:
+```shell
+$ cd apps/vc-api
+$ npm run start:dev
+```
+
+### Postgres
+To use Postgres database, start your local postgres server, for example with docker and `docker-compose.full.yaml` 
+located in the `apps/vc-api` folder:
+```shell
+$ cd apps/vc-api
+$ docker compose -f docker-compose.full.yaml up
+```
+
+Set the following env variables:
+```dotenv
+DB_TYPE=POSTGRES
+POSTGRES_DB_HOST=127.0.0.1
+POSTGRES_DB_PORT=5432
+POSTGRES_DB_USER=postgres
+POSTGRES_DB_PASSWORD=postgres
+POSTGRES_DB_NAME=vc-api
+```
+
+Start the VC-API:
+```shell
+$ cd apps/vc-api
+$ npm run start:dev
+```
+
+## Database migrations
+
+Having database persisted on production makes it necessary to have database schema migration process in place when
+upgrading VC-API version running. Thanks to the migrations feature of TypeORM, this can be automated.
+
+### Executing migrations after VC-API code updated
+
+#### WARNING!!!
+
+The following settings are recommended on production. These are also default application settings if not provided:
+```dotenv
+# below, if set to `true`, erases all data on every application start
+DB_DROP_ON_START=false
+# below is intended to be set to `true` only when developing locally
+DB_SYNC_SCHEMA_ON_START=false
+```
+
+Execution of the database schema migrations is automated, so that only required migrations are executed to upgrade the 
+database schema. This can be done in two ways:
+
+#### By the application
+
+A VC-API service is able to execute migrations by itself when starting. To enable this feature the following env 
+variable is needed:
+```dotenv
+DB_RUN_MIGRATIONS=true
+```
+
+#### With npm script
+
+If you decide to disable execution of migrations by application, they can be executed manually:
+```shell
+$ cd apps/vc-api
+$ npm run migration:run
+```
+
+### Creating new migrations after development
+
+The reccommended settings for development are:
+```dotenv
+DB_DROP_ON_START=true
+DB_SYNC_SCHEMA_ON_START=true
+DB_RUN_MIGRATIONS=true
+```
+
+This means that database schema will be dropped on every application restart, migrations executed and all entities 
+changes not reflected in migrations will be synchronised to the DB schema. This allows faster development.
+
+After completing chunk of work, for example when preparing a pull request to be reviewed and merged, another db 
+schema migration needs to be created and committed.
+
+**Warning!** Two sets of migrations need to be added. For SQLite and Postgres.
+
+To create migrations, you will need to:
+
+1. [drop db schemas](#dropping-schemas) for both Postgres and SQLite
+2. stop your application instances if running
+3. ensure your `.env` file contains valid settings for both Postgres and SQLite persisted in file
+4. [execute](#executing-existing-migrations) existing migrations
+5. [generate](#generating-new-migration-files) migration files
+6. validate migration files - this should include executing all migrations (including new ones) and E2E tests for both
+   database engines SQLite and Postgres
+7. commit migration files
+
+#### Dropping schemas
+1. Remove your SQLite file. By default, it should be `apps/vc-api/sqlite.db`.
+2. Start your Postgres instance from scratch. If you started it with `docker compose -f docker-compose.full.yaml up` 
+execute the following:
+    ```shell
+    $ cd apps/vc-api
+    $ docker compose -f docker-compose.full.yaml down -v
+    ```
+    `-v` means volumes are to be removed - **this is important option here**
+
+#### Executing existing migrations
+```shell
+$ npm run migration:run:pg
+```
+```shell
+$ npm run migration:run:sqlite
+```
+
+#### Generating new migration files
+```shell
+npm run migration:generate:pg <migration-name>
+```
+this should add a new migration file for Postgres to the `apps/vc-api/src/migrations/pg` folder
+
+and
+```shell
+npm run migration:generate:sqlite <migration-name>
+```
+
+this should add a new migration file for SQLite to the `apps/vc-api/src/migrations/sqlite` folder
+
+#### Warning
+Migrations are executed in order of files sorted by name. Migration files start with a timestamp, for instance 
+`1671212337326-initial.ts`. If you are planning to merge your PR to the base branch, keep in mind that in some 
+situations you will need to delete and regenerate your migrations again to keep them in order with migrations added 
+in meantime to the base branch.
+
 ## Contributing Guidelines 
 See [contributing.md](./contributing.md)
 
