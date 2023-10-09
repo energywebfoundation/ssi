@@ -445,10 +445,6 @@
     {
       "packageName": "@energyweb/input-descriptor-to-credential",
       "projectFolder": "apps/input-descriptor-to-credential"
-    },
-    {
-      "packageName": "@energyweb/ssi-vc-api-tests-e2e",
-      "projectFolder": "tests/e2e"
     }
   ]
 }
