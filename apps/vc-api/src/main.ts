@@ -21,11 +21,9 @@ import { resolve as resolvePath } from 'path';
 import { SwaggerModule } from '@nestjs/swagger';
 import { SeederService } from './seeder/seeder.service';
 import * as process from 'process';
-import * as express from 'express';
 
 async function bootstrap() {
   const app = await setupApp();
-  app.use(express.json());
   SwaggerModule.setup('api', app, setupSwaggerDocument(app));
   await app.listen(process.env.PORT);
 
