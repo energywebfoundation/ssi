@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { DynamicModule, Module } from '@nestjs/common';
+import { DynamicModule, MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { KeyModule } from './key/key.module';
 import { DidModule } from './did/did.module';
@@ -25,6 +25,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { SeederModule } from './seeder/seeder.module';
 import { envVarsValidationSchema } from './config/env-vars-validation-schema';
+import { MorganMiddleware } from './morgan.middleware';
 
 let config: DynamicModule;
 
@@ -61,4 +62,8 @@ try {
     SeederModule
   ]
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(MorganMiddleware).forRoutes('*'); // This applies the middleware to all routes. You can narrow it down if needed.
+  }
+}
