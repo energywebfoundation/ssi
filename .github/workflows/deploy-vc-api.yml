@@ -68,10 +68,10 @@ jobs:
         with:
           command: login ${{ secrets.DEV_ARGOCD_URL }}
           options: --insecure --password ${{ secrets.DEV_ARGOCD_PASS }} --username ${{ secrets.DEV_ARGOCD_USERNAME }}
-#
-#      - name: ArgoCD overvrite SSI values.yaml
-#        uses: clowdhaus/argo-cd-action/@v1.9.0
-#        id: argocd_image_tag_overwrite_ssi
-#        with:
-#          command: app set ssi-wallet
-#          options: -p image.tag=${{ steps.get-git-sha.outputs.git-sha }}
+
+      - name: ArgoCD overvrite SSI values.yaml
+        uses: clowdhaus/argo-cd-action/@v1.9.0
+        id: argocd_image_tag_overwrite_ssi
+        with:
+          command: app set ssi-wallet
+          options: -p image.tag=${{ steps.get-git-sha.outputs.git-sha }}
