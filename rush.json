@@ -439,16 +439,8 @@
       "projectFolder": "libraries/did"
     },
     {
-      "packageName": "@energyweb/ssi-vc-api",
-      "projectFolder": "apps/vc-api"
-    },
-    {
       "packageName": "@energyweb/input-descriptor-to-credential",
       "projectFolder": "apps/input-descriptor-to-credential"
-    },
-    {
-      "packageName": "@energyweb/ssi-vc-api-tests-e2e",
-      "projectFolder": "tests/e2e"
     }
   ]
 }
