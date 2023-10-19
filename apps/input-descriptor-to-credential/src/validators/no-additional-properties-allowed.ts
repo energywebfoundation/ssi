@@ -30,7 +30,10 @@ export class NoAdditionalPropertiesConstraint implements ValidatorConstraintInte
   }
 
   defaultMessage(validationArguments?: ValidationArguments): string {
-    return `${validationArguments.property} should have all additionalProperties properties set to false`;
+    return (
+      `${validationArguments.property} should have all additionalProperties properties set to false.` +
+      ` This is because JSON schema with additionalProperties set to true may be translated into JSON which has additional unexpected properties.`
+    );
   }
 }
 
