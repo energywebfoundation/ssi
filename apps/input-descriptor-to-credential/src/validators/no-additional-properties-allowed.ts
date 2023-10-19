@@ -38,8 +38,6 @@ export class NoAdditionalPropertiesConstraint implements ValidatorConstraintInte
  * Checks if all object type properties have `additionalProperties` set to `false`
  */
 export function NoAdditionalPropertiesAllowed(options?: ValidationOptions) {
-  console.log(`applying decorator`);
-
   return function (object: unknown, propertyName: string) {
     registerDecorator({
       target: object.constructor,
