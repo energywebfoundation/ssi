@@ -19,3 +19,4 @@ export * from './is-valid-json-schema';
 export * from './is-top-level-field-json-path';
 export * from './is-allowed-field-json-path-key';
 export * from './is-valid-constraints-fields-paths';
+export * from './no-additional-properties-allowed';
