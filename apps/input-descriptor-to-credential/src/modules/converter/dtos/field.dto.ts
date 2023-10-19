@@ -17,7 +17,12 @@
 
 import { ArrayMaxSize, ArrayMinSize, IsArray, IsNotEmpty, IsObject } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsAllowedFieldJsonPathKey, IsTopLevelFieldJsonPath, IsValidJsonSchema } from '../../../validators';
+import {
+  IsAllowedFieldJsonPathKey,
+  IsTopLevelFieldJsonPath,
+  IsValidJsonSchema,
+  NoAdditionalPropertiesAllowed
+} from '../../../validators';
 
 export const exampleFieldFilter = {
   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -61,6 +66,7 @@ export class FieldDto {
   path: string[];
 
   @IsValidJsonSchema()
+  @NoAdditionalPropertiesAllowed()
   @IsObject()
   @IsNotEmpty()
   @ApiProperty({ example: JSON.stringify(exampleFieldFilter) })
