@@ -65,6 +65,10 @@ describe('AppController (e2e)', () => {
           )
         };
 
+        delete expectedResponse.credential.issuer;
+        delete expectedResponse.credential.issuanceDate;
+        delete expectedResponse.credential.credentialSubject.id;
+
         expect(result.body).toBeDefined();
         expect(result.body).toEqual(expectedResponse);
       });

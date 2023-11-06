@@ -185,14 +185,11 @@
         "filter": {
           "$schema": "http://json-schema.org/draft-07/schema#",
           "type": "object",
-          "additionalProperties": false,
-          "required": ["type", "id", "agreesTo"],
+          "additionalProperties": true,
+          "required": ["type", "agreesTo"],
           "properties": {
             "type": {
               "const": "ContractParty"
-            },
-            "id": {
-              "const": "did:example:subject"
             },
             "agreesTo": {
               "type": "object",
@@ -203,7 +200,8 @@
                 "applicationLaw",
                 "compensationOfTheOffer",
                 "contractedItem",
-                "counterParty",
+                "party1",
+                "party2",
                 "expressionOfTheOffer",
                 "jurisdiction"
               ],
@@ -280,20 +278,6 @@
               }
             }
           }
-        }
-      },
-      {
-        "path": ["$.issuer"],
-        "filter": {
-          "$schema": "http://json-schema.org/draft-07/schema#",
-          "const": "did:example:dso"
-        }
-      },
-      {
-        "path": ["$.issuanceDate"],
-        "filter": {
-          "$schema": "http://json-schema.org/draft-07/schema#",
-          "const": "2023-05-14T12:55:30Z"
         }
       }
     ]
