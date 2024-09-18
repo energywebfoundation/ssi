@@ -27,8 +27,11 @@ For more information about SSI at EWF, see the [EWF Gitbook page on SSI](https:/
 ## Architecture
 
 ### Apps
-#### VC-API
-The [vc-api app](./apps/vc-api) is a NestJs implementation of the [W3C Credentials Community Group](https://w3c-ccg.github.io/) [VC API Specification](https://w3c-ccg.github.io/vc-api).
+
+#### Input-Descriptor-To-Credential App
+This [input-descriptor-to-credential app](./) is a NestJs implementation of a complementary service to
+the [vc-api app](https://github.com/openwallet-foundation-labs/vc-api).
+It allows converting an input descriptor to a credential to be signed.
 
 ### Libraries
 #### DID Library
