@@ -1,3 +1,10 @@
+# Notice: OWF VC API Implementation Adoption
+
+The VC API implementation initially developed in this repository has been adopted by the Open Wallet Foundation.
+The implementation can now be found at the following repository: https://github.com/openwallet-foundation-labs/vc-api.
+
+___ 
+
 <p align="center">
   <a href="https://www.energyweb.org" target="blank"><img src="./EW.png" width="120" alt="Energy Web Foundation Logo" /></a>
   <a href="https://www.eliagroup.com/" target="blank"><img src="./EG.jpg" height="100" alt="Elia Group Logo" /></a>
